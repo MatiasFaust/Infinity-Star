@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Paciente Admitido - Infinity Star</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f7f9fc; color:#222; margin:0; padding:20px; }
+    .card { background:#fff; max-width:720px; margin:40px auto; padding:20px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+    h1 { margin-top:0; }
+    .info { display:flex; flex-wrap:wrap; gap:12px; }
+    .info .field { flex:1 1 200px; background:#f3f6fb; padding:12px; border-radius:6px; }
+    .actions { margin-top:18px; display:flex; gap:10px; }
+    .btn { padding:10px 14px; border-radius:6px; text-decoration:none; color:#fff; background:#007bff; display:inline-block }
+    .btn.secondary { background:#6c757d }
+    .badge { display:inline-block; padding:6px 10px; background:#28a745; color:#fff; border-radius:999px; font-weight:600 }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Paciente admitido <span class="badge" id="status">Admitido</span></h1>
+    <p>Registro simple de confirmación de admisión para pacientes.</p>
+
+    <div class="info">
+      <div class="field"><strong>Nombre:</strong> <span id="nombre">--</span></div>
+      <div class="field"><strong>Documento / ID:</strong> <span id="documento">--</span></div>
+      <div class="field"><strong>Fecha de admisión:</strong> <span id="fecha">--</span></div>
+      <div class="field"><strong>Habitación / Área:</strong> <span id="habitacion">--</span></div>
+      <div class="field"><strong>Profesional encargado:</strong> <span id="profesional">--</span></div>
+    </div>
+
+    <div class="actions">
+      <a href="#" class="btn" onclick="window.print(); return false">Imprimir</a>
+      <a href="/" class="btn secondary">Volver al inicio</a>
+    </div>
+
+    <hr>
+    <p style="font-size:90%;color:#555">Nota: Este es un template básico. Puede rellenarse dinámicamente pasando parámetros en la URL, por ejemplo: ?nombre=Juan&documento=12345&fecha=2026-08-07&habitacion=101&profesional=Dra.%20P%C3%A9rez</p>
+  </div>
+
+  <script>
+    // Rellena los campos desde query params para facilitar pruebas
+    function qs(key){
+      const params = new URLSearchParams(window.location.search);
+      return params.get(key) || '--';
+    }
+    document.getElementById('nombre').textContent = decodeURIComponent(qs('nombre'));
+    document.getElementById('documento').textContent = decodeURIComponent(qs('documento'));
+    document.getElementById('fecha').textContent = decodeURIComponent(qs('fecha'));
+    document.getElementById('habitacion').textContent = decodeURIComponent(qs('habitacion'));
+    document.getElementById('profesional').textContent = decodeURIComponent(qs('profesional'));
+  </script>
+</body>
+</html>
