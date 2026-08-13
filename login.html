@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital de clinicas - Iniciar sesión</title>
+  <link rel="stylesheet" href="../css/estilos.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.46.0/dist/tabler-icons.min.css">
+</head>
+<body>
+
+  <header class="barra">
+    <div class="marca">
+      <span class="logo">Hospital de Clínicas Montevideo</span>
+    </div>
+    <a href="Opciones.html" class="volver"><i class="ti ti-arrow-narrow-left"></i> Volver</a>
+  </header>
+
+  <main class="contenido">
+    <h1>Iniciar sesión</h1>
+    <p class="bajada">Ingresá tu usuario y contraseña para continuar.</p>
+
+    <form class="login" onsubmit="return validarLogin(event)">
+      <label for="usuario">Usuario</label>
+      <input type="text" id="usuario" required>
+
+      <label for="clave">Contraseña</label>
+      <input type="password" id="clave" required>
+
+      <p id="error" class="error-login"></p>
+
+      <button type="submit">Entrar</button>
+    </form>
+
+    <p class="bajada">Usuario de prueba: <strong>admin</strong> — Contraseña de prueba: <strong>1234</strong></p>
+  </main>
+
+  <button class="idioma-flotante">ES</button>
+
+  
+  <script src="../js/login.js"></script>
+
+</body>
+</html>
