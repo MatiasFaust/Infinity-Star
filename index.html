@@ -3,55 +3,50 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Panel del chofer</title>
-    <link rel="stylesheet" href="../../Css/chofer.css">
+    <title>Iniciar sesión</title>
+    <link rel="stylesheet" href="Css/Admin.css?v=2">
 </head>
 
 <body>
 
     <header>
         <h3>Hospital de Clínicas Montevideo</h3>
-
-        <a href="../../Index.html">Cerrar sesión</a>
     </header>
-<main>
 
-        <h1>Panel del chofer</h1>
 
-        <p>Elegí qué querés hacer.</p>
+    <main>
 
-        <div class="opciones">
+        <h1>Iniciar sesión</h1>
 
-            <a href="InicioT.html" class="opcion">
-                <h2>Inicio</h2>
-                <p>Resumen de los traslados del día.</p>
-            </a>
+        <p>Ingresá tu usuario y contraseña para continuar.</p>
 
-            <a href="registrarTraslado.html" class="opcion">
-                <h2>Registrar traslado</h2>
-                <p>Cargar un traslado nuevo.</p>
-            </a>
+        <div class="login">
 
-            <a href="verTraslados.html" class="opcion">
-                <h2>Ver traslados</h2>
-                <p>Lista de traslados registrados.</p>
-            </a>
+            <form action="login.php" method="POST">
 
-            <a href="Mapa.html" class="opcion">
-                <h2>Mapa de traslados</h2>
-                <p>Seguimiento de las ambulancias.</p>
-            </a>
+                <label>Usuario</label>
+                <input type="text" name="usuario" required>
 
-            <a href="ambulancias.html" class="opcion">
-                <h2>Ambulancias</h2>
-                <p>Móviles disponibles para asignar.</p>
-            </a>
+                <label>Contraseña</label>
+                <input type="password" name="contrasena" required>
+
+                <button type="submit">Entrar</button>
+
+            </form>
 
         </div>
 
+
+
+        <a href="registrar.html" class="linkRegistrar">
+            Registrar
+        </a>
+
     </main>
 
-       <button class="idioma">ES</button>
+
+
+    <button class="idioma">ES</button>
 
 </body>
 
