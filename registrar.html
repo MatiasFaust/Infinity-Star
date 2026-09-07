@@ -14,3 +14,85 @@
 
         <a href="Index.html" class="volver">Volver</a>
     </header>
+
+
+    <main>
+
+        <h1>Registrar</h1>
+
+        <p>Completá tus datos para crear tu cuenta.</p>
+
+
+        <div class="registro">
+
+            <p class="aviso">
+                Necesitás la clave de acceso que te entrega el hospital.
+            </p>
+
+            <form action="registrar.php" method="POST">
+
+                
+
+                <label>Se registra como</label>
+
+                <div class="tipos">
+
+                    <label class="tipo">
+                        <input type="radio" name="tipo" value="administrativo" required>
+                        Administrativo
+                    </label>
+
+                    <label class="tipo">
+                        <input type="radio" name="tipo" value="chofer">
+                        Chofer
+                    </label>
+
+                </div>
+
+
+                
+
+                <label>Nombre</label>
+                <input type="text" name="nombre" required>
+
+                <label>Apellido</label>
+                <input type="text" name="apellido" required>
+
+                <label>CI</label>
+                <input type="text" name="cedula" placeholder="12345678"
+                       inputmode="numeric" pattern="[0-9]{8}" maxlength="8"
+                       title="La cédula son 8 números, sin puntos ni guión" required>
+
+                <label>Gmail</label>
+                <input type="email" name="correo" placeholder="nombre@gmail.com" required>
+
+
+               
+
+                <label>Usuario</label>
+                <input type="text" name="usuario" placeholder="lpintos" required>
+
+                <label>Contraseña</label>
+                <input type="password" name="contrasena" required>
+
+
+               
+
+                <label>Clave de acceso</label>
+                <input type="text" name="codigo" placeholder="La que entrega el hospital" required>
+
+                <button type="submit">Registrar</button>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+
+    <button class="idioma">ES</button>
+
+</body>
+
+</html>
