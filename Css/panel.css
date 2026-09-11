@@ -690,3 +690,13 @@ td.acciones .marcar {
     background-color: currentColor;
     transform: translate(-50%, -50%) rotate(45deg);
 }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}

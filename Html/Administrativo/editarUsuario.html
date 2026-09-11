@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Editar usuario</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=34">
+    <link rel="stylesheet" href="../../Css/panel.css?v=35">
 </head>
 
 <body>
@@ -67,13 +67,13 @@
                 <input type="text" id="rol" disabled>
 
                 <label>Nombre</label>
-                <input type="text" name="nombre" id="nombre" required>
+                <input type="text" name="nombre" id="nombre" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" title="Solo letras" required>
 
                 <label>Apellido</label>
-                <input type="text" name="apellido" id="apellido" required>
+                <input type="text" name="apellido" id="apellido" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" title="Solo letras" required>
 
                 <label>Cédula</label>
-                <input type="number" name="cedula" id="cedula" placeholder="12345678" min="1000000" max="99999999" required>
+                <input type="number" name="cedula" id="cedula" placeholder="12345678" min="1" max="99999999" required>
 
                 <label>Correo</label>
                 <input type="email" name="correo" id="correo">
@@ -92,10 +92,10 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=34">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=35">EN</button>
 
-    <script src="../../Js/comun.js?v=34"></script>
-    <script src="../../Js/usuarios.js?v=34"></script>
+    <script src="../../Js/comun.js?v=35"></script>
+    <script src="../../Js/usuarios.js?v=35"></script>
 </body>
 
 </html>

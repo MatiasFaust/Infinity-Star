@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Registrar</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=34">
+    <link rel="stylesheet" href="../../Css/panel.css?v=35">
 </head>
 
 <body>
@@ -91,13 +91,13 @@
                     <h3>Datos personales</h3>
 
                     <label>Nombre</label>
-                    <input type="text" name="nombre" required>
+                    <input type="text" name="nombre" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" title="Solo letras" required>
 
                     <label>Apellido</label>
-                    <input type="text" name="apellido" required>
+                    <input type="text" name="apellido" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" title="Solo letras" required>
 
                     <label>Cédula</label>
-                    <input type="number" name="cedula" placeholder="12345678" min="1000000" max="99999999" required>
+                    <input type="number" name="cedula" placeholder="12345678" min="1" max="99999999" required>
 
                     <label>Dirección</label>
                     <input type="text" name="direccion" placeholder="Av. Italia 2870">
@@ -140,10 +140,10 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=34">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=35">EN</button>
 
-    <script src="../../Js/comun.js?v=34"></script>
-    <script src="../../Js/usuarios.js?v=34"></script>
+    <script src="../../Js/comun.js?v=35"></script>
+    <script src="../../Js/usuarios.js?v=35"></script>
 </body>
 
 </html>
