@@ -1,0 +1,726 @@
+/* ============================================================
+   Hoja de estilos única de todo el sistema
+   ============================================================ */
+
+
+/* ---------- Colores ---------- */
+
+:root {
+    --verde: green;
+    --verdeOscuro: #0a6b0a;
+    --verdeClaro: #e8f5e9;
+
+    --blanco: white;
+    --negro: black;
+
+    --gris: gray;
+    --grisClaro: #f4f4f4;
+    --grisBorde: lightgray;
+    --grisTexto: #555;
+    --grisSuave: #777;
+    --grisOscuro: #333;
+
+    --rojo: crimson;
+    --rojoClaro: #fdecea;
+
+    --naranja: orange;
+    --celeste: #1565c0;
+}
+
+
+/* ---------- Base ---------- */
+
+body {
+    margin: 0;
+    font-family: Arial;
+    background-color: var(--grisClaro);
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+
+    background-color: var(--verde);
+    color: var(--blanco);
+    padding: 15px 25px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+header h3 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.cerrar,
+.volver {
+    margin-left: auto;
+
+    background-color: var(--blanco);
+    color: var(--verde);
+
+    padding: 9px 15px;
+
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+
+/* ---------- Botón de idioma (flota abajo a la derecha) ---------- */
+
+.idioma {
+    position: fixed;
+
+    bottom: 25px;
+    right: 25px;
+
+    z-index: 10;
+
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    background-color: var(--verde);
+    color: var(--blanco);
+
+    border: none;
+    border-radius: 50%;
+
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.idioma:hover {
+    background-color: var(--verdeOscuro);
+}
+
+
+/* ---------- Estructura: menú lateral + contenido ---------- */
+
+.contenedor {
+    display: flex;
+    align-items: flex-start;
+
+    min-height: calc(100vh - 62px);
+}
+
+nav {
+    position: sticky;
+    top: 62px;
+    align-self: flex-start;
+
+    width: 200px;
+    flex-shrink: 0;
+
+    max-height: calc(100vh - 62px);
+    overflow-y: auto;
+
+    background-color: var(--blanco);
+
+    padding: 20px 15px;
+}
+
+.tituloMenu {
+    color: var(--gris);
+    font-size: 13px;
+
+    margin-left: 10px;
+}
+
+nav a {
+    display: block;
+
+    color: var(--negro);
+    text-decoration: none;
+
+    padding: 12px;
+    margin-bottom: 5px;
+
+    border-radius: 7px;
+}
+
+nav a:hover {
+    background-color: var(--verdeClaro);
+}
+
+nav .activo {
+    background-color: var(--verdeClaro);
+    color: var(--verde);
+    font-weight: bold;
+}
+
+nav hr {
+    border: none;
+    border-top: 1px solid var(--grisBorde);
+
+    margin: 20px 0;
+}
+
+main {
+    flex: 1;
+    min-width: 0;
+
+    padding: 30px;
+}
+
+main h1 {
+    color: var(--verde);
+    margin-bottom: 5px;
+}
+
+main p {
+    color: var(--grisTexto);
+}
+
+.parteSuperior {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* ---------- Pantallas centradas (login, registro, módulos) ---------- */
+
+.centro {
+    width: 700px;
+    max-width: 90%;
+
+    margin: 40px auto;
+
+    text-align: center;
+}
+
+.caja {
+    width: 340px;
+    max-width: 100%;
+
+    margin: 25px auto;
+    padding: 30px;
+
+    background-color: var(--blanco);
+
+    border: 2px solid var(--verde);
+    border-radius: 10px;
+
+    text-align: left;
+}
+
+.caja h2 {
+    margin-top: 0;
+    color: var(--verde);
+}
+
+.caja form {
+    padding: 0;
+    margin-top: 0;
+
+    border: none;
+}
+
+.caja button {
+    width: 100%;
+    margin-top: 25px;
+}
+
+.linkRegistrar {
+    display: inline-block;
+
+    margin-top: 10px;
+
+    color: var(--verde);
+    font-weight: bold;
+}
+
+.tarjetas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+
+    margin-top: 30px;
+}
+
+.tarjeta {
+    width: 260px;
+
+    background-color: var(--blanco);
+
+    padding: 20px;
+
+    border: 2px solid var(--verde);
+    border-radius: 10px;
+
+    text-decoration: none;
+    color: var(--negro);
+
+    text-align: left;
+}
+
+.tarjeta:hover {
+    background-color: var(--verdeClaro);
+}
+
+.tarjeta h2 {
+    margin: 0 0 10px 0;
+    color: var(--verde);
+}
+
+.tarjeta p {
+    margin: 0;
+    color: var(--grisTexto);
+}
+
+
+/* ---------- Formularios ---------- */
+
+form {
+    background-color: var(--blanco);
+
+    padding: 25px;
+    margin-top: 20px;
+
+    border: 1px solid var(--grisBorde);
+    border-radius: 10px;
+}
+
+.seccion {
+    padding: 20px;
+    margin-bottom: 20px;
+
+    border: 1px solid var(--grisBorde);
+    border-radius: 8px;
+}
+
+.seccion h3 {
+    color: var(--verde);
+    margin-top: 0;
+}
+
+label {
+    display: block;
+
+    margin-top: 15px;
+    margin-bottom: 5px;
+
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+
+    padding: 10px;
+
+    border: 1px solid var(--grisBorde);
+    border-radius: 5px;
+
+    box-sizing: border-box;
+}
+
+.buscar {
+    margin-top: 20px;
+}
+
+/* opciones tipo tarjeta (Paciente / Funcionario / Chofer) */
+
+.tipos {
+    display: flex;
+    gap: 10px;
+
+    margin-top: 5px;
+}
+
+.tipo {
+    flex: 1;
+
+    margin: 0;
+    padding: 14px 5px;
+
+    text-align: center;
+
+    border: 2px solid var(--grisBorde);
+    border-radius: 5px;
+
+    color: var(--gris);
+    font-weight: normal;
+
+    cursor: pointer;
+}
+
+.tipo:hover {
+    background-color: var(--verdeClaro);
+}
+
+.tipo input {
+    display: block;
+
+    width: auto;
+
+    margin: 0 auto 6px auto;
+}
+
+.tipo:has(input:checked) {
+    background-color: var(--verdeClaro);
+
+    border-color: var(--verde);
+
+    color: var(--verde);
+    font-weight: bold;
+}
+
+/* la cuenta y el token solo se piden si se registra un funcionario o un chofer */
+
+.conCuenta {
+    display: none;
+}
+
+form:has(#esFuncionario:checked) .conCuenta,
+form:has(#esChofer:checked) .conCuenta {
+    display: block;
+}
+
+/* ojito para ver la contraseña */
+
+.conOjo {
+    position: relative;
+}
+
+.conOjo input {
+    padding-right: 45px;
+}
+
+.conOjo .ojo {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: auto;
+    margin: 0;
+    padding: 5px 8px;
+
+    background: none;
+    color: var(--gris);
+    font-size: 18px;
+}
+
+.conOjo .ojo:hover {
+    background: none;
+    color: var(--verde);
+}
+
+/* ---------- Botones ---------- */
+
+button,
+.agregar,
+.botones a {
+    padding: 10px 20px;
+
+    border: none;
+    border-radius: 5px;
+
+    font-family: Arial;
+    font-size: 14px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+button,
+.agregar {
+    background-color: var(--verde);
+    color: var(--blanco);
+}
+
+button:hover,
+.agregar:hover {
+    background-color: var(--verdeOscuro);
+}
+
+.botones a {
+    background-color: var(--blanco);
+    color: var(--grisOscuro);
+
+    border: 1px solid var(--grisBorde);
+}
+
+.botones a:hover {
+    background-color: var(--grisClaro);
+}
+
+.botones {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.botones button {
+    margin-left: 10px;
+}
+
+/* botones chicos de las tablas */
+
+.editar,
+.eliminar,
+.marcar {
+    display: inline-block;
+
+    padding: 6px 12px;
+    margin-right: 5px;
+
+    border-radius: 5px;
+
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.editar {
+    background-color: var(--verdeClaro);
+    color: var(--verde);
+}
+
+.eliminar {
+    background-color: var(--rojoClaro);
+    color: var(--rojo);
+}
+
+.marcar {
+    background-color: var(--grisClaro);
+    color: var(--grisOscuro);
+}
+
+.editar:hover,
+.eliminar:hover,
+.marcar:hover {
+    opacity: 0.75;
+}
+
+/* formulario invisible que envuelve a los botones Eliminar / Iniciar */
+
+.enLinea {
+    display: inline;
+
+    background: none;
+    padding: 0;
+    margin: 0;
+
+    border: none;
+}
+
+
+/* ---------- Tablas ---------- */
+
+.tabla {
+    background-color: var(--blanco);
+
+    margin-top: 25px;
+    padding: 20px;
+
+    border: 1px solid var(--grisBorde);
+    border-radius: 10px;
+}
+
+.tabla h2 {
+    margin-top: 0;
+    color: var(--verde);
+    font-size: 18px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+
+    font-size: 14px;
+}
+
+th {
+    background-color: var(--verdeClaro);
+    color: var(--verde);
+
+    padding: 12px 8px;
+    text-align: left;
+}
+
+td {
+    padding: 12px 8px;
+    border-bottom: 1px solid var(--grisBorde);
+
+    overflow-wrap: break-word;
+    vertical-align: middle;
+}
+
+td.acciones {
+    text-align: right;
+    white-space: nowrap;
+}
+
+td.acciones .eliminar,
+td.acciones .editar,
+td.acciones .marcar {
+    margin-right: 0;
+    margin-left: 5px;
+}
+
+.vacio {
+    color: var(--gris);
+    text-align: center;
+
+    padding: 20px;
+}
+
+
+/* ---------- Tarjetas de números, fichas y avisos ---------- */
+
+.datos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    margin-top: 25px;
+}
+
+.dato {
+    flex: 1;
+    min-width: 160px;
+
+    background-color: var(--blanco);
+
+    padding: 20px;
+
+    border: 1px solid var(--grisBorde);
+    border-radius: 10px;
+}
+
+.dato p {
+    margin: 0;
+    color: var(--grisTexto);
+}
+
+.dato h2 {
+    margin: 10px 0 0 0;
+    color: var(--verde);
+}
+
+.aviso {
+    background-color: var(--verdeClaro);
+
+    padding: 12px;
+    margin-top: 15px;
+
+    border-radius: 5px;
+
+    color: var(--grisOscuro);
+}
+
+.enConstruccion {
+    background-color: var(--blanco);
+
+    margin-top: 25px;
+    padding: 40px 25px;
+
+    border: 1px dashed var(--grisBorde);
+    border-radius: 10px;
+
+    text-align: center;
+}
+
+.enConstruccion h2 {
+    margin: 0 0 10px 0;
+    color: var(--gris);
+}
+
+.enConstruccion p {
+    margin: 0;
+    color: var(--grisSuave);
+}
+
+
+/* ---------- Estados de los traslados ---------- */
+
+.pendiente {
+    color: var(--naranja);
+    font-weight: bold;
+}
+
+.curso {
+    color: var(--verde);
+    font-weight: bold;
+}
+
+.retorno {
+    color: var(--celeste);
+    font-weight: bold;
+}
+
+.finalizado {
+    color: var(--gris);
+    font-weight: bold;
+}
+
+.reloj {
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--verde);
+}
+
+
+/* ---------- Pantallas chicas ---------- */
+
+@media (max-width: 768px) {
+
+    .contenedor {
+        display: block;
+    }
+
+    nav {
+        width: auto;
+        min-height: 0;
+    }
+
+    main {
+        padding: 20px;
+    }
+
+    .idioma {
+        bottom: 15px;
+        right: 15px;
+
+        width: 44px;
+        height: 44px;
+
+        font-size: 12px;
+    }
+
+    body {
+        padding-bottom: 70px;
+    }
+
+    .parteSuperior {
+        display: block;
+    }
+
+    .agregar {
+        display: inline-block;
+        margin-top: 15px;
+    }
+
+    .centro {
+        margin: 20px auto;
+    }
+}
