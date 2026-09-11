@@ -120,8 +120,6 @@ function avisosDeLaDireccion() {
         mensaje = "Ese nombre de usuario ya está en uso.";
     } else if (direccion.get("error") == "cedula") {
         mensaje = "Esa cédula ya está registrada en otra persona.";
-    } else if (direccion.get("error") == "cedulaMal") {
-        mensaje = "La cédula tiene que ser solo números.";
     } else if (direccion.get("error") == "matricula") {
         mensaje = "Esa matrícula ya está registrada.";
     }

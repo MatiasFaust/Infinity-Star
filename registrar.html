@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Registrar</title>
-    <link rel="stylesheet" href="Css/panel.css?v=33">
+    <link rel="stylesheet" href="Css/panel.css?v=34">
 </head>
 
 <body>
@@ -54,9 +54,7 @@
                 <input type="text" name="apellido" required>
 
                 <label>CI</label>
-                <input type="text" name="cedula" placeholder="12345678"
-                       inputmode="numeric" pattern="[0-9]{8}" maxlength="8"
-                       title="La cédula son 8 números, sin puntos ni guión" required>
+                <input type="number" name="cedula" placeholder="12345678" min="1000000" max="99999999" required>
 
                 <label>Dirección</label>
                 <input type="text" name="direccion" placeholder="Av. Italia 2870" required>
@@ -82,10 +80,10 @@
 
     </main>
 
-    <button class="idioma" data-traducciones="Js/traducciones.json?v=33">EN</button>
+    <button class="idioma" data-traducciones="Js/traducciones.json?v=34">EN</button>
 
-    <script src="Js/comun.js?v=33"></script>
-    <script src="Js/acceso.js?v=33"></script>
+    <script src="Js/comun.js?v=34"></script>
+    <script src="Js/acceso.js?v=34"></script>
 </body>
 
 </html>

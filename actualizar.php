@@ -17,11 +17,6 @@ if ($que == "persona") {
     $correo    = $_POST['correo'];
     $direccion = $_POST['direccion'];
 
-    if (!ctype_digit($cedula)) {
-        header("Location: Html/Administrativo/editarUsuario.html?id=$id&error=cedulaMal");
-        exit;
-    }
-
     if (contar("persona", "cedula = '$cedula' AND id_persona <> $id") > 0) {
         header("Location: Html/Administrativo/editarUsuario.html?id=$id&error=cedula");
         exit;

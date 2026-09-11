@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Editar usuario</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=33">
+    <link rel="stylesheet" href="../../Css/panel.css?v=34">
 </head>
 
 <body>
@@ -73,9 +73,7 @@
                 <input type="text" name="apellido" id="apellido" required>
 
                 <label>Cédula</label>
-                <input type="text" name="cedula" id="cedula" placeholder="12345678"
-                       inputmode="numeric" pattern="[0-9]{8}" maxlength="8"
-                       title="La cédula son 8 números, sin puntos ni guión" required>
+                <input type="number" name="cedula" id="cedula" placeholder="12345678" min="1000000" max="99999999" required>
 
                 <label>Correo</label>
                 <input type="email" name="correo" id="correo">
@@ -94,10 +92,10 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=33">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=34">EN</button>
 
-    <script src="../../Js/comun.js?v=33"></script>
-    <script src="../../Js/usuarios.js?v=33"></script>
+    <script src="../../Js/comun.js?v=34"></script>
+    <script src="../../Js/usuarios.js?v=34"></script>
 </body>
 
 </html>

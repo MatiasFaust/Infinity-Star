@@ -30,11 +30,6 @@ if ($que == "persona") {
     $correo    = $_POST['correo'];
     $direccion = $_POST['direccion'];
 
-    if (!ctype_digit($cedula)) {
-        header("Location: $formulario?error=cedulaMal");
-        exit;
-    }
-
     $ya = $db->query("SELECT id_persona FROM persona WHERE cedula = '$cedula'")->fetch_assoc();
 
     if ($rol != "paciente") {
