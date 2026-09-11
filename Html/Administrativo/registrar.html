@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar</title>
+    <link rel="stylesheet" href="../../Css/panel.css?v=28">
+</head>
+
+<body>
+
+    <header>
+
+        <h3>Hospital de Clínicas Montevideo</h3>
+
+        <a href="../../Index.html" class="cerrar">
+            Cerrar sesión
+        </a>
+
+    </header>
+
+
+    <div class="contenedor">
+
+        <nav>
+
+            <p class="tituloMenu">NAVEGACIÓN</p>
+
+            <a href="documentos.html">
+                Inicio DOC
+            </a>
+
+            <a href="registrar.html">
+                Registrar
+            </a>
+
+            <a href="usuarios.html">
+                Usuarios
+            </a>
+
+            <a href="verDocumentos.html">
+                Documentos
+            </a>
+
+            <a href="encuestas.html">
+                Encuestas
+            </a>
+
+            <hr>
+
+            <a href="../Modulos.html">
+                ← Volver a módulos
+            </a>
+
+        </nav>
+
+        <main>
+
+            <h1>Registrar</h1>
+
+            <p class="aviso" id="aviso" hidden></p>
+
+            <form action="../../guardar.php?que=persona" method="POST">
+
+                <div class="seccion">
+
+                    <h3>¿A quién registrás?</h3>
+
+                    <div class="tipos">
+
+                        <label class="tipo">
+                            <input type="radio" name="rol" value="paciente" id="esPaciente" required>
+                            Paciente
+                        </label>
+
+                        <label class="tipo">
+                            <input type="radio" name="rol" value="administrativo" id="esFuncionario">
+                            Funcionario
+                        </label>
+
+                        <label class="tipo">
+                            <input type="radio" name="rol" value="chofer" id="esChofer">
+                            Chofer
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="seccion">
+
+                    <h3>Datos personales</h3>
+
+                    <label>Nombre</label>
+                    <input type="text" name="nombre" required>
+
+                    <label>Apellido</label>
+                    <input type="text" name="apellido" required>
+
+                    <label>Cédula</label>
+                    <input type="text" name="cedula" placeholder="12345678"
+                           inputmode="numeric" pattern="[0-9]{8}" maxlength="8"
+                           title="La cédula son 8 números, sin puntos ni guión" required>
+
+                    <label>Dirección</label>
+                    <input type="text" name="direccion" placeholder="Av. Italia 2870">
+
+                    <label>Correo</label>
+                    <input type="email" name="correo" placeholder="nombre@gmail.com" required>
+
+                </div>
+
+                <div class="seccion conCuenta">
+
+                    <h3>Cuenta para iniciar sesión</h3>
+
+                    <label>Usuario</label>
+                    <input type="text" name="usuario">
+
+                    <label>Contraseña</label>
+                    <input type="password" name="contrasena" minlength="4" maxlength="20"
+                           title="Entre 4 y 20 caracteres">
+
+                </div>
+
+                <div class="seccion conCuenta">
+
+                    <h3>Token de acceso</h3>
+
+                    <label>Token</label>
+                    <input type="text" name="token" placeholder="El que entrega el hospital">
+
+                </div>
+
+                <div class="botones">
+                    <a href="usuarios.html">Cancelar</a>
+                    <button type="submit">Guardar</button>
+                </div>
+
+            </form>
+
+        </main>
+
+    </div>
+
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=28">EN</button>
+
+
+    <script src="../../Js/comun.js?v=28"></script>
+    <script src="../../Js/usuarios.js?v=28"></script>
+</body>
+
+</html>

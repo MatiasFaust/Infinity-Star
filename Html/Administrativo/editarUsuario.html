@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar usuario</title>
+    <link rel="stylesheet" href="../../Css/panel.css?v=28">
+</head>
+
+<body>
+
+    <header>
+
+        <h3>Hospital de Clínicas Montevideo</h3>
+
+        <a href="../../Index.html" class="cerrar">
+            Cerrar sesión
+        </a>
+
+    </header>
+
+
+    <div class="contenedor">
+
+        <nav>
+
+            <p class="tituloMenu">NAVEGACIÓN</p>
+
+            <a href="documentos.html">
+                Inicio DOC
+            </a>
+
+            <a href="registrar.html">
+                Registrar
+            </a>
+
+            <a href="usuarios.html">
+                Usuarios
+            </a>
+
+            <a href="verDocumentos.html">
+                Documentos
+            </a>
+
+            <a href="encuestas.html">
+                Encuestas
+            </a>
+
+            <hr>
+
+            <a href="../Modulos.html">
+                ← Volver a módulos
+            </a>
+
+        </nav>
+
+        <main>
+
+            <h1>Editar usuario</h1>
+
+            <form action="../../actualizar.php?que=persona" method="POST">
+
+                <input type="hidden" name="id" id="id">
+
+                <label>Rol</label>
+                <input type="text" id="rol" disabled>
+
+                <label>Nombre</label>
+                <input type="text" name="nombre" id="nombre" required>
+
+                <label>Apellido</label>
+                <input type="text" name="apellido" id="apellido" required>
+
+                <label>Cédula</label>
+                <input type="text" name="cedula" id="cedula" placeholder="12345678"
+                       inputmode="numeric" pattern="[0-9]{8}" maxlength="8"
+                       title="La cédula son 8 números, sin puntos ni guión" required>
+
+                <label>Correo</label>
+                <input type="email" name="correo" id="correo">
+
+                <label>Dirección</label>
+                <input type="text" name="direccion" id="direccion">
+
+                <div class="botones">
+                    <a href="usuarios.html">Cancelar</a>
+                    <button type="submit">Guardar cambios</button>
+                </div>
+
+            </form>
+
+        </main>
+
+    </div>
+
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=28">EN</button>
+
+
+    <script src="../../Js/comun.js?v=28"></script>
+    <script src="../../Js/usuarios.js?v=28"></script>
+</body>
+
+</html>

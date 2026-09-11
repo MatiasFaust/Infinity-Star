@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Usuarios</title>
+    <link rel="stylesheet" href="../../Css/panel.css?v=28">
+</head>
+
+<body>
+
+    <header>
+
+        <h3>Hospital de Clínicas Montevideo</h3>
+
+        <a href="../../Index.html" class="cerrar">
+            Cerrar sesión
+        </a>
+
+    </header>
+
+
+    <div class="contenedor">
+
+        <nav>
+
+            <p class="tituloMenu">NAVEGACIÓN</p>
+
+            <a href="documentos.html">
+                Inicio DOC
+            </a>
+
+            <a href="registrar.html">
+                Registrar
+            </a>
+
+            <a href="usuarios.html">
+                Usuarios
+            </a>
+
+            <a href="verDocumentos.html">
+                Documentos
+            </a>
+
+            <a href="encuestas.html">
+                Encuestas
+            </a>
+
+            <hr>
+
+            <a href="../Modulos.html">
+                ← Volver a módulos
+            </a>
+
+        </nav>
+
+        <main>
+
+            <div class="parteSuperior">
+
+                <h1>Usuarios</h1>
+
+                <a href="registrar.html" class="agregar">+ Registrar</a>
+
+            </div>
+
+            <div class="tabla">
+
+                <h2>Pacientes</h2>
+
+                <input type="text" id="buscar_paciente" class="buscar" placeholder="Buscar por nombre, cédula o correo">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Cédula</th>
+                            <th>Correo</th>
+                            <th>Dirección</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="cuerpo_paciente"></tbody>
+
+                </table>
+
+                <p class="vacio" id="vacio_paciente" hidden>No hay resultados.</p>
+
+            </div>
+
+            <div class="tabla">
+
+                <h2>Funcionarios administrativos</h2>
+
+                <input type="text" id="buscar_administrativo" class="buscar" placeholder="Buscar por nombre, cédula o correo">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Cédula</th>
+                            <th>Correo</th>
+                            <th>Dirección</th>
+                            <th>Usuario</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="cuerpo_administrativo"></tbody>
+
+                </table>
+
+                <p class="vacio" id="vacio_administrativo" hidden>No hay resultados.</p>
+
+            </div>
+
+            <div class="tabla">
+
+                <h2>Choferes</h2>
+
+                <input type="text" id="buscar_chofer" class="buscar" placeholder="Buscar por nombre, cédula o correo">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Cédula</th>
+                            <th>Correo</th>
+                            <th>Dirección</th>
+                            <th>Usuario</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="cuerpo_chofer"></tbody>
+
+                </table>
+
+                <p class="vacio" id="vacio_chofer" hidden>No hay resultados.</p>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=28">EN</button>
+
+
+    <script src="../../Js/comun.js?v=28"></script>
+    <script src="../../Js/usuarios.js?v=28"></script>
+</body>
+
+</html>
