@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar sesión</title>
+    <link rel="stylesheet" href="Css/panel.css?v=28">
+</head>
+
+<body>
+
+    <header>
+        <h3>Hospital de Clínicas Montevideo</h3>
+
+    </header>
+
+
+    <main class="centro">
+
+        <h1>Iniciar sesión</h1>
+
+
+        <div class="caja">
+
+            <form action="login.php" method="POST">
+
+                <label>Usuario</label>
+                <input type="text" name="usuario" required>
+
+                <label>Contraseña</label>
+                <input type="password" name="contrasena" required>
+
+                <button type="submit">Entrar</button>
+
+            </form>
+
+        </div>
+
+
+        <a href="registrar.html" class="linkRegistrar">
+            Registrar
+        </a>
+
+        <!-- Recuperar contraseña: en pausa para esta entrega -->
+
+    </main>
+
+
+    <button class="idioma" data-traducciones="Js/traducciones.json?v=28">EN</button>
+
+
+    <script src="Js/comun.js?v=28"></script>
+</body>
+
+</html>

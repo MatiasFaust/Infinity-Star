@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar</title>
+    <link rel="stylesheet" href="Css/panel.css?v=28">
+</head>
+
+<body>
+
+    <header>
+        <h3>Hospital de Clínicas Montevideo</h3>
+
+        <a href="Index.html" class="volver">Volver</a>
+    </header>
+
+
+    <main class="centro">
+
+        <h1>Registrar</h1>
+
+
+        <div class="caja">
+
+            <p class="aviso" id="aviso">
+                Necesitás la clave de acceso que te entrega el hospital.
+            </p>
+
+            <form action="guardar.php?que=persona" method="POST">
+
+                <input type="hidden" name="vuelve" value="Index.html">
+                <input type="hidden" name="formulario" value="registrar.html">
+
+                
+                <label>Se registra como</label>
+
+                <div class="tipos">
+
+                    <label class="tipo">
+                        <input type="radio" name="rol" value="administrativo" required>
+                        Administrativo
+                    </label>
+
+                    <label class="tipo">
+                        <input type="radio" name="rol" value="chofer">
+                        Chofer
+                    </label>
+
+                </div>
+
+
+                <label>Nombre</label>
+                <input type="text" name="nombre" required>
+
+                <label>Apellido</label>
+                <input type="text" name="apellido" required>
+
+                <label>CI</label>
+                <input type="text" name="cedula" placeholder="12345678"
+                       inputmode="numeric" pattern="[0-9]{8}" maxlength="8"
+                       title="La cédula son 8 números, sin puntos ni guión" required>
+
+                <label>Dirección</label>
+                <input type="text" name="direccion" placeholder="Av. Italia 2870" required>
+
+                <label>Gmail</label>
+                <input type="email" name="correo" placeholder="nombre@gmail.com" required>
+
+
+                <label>Usuario</label>
+                <input type="text" name="usuario" placeholder="lpintos" required>
+
+                <label>Contraseña</label>
+                <input type="password" name="contrasena" minlength="4" maxlength="20"
+                       title="Entre 4 y 20 caracteres" required>
+
+
+                <label>Clave de acceso</label>
+                <input type="text" name="token" placeholder="La que entrega el hospital" required>
+
+                <button type="submit">Registrar</button>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <button class="idioma" data-traducciones="Js/traducciones.json?v=28">EN</button>
+
+
+    <script src="Js/comun.js?v=28"></script>
+    <script src="Js/acceso.js?v=28"></script>
+</body>
+
+</html>
