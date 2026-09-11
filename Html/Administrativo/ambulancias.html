@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ambulancias</title>
+    <link rel="stylesheet" href="../../Css/panel.css?v=28">
+</head>
+
+<body>
+
+    <header>
+
+        <h3>Hospital de Clínicas Montevideo</h3>
+
+        <a href="../../Index.html" class="cerrar">
+            Cerrar sesión
+        </a>
+
+    </header>
+
+
+    <div class="contenedor">
+
+        <nav>
+
+            <p class="tituloMenu">NAVEGACIÓN</p>
+
+            <a href="InicioT.html">
+                Inicio
+            </a>
+
+            <!-- Registrar traslado: en pausa para esta entrega -->
+
+            <a href="verTraslados.html">
+                Ver traslados
+            </a>
+
+            <a href="ambulancias.html">
+                Ambulancias
+            </a>
+
+            <a href="MapaVivo.html">
+                Mapa en vivo
+            </a>
+
+            <hr>
+
+            <a href="../Modulos.html">
+                ← Volver a módulos
+            </a>
+
+        </nav>
+
+        <main>
+
+            <h1>Ambulancias</h1>
+
+            <p class="aviso" id="aviso" hidden></p>
+
+            <form action="../../guardar.php?que=ambulancia" method="POST">
+
+                <label>Matrícula</label>
+                <input type="text" name="matricula" placeholder="SAB1001" required>
+
+                <label>Móvil</label>
+                <input type="text" name="movil" placeholder="Movil 01" required>
+
+                <div class="botones">
+                    <button type="submit">Guardar ambulancia</button>
+                </div>
+
+            </form>
+
+            <div class="tabla">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Matrícula</th>
+                            <th>Móvil</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="cuerpoAmbulancias"></tbody>
+
+                </table>
+
+                <p class="vacio" id="vacio" hidden>Todavía no hay ambulancias cargadas.</p>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=28">EN</button>
+
+
+    <script src="../../Js/comun.js?v=28"></script>
+    <script src="../../Js/traslados.js?v=28"></script>
+</body>
+
+</html>
