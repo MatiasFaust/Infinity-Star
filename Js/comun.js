@@ -258,7 +258,22 @@ async function prepararIdioma() {
     vigilante.observe(document.body, { childList: true, subtree: true });
 }
 
+function limitarCedula() {
+    const cedula = document.querySelector("input[name='cedula']");
+
+    if (!cedula) {
+        return;
+    }
+
+    cedula.addEventListener("input", function () {
+        if (cedula.value.length > 8) {
+            cedula.value = cedula.value.substring(0, 8);
+        }
+    });
+}
+
 marcarActivo();
 avisosDeLaDireccion();
 ponerOjitos();
+limitarCedula();
 window.addEventListener("load", prepararIdioma);
