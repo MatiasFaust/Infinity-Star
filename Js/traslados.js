@@ -1,16 +1,8 @@
-// Pantallas del módulo de traslados y ambulancias
-// (registrar traslado y el panel del chofer están en pausa: ver chofer.js.pausado)
 
 
-// ---------- Ayudas ----------
-
-// qué se traslada: el nombre del paciente, o la descripción si es un insumo
 function queSeTraslada(t) {
     return t.nombrePaciente ? t.nombrePaciente + " " + t.apellidoPaciente : t.descripcion;
 }
-
-
-// ---------- InicioT.html ----------
 
 async function cargarInicio() {
     const d = await pedir("../../Api/traslados.php?tipo=contadores");
@@ -21,9 +13,6 @@ async function cargarInicio() {
     document.getElementById("finalizados").textContent = d.finalizados;
     document.getElementById("ambulancias").textContent = d.ambulancias;
 }
-
-
-// ---------- verTraslados.html ----------
 
 async function cargarLista() {
     const traslados = await pedir("../../Api/traslados.php?tipo=lista");
@@ -56,9 +45,6 @@ async function cargarLista() {
     }
 }
 
-
-// ---------- ambulancias.html ----------
-
 async function cargarAmbulancias() {
     const lista = await pedir("../../Api/traslados.php?tipo=ambulancias");
     const cuerpo = document.getElementById("cuerpoAmbulancias");
@@ -83,9 +69,6 @@ async function cargarAmbulancias() {
     }
 }
 
-
-// ---------- editarAmbulancia.html ----------
-
 async function cargarAmbulancia() {
     const id = new URLSearchParams(location.search).get("id");
 
@@ -99,9 +82,6 @@ async function cargarAmbulancia() {
     document.getElementById("matricula").value = a.matricula;
     document.getElementById("movil").value = a.movil;
 }
-
-
-// ---------- Arranque ----------
 
 if (document.getElementById("total"))             { cargarInicio(); }
 if (document.getElementById("cuerpoTraslados"))   { cargarLista(); }

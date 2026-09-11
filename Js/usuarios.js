@@ -45,8 +45,6 @@ async function cargarLista() {
     }
 }
 
-
-
 async function cargarFormulario() {
     const id = new URLSearchParams(location.search).get("id");
 
@@ -62,9 +60,6 @@ async function cargarFormulario() {
         document.getElementById(campo).value = u[campo] || "";
     }
 }
-
-
-
 
 if (document.getElementById("cuerpo_paciente")) { cargarLista(); }
 if (document.getElementById("id") && document.getElementById("rol")) { cargarFormulario(); }

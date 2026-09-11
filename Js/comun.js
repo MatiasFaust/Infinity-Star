@@ -1,13 +1,9 @@
-// Funciones que usan todas las páginas
 
-
-// ---------- Ayudas chicas ----------
 
 function pedir(url) {
     return fetch(url).then(r => r.json());
 }
 
-// arma un formulario POST con un botón adentro (para los Eliminar de las tablas)
 function botonAccion(accion, id, texto, clase, extra) {
     let campos = "<input type='hidden' name='id' value='" + id + "'>";
 
@@ -21,7 +17,6 @@ function botonAccion(accion, id, texto, clase, extra) {
            "</form>";
 }
 
-// "2026-09-12 10:00:00" -> "12/09/2026 10:00"
 function fechaCorta(texto) {
     if (!texto) { return ""; }
 
@@ -31,7 +26,6 @@ function fechaCorta(texto) {
     return d + "/" + m + "/" + a + " " + hora.slice(0, 5);
 }
 
-// 3725 segundos -> "01:02:05"
 function aReloj(segundos) {
     const h = Math.floor(segundos / 3600);
     const m = Math.floor((segundos % 3600) / 60);
@@ -48,7 +42,6 @@ function colorEstado(estado) {
     return "pendiente";
 }
 
-// filtra una lista buscando el texto en los campos indicados
 function filtrar(lista, texto, campos) {
     const busqueda = texto.toLowerCase();
 
@@ -56,10 +49,6 @@ function filtrar(lista, texto, campos) {
         campos.map(c => item[c] || "").join(" ").toLowerCase().includes(busqueda));
 }
 
-
-// ---------- Menú y avisos ----------
-
-// pinta en el menú el enlace de la página actual
 function marcarActivo() {
     const pagina = location.pathname.split("/").pop();
 
@@ -69,7 +58,6 @@ function marcarActivo() {
     }
 }
 
-// si la dirección trae ?guardado=si, ?error=token, etc. muestra el aviso que corresponde
 function avisosDeLaDireccion() {
     const mensajes = {
         guardado: "Guardado correctamente.",
@@ -92,9 +80,6 @@ function avisosDeLaDireccion() {
         }
     }
 }
-
-
-// ---------- Ojito de la contraseña ----------
 
 function ponerOjitos() {
     for (const clave of document.querySelectorAll("input[type='password']")) {
@@ -119,12 +104,6 @@ function ponerOjitos() {
     }
 }
 
-
-// ---------- Traducción ES / EN ----------
-
-// Todo lo que se traduce está en traducciones.json. Acá solo se recorre la página
-// y se cambia cada texto, placeholder y title que aparezca en el diccionario.
-
 async function prepararIdioma() {
     const boton = document.querySelector(".idioma");
 
@@ -137,7 +116,6 @@ async function prepararIdioma() {
         alEspanol[diccionario[palabra]] = palabra;
     }
 
-    // un texto puede venir partido en varias líneas en el HTML: se junta antes de buscarlo
     function traducirTexto(nodo, tabla) {
         const original = nodo.nodeValue.trim();
         const limpio = original.replace(/\s+/g, " ");
@@ -170,7 +148,6 @@ async function prepararIdioma() {
         boton.textContent = enIngles ? "ES" : "EN";
     });
 
-    // lo que el JavaScript agrega después (filas de tablas, etc.) también se traduce
     new MutationObserver(function (cambios) {
         if (!enIngles) { return; }
         for (const cambio of cambios) {
@@ -181,9 +158,6 @@ async function prepararIdioma() {
         }
     }).observe(document.body, { childList: true, subtree: true });
 }
-
-
-// ---------- Arranque ----------
 
 marcarActivo();
 avisosDeLaDireccion();

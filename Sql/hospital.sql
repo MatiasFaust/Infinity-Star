@@ -1,17 +1,4 @@
--- Base de datos del Hospital de Clinicas Montevideo
--- Importar en phpMyAdmin sobre una base llamada "hospital".
---
--- Las tablas estan en orden: primero las que no dependen de nadie
--- y despues las que las referencian, asi no hay que apagar las claves foraneas.
 
-
--- ---------------------------------------------------------------
--- Personas y roles
--- ---------------------------------------------------------------
-
--- Una persona se guarda una sola vez, la cedula no se puede repetir.
--- Los roles van aparte, por eso la misma persona puede ser
--- paciente, administrativo y chofer al mismo tiempo.
 
 CREATE TABLE persona (
   id_persona int NOT NULL AUTO_INCREMENT,
@@ -24,8 +11,6 @@ CREATE TABLE persona (
   UNIQUE (cedula),
   UNIQUE (correo)
 );
-
--- La cuenta es de la persona, no del rol: una sola aunque tenga dos roles.
 
 CREATE TABLE usuario (
   id_usuario int NOT NULL AUTO_INCREMENT,
@@ -46,8 +31,6 @@ CREATE TABLE paciente (
   FOREIGN KEY (id_persona) REFERENCES persona (id_persona)
 );
 
--- Puede ser administrativo y chofer, pero no dos veces lo mismo.
-
 CREATE TABLE funcionario (
   id_funcionario int NOT NULL AUTO_INCREMENT,
   id_persona     int,
@@ -57,19 +40,12 @@ CREATE TABLE funcionario (
   FOREIGN KEY (id_persona) REFERENCES persona (id_persona)
 );
 
--- Clave que el hospital le entrega al funcionario para poder registrarse.
-
 CREATE TABLE clave_acceso (
   id_clave int NOT NULL AUTO_INCREMENT,
   codigo   varchar(50) NOT NULL,
   PRIMARY KEY (id_clave),
   UNIQUE (codigo)
 );
-
-
--- ---------------------------------------------------------------
--- Traslados
--- ---------------------------------------------------------------
 
 CREATE TABLE ambulancia (
   id_ambulancia int NOT NULL AUTO_INCREMENT,
@@ -78,9 +54,6 @@ CREATE TABLE ambulancia (
   PRIMARY KEY (id_ambulancia),
   UNIQUE (matricula)
 );
-
--- tiempo_salida y tiempo_llegada son los horarios planificados.
--- inicio_real y fin_real los marca el chofer, y de ahi sale la duracion.
 
 CREATE TABLE traslado (
   id_traslado          int NOT NULL AUTO_INCREMENT,
@@ -99,11 +72,6 @@ CREATE TABLE traslado (
   FOREIGN KEY (id_paciente) REFERENCES paciente (id_paciente),
   FOREIGN KEY (id_ambulancia) REFERENCES ambulancia (id_ambulancia)
 );
-
-
--- ---------------------------------------------------------------
--- Documentos
--- ---------------------------------------------------------------
 
 CREATE TABLE documento (
   id_documento   int NOT NULL AUTO_INCREMENT,
@@ -134,11 +102,6 @@ CREATE TABLE encuesta (
   PRIMARY KEY (id_encuesta),
   FOREIGN KEY (id_documento) REFERENCES documento (id_documento)
 );
-
-
--- ---------------------------------------------------------------
--- Relaciones de muchos a muchos
--- ---------------------------------------------------------------
 
 CREATE TABLE encuesta_paciente_entra (
   id_encuesta int NOT NULL,
@@ -179,6 +142,5 @@ CREATE TABLE paciente_traslado_acompania (
   FOREIGN KEY (id_paciente) REFERENCES paciente (id_paciente),
   FOREIGN KEY (id_traslado) REFERENCES traslado (id_traslado)
 );
-
 
 INSERT INTO clave_acceso (codigo) VALUES ('Funcionario2026');

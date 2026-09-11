@@ -11,7 +11,6 @@ $que = $_GET['que'];
 $id  = $_POST['id'];
 
 if ($que == "persona") {
-
     $nombre    = $_POST['nombre'];
     $apellido  = $_POST['apellido'];
     $cedula    = $_POST['cedula'];
@@ -26,7 +25,6 @@ if ($que == "persona") {
     header("Location: Html/Administrativo/usuarios.html");
 
 } else if ($que == "ambulancia") {
-
     $matricula = $_POST['matricula'];
     $movil     = $_POST['movil'];
 

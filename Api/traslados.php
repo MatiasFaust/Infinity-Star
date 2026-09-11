@@ -26,7 +26,6 @@ $tablas = "FROM traslado
 $ambulancias = "SELECT id_ambulancia AS idAmbulancia, matricula, movil FROM ambulancia";
 
 if ($tipo == "contadores") {
-
     responder(array(
         'total'       => contar("traslado"),
         'curso'       => contar("traslado", "estado = 'En curso'"),
@@ -46,7 +45,6 @@ if ($tipo == "ambulancia") {
 }
 
 if ($tipo == "lista") {
-
     responder(comoLista($db->query("SELECT $columnas,
                                            chof.nombre AS nombreChofer, chof.apellido AS apellidoChofer
                                     $tablas

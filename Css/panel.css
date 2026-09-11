@@ -1,10 +1,3 @@
-/* ============================================================
-   Hoja de estilos única de todo el sistema
-   ============================================================ */
-
-
-/* ---------- Colores ---------- */
-
 :root {
     --verde: green;
     --verdeOscuro: #0a6b0a;
@@ -26,9 +19,6 @@
     --naranja: orange;
     --celeste: #1565c0;
 }
-
-
-/* ---------- Base ---------- */
 
 body {
     margin: 0;
@@ -70,9 +60,6 @@ header h3 {
     border-radius: 5px;
 }
 
-
-/* ---------- Botón de idioma (flota abajo a la derecha) ---------- */
-
 .idioma {
     position: fixed;
 
@@ -108,9 +95,6 @@ header h3 {
 .idioma:hover {
     background-color: var(--verdeOscuro);
 }
-
-
-/* ---------- Estructura: menú lateral + contenido ---------- */
 
 .contenedor {
     display: flex;
@@ -192,9 +176,6 @@ main p {
     align-items: center;
     justify-content: space-between;
 }
-
-
-/* ---------- Pantallas centradas (login, registro, módulos) ---------- */
 
 .centro {
     width: 700px;
@@ -285,9 +266,6 @@ main p {
     color: var(--grisTexto);
 }
 
-
-/* ---------- Formularios ---------- */
-
 form {
     background-color: var(--blanco);
 
@@ -336,8 +314,6 @@ select {
     margin-top: 20px;
 }
 
-/* opciones tipo tarjeta (Paciente / Funcionario / Chofer) */
-
 .tipos {
     display: flex;
     gap: 10px;
@@ -383,8 +359,6 @@ select {
     font-weight: bold;
 }
 
-/* la cuenta y el token solo se piden si se registra un funcionario o un chofer */
-
 .conCuenta {
     display: none;
 }
@@ -393,8 +367,6 @@ form:has(#esFuncionario:checked) .conCuenta,
 form:has(#esChofer:checked) .conCuenta {
     display: block;
 }
-
-/* ojito para ver la contraseña */
 
 .conOjo {
     position: relative;
@@ -423,8 +395,6 @@ form:has(#esChofer:checked) .conCuenta {
     background: none;
     color: var(--verde);
 }
-
-/* ---------- Botones ---------- */
 
 button,
 .agregar,
@@ -473,8 +443,6 @@ button:hover,
     margin-left: 10px;
 }
 
-/* botones chicos de las tablas */
-
 .editar,
 .eliminar,
 .marcar {
@@ -510,8 +478,6 @@ button:hover,
     opacity: 0.75;
 }
 
-/* formulario invisible que envuelve a los botones Eliminar / Iniciar */
-
 .enLinea {
     display: inline;
 
@@ -521,9 +487,6 @@ button:hover,
 
     border: none;
 }
-
-
-/* ---------- Tablas ---------- */
 
 .tabla {
     background-color: var(--blanco);
@@ -582,9 +545,6 @@ td.acciones .marcar {
 
     padding: 20px;
 }
-
-
-/* ---------- Tarjetas de números, fichas y avisos ---------- */
 
 .datos {
     display: flex;
@@ -649,9 +609,6 @@ td.acciones .marcar {
     color: var(--grisSuave);
 }
 
-
-/* ---------- Estados de los traslados ---------- */
-
 .pendiente {
     color: var(--naranja);
     font-weight: bold;
@@ -679,11 +636,7 @@ td.acciones .marcar {
     color: var(--verde);
 }
 
-
-/* ---------- Pantallas chicas ---------- */
-
 @media (max-width: 768px) {
-
     .contenedor {
         display: block;
     }

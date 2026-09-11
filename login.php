@@ -20,7 +20,6 @@ $idPersona = $cuenta->fetch_assoc()['id_persona'];
 
 $_SESSION['id_persona'] = $idPersona;
 
-// el administrativo entra a los modulos; el chofer solo a su pantalla
 if (contar("funcionario", "id_persona = $idPersona AND tipo_funcion = 'administrativo'") > 0) {
     header("Location: Html/Modulos.html");
 } else {
