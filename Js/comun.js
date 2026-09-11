@@ -145,11 +145,11 @@ function ponerOjitos() {
         ojo.addEventListener("click", function () {
             if (clave.type == "password") {
                 clave.type = "text";
-                ojo.textContent = "🙈";
+                ojo.classList.add("tachado");
                 ojo.title = "Ocultar contraseña";
             } else {
                 clave.type = "password";
-                ojo.textContent = "👁";
+                ojo.classList.remove("tachado");
                 ojo.title = "Ver contraseña";
             }
         });
