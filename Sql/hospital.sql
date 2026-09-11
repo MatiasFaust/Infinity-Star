@@ -4,7 +4,7 @@ CREATE TABLE persona (
   id_persona int NOT NULL AUTO_INCREMENT,
   nombre     varchar(255),
   apellido   varchar(255),
-  cedula     varchar(50),
+  cedula     int,
   correo     varchar(255),
   direccion  varchar(255),
   PRIMARY KEY (id_persona),
@@ -96,11 +96,19 @@ CREATE TABLE qr (
 
 CREATE TABLE encuesta (
   id_encuesta  int NOT NULL AUTO_INCREMENT,
-  preguntas    text,
-  respuestas   text,
   id_documento int,
+  fecha        datetime DEFAULT current_timestamp(),
   PRIMARY KEY (id_encuesta),
   FOREIGN KEY (id_documento) REFERENCES documento (id_documento)
+);
+
+CREATE TABLE pregunta (
+  id_pregunta int NOT NULL AUTO_INCREMENT,
+  id_encuesta int NOT NULL,
+  texto       varchar(255),
+  respuesta   varchar(255),
+  PRIMARY KEY (id_pregunta),
+  FOREIGN KEY (id_encuesta) REFERENCES encuesta (id_encuesta)
 );
 
 CREATE TABLE encuesta_paciente_entra (

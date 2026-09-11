@@ -178,6 +178,10 @@
     "nombre@gmail.com": "name@gmail.com",
 
     "Ese correo ya está registrado con otra cédula.": "That email is already registered with another ID number.",
+    "Ese nombre de usuario ya está en uso.": "That username is already taken.",
+    "Esa cédula ya está registrada en otra persona.": "That ID number is already registered to another person.",
+    "La cédula tiene que ser solo números.": "The ID number must contain only digits.",
+    "Esa matrícula ya está registrada.": "That license plate is already registered.",
     "sin correo": "no email",
     "sin dirección": "no address",
     "no tiene cuenta": "no account",

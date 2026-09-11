@@ -30,7 +30,25 @@ if ($que == "persona") {
     $correo    = $_POST['correo'];
     $direccion = $_POST['direccion'];
 
+    if (!ctype_digit($cedula)) {
+        header("Location: $formulario?error=cedulaMal");
+        exit;
+    }
+
     $ya = $db->query("SELECT id_persona FROM persona WHERE cedula = '$cedula'")->fetch_assoc();
+
+    if ($rol != "paciente") {
+        $deOtro = "usuario = '" . $_POST['usuario'] . "'";
+
+        if ($ya) {
+            $deOtro = $deOtro . " AND id_persona <> " . $ya['id_persona'];
+        }
+
+        if (contar("usuario", $deOtro) > 0) {
+            header("Location: $formulario?error=usuario");
+            exit;
+        }
+    }
 
     if ($ya) {
         $idPersona = $ya['id_persona'];
@@ -77,6 +95,11 @@ if ($que == "persona") {
 } else if ($que == "ambulancia") {
     $matricula = $_POST['matricula'];
     $movil     = $_POST['movil'];
+
+    if (contar("ambulancia", "matricula = '$matricula'") > 0) {
+        header("Location: Html/Administrativo/ambulancias.html?error=matricula");
+        exit;
+    }
 
     $db->query("INSERT INTO ambulancia (matricula, movil)
                 VALUES ('$matricula', '$movil')");
