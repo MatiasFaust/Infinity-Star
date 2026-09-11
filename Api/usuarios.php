@@ -16,17 +16,30 @@ if ($tipo == "uno") {
     $fila = $db->query("SELECT $columnas FROM persona $cuenta
                         WHERE persona.id_persona = $id")->fetch_assoc();
 
-    $roles = $db->query("SELECT GROUP_CONCAT(rol ORDER BY rol SEPARATOR ', ') AS roles
-                         FROM (SELECT 'paciente' AS rol FROM paciente WHERE id_persona = $id
-                               UNION ALL
-                               SELECT tipo_funcion FROM funcionario WHERE id_persona = $id) AS r");
+    $roles = array();
 
-    $fila['rol'] = $roles->fetch_assoc()['roles'];
+    if (contar("paciente", "id_persona = $id") > 0) {
+        $roles[] = "paciente";
+    }
+
+    $funciones = $db->query("SELECT tipo_funcion FROM funcionario WHERE id_persona = $id");
+
+    while ($funcion = $funciones->fetch_assoc()) {
+        $roles[] = $funcion['tipo_funcion'];
+    }
+
+    sort($roles);
+
+    $fila['rol'] = implode(", ", $roles);
 
     responder($fila);
 }
 
-$rol = isset($_GET['rol']) ? $_GET['rol'] : "";
+$rol = "";
+
+if (isset($_GET['rol'])) {
+    $rol = $_GET['rol'];
+}
 
 if ($rol == "paciente") {
     $tablas = "FROM paciente JOIN persona ON persona.id_persona = paciente.id_persona $cuenta";

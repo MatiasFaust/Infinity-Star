@@ -11,7 +11,11 @@ $que = $_GET['que'];
 $id  = $_POST['id'];
 
 if ($que == "persona") {
-    $rol = isset($_POST['rol']) ? $_POST['rol'] : "";
+    $rol = "";
+
+    if (isset($_POST['rol'])) {
+        $rol = $_POST['rol'];
+    }
 
     if ($rol == "" || $rol == "paciente") {
         $paciente = $db->query("SELECT id_paciente FROM paciente WHERE id_persona = $id")->fetch_assoc();
@@ -29,10 +33,13 @@ if ($que == "persona") {
     }
 
     if ($rol != "paciente") {
-        $soloEse = $rol == "" ? "" : "AND tipo_funcion = '$rol'";
+        $sql = "SELECT id_funcionario FROM funcionario WHERE id_persona = $id";
 
-        $funcionarios = $db->query("SELECT id_funcionario FROM funcionario
-                                    WHERE id_persona = $id $soloEse");
+        if ($rol != "") {
+            $sql = $sql . " AND tipo_funcion = '$rol'";
+        }
+
+        $funcionarios = $db->query($sql);
 
         while ($fila = $funcionarios->fetch_assoc()) {
             $idFuncionario = $fila['id_funcionario'];

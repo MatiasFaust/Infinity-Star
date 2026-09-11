@@ -1,88 +1,135 @@
-
-
-function pedir(url) {
-    return fetch(url).then(r => r.json());
+async function pedir(url) {
+    const respuesta = await fetch(url);
+    const datos = await respuesta.json();
+    return datos;
 }
 
 function botonAccion(accion, id, texto, clase, extra) {
     let campos = "<input type='hidden' name='id' value='" + id + "'>";
 
-    for (const nombre in extra) {
-        campos += "<input type='hidden' name='" + nombre + "' value='" + extra[nombre] + "'>";
+    if (extra) {
+        for (const nombre in extra) {
+            campos = campos + "<input type='hidden' name='" + nombre + "' value='" + extra[nombre] + "'>";
+        }
     }
 
-    return "<form class='enLinea' method='POST' action='../../" + accion + "'>" +
-           campos +
-           "<button type='submit' class='" + clase + "'>" + texto + "</button>" +
-           "</form>";
+    let html = "<form class='enLinea' method='POST' action='../../" + accion + "'>";
+    html = html + campos;
+    html = html + "<button type='submit' class='" + clase + "'>" + texto + "</button>";
+    html = html + "</form>";
+
+    return html;
 }
 
 function fechaCorta(texto) {
-    if (!texto) { return ""; }
+    if (!texto) {
+        return "";
+    }
 
-    const [dia, hora] = texto.split(" ");
-    const [a, m, d] = dia.split("-");
+    const partes = texto.split(" ");
+    const fecha = partes[0].split("-");
+    const hora = partes[1].substring(0, 5);
 
-    return d + "/" + m + "/" + a + " " + hora.slice(0, 5);
+    return fecha[2] + "/" + fecha[1] + "/" + fecha[0] + " " + hora;
+}
+
+function dosDigitos(numero) {
+    if (numero < 10) {
+        return "0" + numero;
+    }
+    return "" + numero;
 }
 
 function aReloj(segundos) {
-    const h = Math.floor(segundos / 3600);
-    const m = Math.floor((segundos % 3600) / 60);
-    const s = segundos % 60;
+    const horas = Math.floor(segundos / 3600);
+    const minutos = Math.floor((segundos % 3600) / 60);
+    const resto = segundos % 60;
 
-    return String(h).padStart(2, "0") + ":" +
-           String(m).padStart(2, "0") + ":" +
-           String(s).padStart(2, "0");
+    return dosDigitos(horas) + ":" + dosDigitos(minutos) + ":" + dosDigitos(resto);
 }
 
 function colorEstado(estado) {
-    if (estado === "En curso")   { return "curso"; }
-    if (estado === "Finalizado") { return "finalizado"; }
+    if (estado == "En curso") {
+        return "curso";
+    }
+    if (estado == "Finalizado") {
+        return "finalizado";
+    }
     return "pendiente";
 }
 
 function filtrar(lista, texto, campos) {
     const busqueda = texto.toLowerCase();
+    const resultado = [];
 
-    return lista.filter(item =>
-        campos.map(c => item[c] || "").join(" ").toLowerCase().includes(busqueda));
+    for (let i = 0; i < lista.length; i++) {
+        let todo = "";
+
+        for (let j = 0; j < campos.length; j++) {
+            const valor = lista[i][campos[j]];
+            if (valor) {
+                todo = todo + " " + valor;
+            }
+        }
+
+        if (todo.toLowerCase().indexOf(busqueda) != -1) {
+            resultado.push(lista[i]);
+        }
+    }
+
+    return resultado;
 }
 
 function marcarActivo() {
-    const pagina = location.pathname.split("/").pop();
+    const partes = location.pathname.split("/");
+    const pagina = partes[partes.length - 1];
+    const enlaces = document.querySelectorAll("nav a");
 
-    for (const enlace of document.querySelectorAll("nav a")) {
-        const destino = enlace.getAttribute("href").split("?")[0];
-        enlace.classList.toggle("activo", destino === pagina);
-    }
-}
+    for (let i = 0; i < enlaces.length; i++) {
+        const destino = enlaces[i].getAttribute("href").split("?")[0];
 
-function avisosDeLaDireccion() {
-    const mensajes = {
-        guardado: "Guardado correctamente.",
-        borrada: "Eliminado correctamente.",
-        token: "El token de acceso no es correcto.",
-        correo: "Ese correo ya está registrado con otra cédula.",
-        usada: "No se puede eliminar: hay traslados que usan esa ambulancia."
-    };
-
-    const aviso = document.getElementById("aviso");
-    const direccion = new URLSearchParams(location.search);
-
-    if (!aviso) { return; }
-
-    for (const clave in mensajes) {
-        if (direccion.has(clave) || direccion.get("error") === clave) {
-            aviso.textContent = mensajes[clave];
-            aviso.hidden = false;
-            return;
+        if (destino == pagina) {
+            enlaces[i].classList.add("activo");
+        } else {
+            enlaces[i].classList.remove("activo");
         }
     }
 }
 
+function avisosDeLaDireccion() {
+    const aviso = document.getElementById("aviso");
+
+    if (!aviso) {
+        return;
+    }
+
+    const direccion = new URLSearchParams(location.search);
+    let mensaje = "";
+
+    if (direccion.has("guardado")) {
+        mensaje = "Guardado correctamente.";
+    } else if (direccion.has("borrada")) {
+        mensaje = "Eliminado correctamente.";
+    } else if (direccion.get("error") == "token") {
+        mensaje = "El token de acceso no es correcto.";
+    } else if (direccion.get("error") == "correo") {
+        mensaje = "Ese correo ya está registrado con otra cédula.";
+    } else if (direccion.get("error") == "usada") {
+        mensaje = "No se puede eliminar: hay traslados que usan esa ambulancia.";
+    }
+
+    if (mensaje != "") {
+        aviso.textContent = mensaje;
+        aviso.hidden = false;
+    }
+}
+
 function ponerOjitos() {
-    for (const clave of document.querySelectorAll("input[type='password']")) {
+    const claves = document.querySelectorAll("input[type='password']");
+
+    for (let i = 0; i < claves.length; i++) {
+        const clave = claves[i];
+
         const marco = document.createElement("div");
         marco.className = "conOjo";
         clave.parentNode.insertBefore(marco, clave);
@@ -96,10 +143,15 @@ function ponerOjitos() {
         marco.appendChild(ojo);
 
         ojo.addEventListener("click", function () {
-            const oculta = clave.type === "password";
-            clave.type = oculta ? "text" : "password";
-            ojo.textContent = oculta ? "🙈" : "👁";
-            ojo.title = oculta ? "Ocultar contraseña" : "Ver contraseña";
+            if (clave.type == "password") {
+                clave.type = "text";
+                ojo.textContent = "🙈";
+                ojo.title = "Ocultar contraseña";
+            } else {
+                clave.type = "password";
+                ojo.textContent = "👁";
+                ojo.title = "Ver contraseña";
+            }
         });
     }
 }
@@ -107,7 +159,9 @@ function ponerOjitos() {
 async function prepararIdioma() {
     const boton = document.querySelector(".idioma");
 
-    if (!boton) { return; }
+    if (!boton) {
+        return;
+    }
 
     const diccionario = await pedir(boton.dataset.traducciones);
     const alEspanol = {};
@@ -119,44 +173,83 @@ async function prepararIdioma() {
     function traducirTexto(nodo, tabla) {
         const original = nodo.nodeValue.trim();
         const limpio = original.replace(/\s+/g, " ");
+
         if (tabla[limpio]) {
             nodo.nodeValue = nodo.nodeValue.replace(original, tabla[limpio]);
         }
     }
 
-    function traducir(raiz, tabla) {
-        for (const elemento of [raiz, ...raiz.querySelectorAll("*")]) {
-            for (const hijo of elemento.childNodes) {
-                if (hijo.nodeType === 3) { traducirTexto(hijo, tabla); }
+    function traducirElemento(elemento, tabla) {
+        const hijos = elemento.childNodes;
+
+        for (let i = 0; i < hijos.length; i++) {
+            if (hijos[i].nodeType == 3) {
+                traducirTexto(hijos[i], tabla);
             }
-            for (const atributo of ["placeholder", "title"]) {
-                if (tabla[elemento[atributo]]) { elemento[atributo] = tabla[elemento[atributo]]; }
-            }
+        }
+
+        if (elemento.placeholder && tabla[elemento.placeholder]) {
+            elemento.placeholder = tabla[elemento.placeholder];
+        }
+
+        if (elemento.title && tabla[elemento.title]) {
+            elemento.title = tabla[elemento.title];
         }
     }
 
-    let enIngles = localStorage.getItem("idioma") === "en";
+    function traducir(raiz, tabla) {
+        traducirElemento(raiz, tabla);
 
-    if (enIngles) { traducir(document.body, diccionario); }
+        const elementos = raiz.querySelectorAll("*");
 
-    boton.textContent = enIngles ? "ES" : "EN";
+        for (let i = 0; i < elementos.length; i++) {
+            traducirElemento(elementos[i], tabla);
+        }
+    }
+
+    let enIngles = localStorage.getItem("idioma") == "en";
+
+    if (enIngles) {
+        traducir(document.body, diccionario);
+        boton.textContent = "ES";
+    } else {
+        boton.textContent = "EN";
+    }
 
     boton.addEventListener("click", function () {
-        enIngles = !enIngles;
-        traducir(document.body, enIngles ? diccionario : alEspanol);
-        localStorage.setItem("idioma", enIngles ? "en" : "es");
-        boton.textContent = enIngles ? "ES" : "EN";
+        if (enIngles) {
+            traducir(document.body, alEspanol);
+            localStorage.setItem("idioma", "es");
+            boton.textContent = "EN";
+            enIngles = false;
+        } else {
+            traducir(document.body, diccionario);
+            localStorage.setItem("idioma", "en");
+            boton.textContent = "ES";
+            enIngles = true;
+        }
     });
 
-    new MutationObserver(function (cambios) {
-        if (!enIngles) { return; }
-        for (const cambio of cambios) {
-            for (const nodo of cambio.addedNodes) {
-                if (nodo.nodeType === 1) { traducir(nodo, diccionario); }
-                if (nodo.nodeType === 3) { traducirTexto(nodo, diccionario); }
+    const vigilante = new MutationObserver(function (cambios) {
+        if (!enIngles) {
+            return;
+        }
+
+        for (let i = 0; i < cambios.length; i++) {
+            const nuevos = cambios[i].addedNodes;
+
+            for (let j = 0; j < nuevos.length; j++) {
+                if (nuevos[j].nodeType == 1) {
+                    traducir(nuevos[j], diccionario);
+                }
+                if (nuevos[j].nodeType == 3) {
+                    traducirTexto(nuevos[j], diccionario);
+                }
             }
         }
-    }).observe(document.body, { childList: true, subtree: true });
+    });
+
+    vigilante.observe(document.body, { childList: true, subtree: true });
 }
 
 marcarActivo();

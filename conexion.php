@@ -17,9 +17,15 @@ function comoLista($resultado) {
 function contar($tabla, $condicion = "") {
     global $db;
 
-    $donde = $condicion == "" ? "" : "WHERE $condicion";
+    $sql = "SELECT COUNT(*) AS cuantos FROM $tabla";
 
-    return $db->query("SELECT COUNT(*) AS cuantos FROM $tabla $donde")->fetch_assoc()['cuantos'];
+    if ($condicion != "") {
+        $sql = $sql . " WHERE " . $condicion;
+    }
+
+    $fila = $db->query($sql)->fetch_assoc();
+
+    return $fila['cuantos'];
 }
 
 function responder($datos) {

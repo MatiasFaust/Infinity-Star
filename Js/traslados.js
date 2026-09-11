@@ -1,7 +1,8 @@
-
-
 function queSeTraslada(t) {
-    return t.nombrePaciente ? t.nombrePaciente + " " + t.apellidoPaciente : t.descripcion;
+    if (t.nombrePaciente) {
+        return t.nombrePaciente + " " + t.apellidoPaciente;
+    }
+    return t.descripcion;
 }
 
 async function cargarInicio() {
@@ -18,13 +19,28 @@ async function cargarLista() {
     const traslados = await pedir("../../Api/traslados.php?tipo=lista");
     const cuerpo = document.getElementById("cuerpoTraslados");
 
-    if (traslados.length === 0) {
+    if (traslados.length == 0) {
         document.getElementById("vacio").hidden = false;
         return;
     }
 
-    for (const t of traslados) {
-        const chofer = t.nombreChofer ? t.nombreChofer + " " + t.apellidoChofer : "";
+    for (let i = 0; i < traslados.length; i++) {
+        const t = traslados[i];
+
+        let chofer = "";
+        if (t.nombreChofer) {
+            chofer = t.nombreChofer + " " + t.apellidoChofer;
+        }
+
+        let matricula = "";
+        if (t.matricula) {
+            matricula = t.matricula;
+        }
+
+        let duracion = "";
+        if (t.duracion != null) {
+            duracion = aReloj(Number(t.duracion));
+        }
 
         const fila = document.createElement("tr");
 
@@ -35,10 +51,10 @@ async function cargarLista() {
             "<td>" + t.destino + "</td>" +
             "<td>" + fechaCorta(t.salida) + "</td>" +
             "<td>" + fechaCorta(t.llegada) + "</td>" +
-            "<td>" + (t.matricula || "") + "</td>" +
+            "<td>" + matricula + "</td>" +
             "<td>" + chofer + "</td>" +
             "<td class='" + colorEstado(t.estado) + "'>" + t.estado + "</td>" +
-            "<td>" + (t.duracion !== null ? aReloj(Number(t.duracion)) : "") + "</td>" +
+            "<td>" + duracion + "</td>" +
             "<td class='acciones'>" + botonAccion("borrar.php?que=traslado", t.idTraslado, "Eliminar", "eliminar") + "</td>";
 
         cuerpo.appendChild(fila);
@@ -49,12 +65,13 @@ async function cargarAmbulancias() {
     const lista = await pedir("../../Api/traslados.php?tipo=ambulancias");
     const cuerpo = document.getElementById("cuerpoAmbulancias");
 
-    if (lista.length === 0) {
+    if (lista.length == 0) {
         document.getElementById("vacio").hidden = false;
         return;
     }
 
-    for (const a of lista) {
+    for (let i = 0; i < lista.length; i++) {
+        const a = lista[i];
         const fila = document.createElement("tr");
 
         fila.innerHTML =
@@ -72,18 +89,35 @@ async function cargarAmbulancias() {
 async function cargarAmbulancia() {
     const id = new URLSearchParams(location.search).get("id");
 
-    if (!id) { location.href = "ambulancias.html"; return; }
+    if (!id) {
+        location.href = "ambulancias.html";
+        return;
+    }
 
     const a = await pedir("../../Api/traslados.php?tipo=ambulancia&id=" + id);
 
-    if (!a) { location.href = "ambulancias.html"; return; }
+    if (!a) {
+        location.href = "ambulancias.html";
+        return;
+    }
 
     document.getElementById("id").value = a.idAmbulancia;
     document.getElementById("matricula").value = a.matricula;
     document.getElementById("movil").value = a.movil;
 }
 
-if (document.getElementById("total"))             { cargarInicio(); }
-if (document.getElementById("cuerpoTraslados"))   { cargarLista(); }
-if (document.getElementById("cuerpoAmbulancias")) { cargarAmbulancias(); }
-if (document.getElementById("matricula") && document.getElementById("id")) { cargarAmbulancia(); }
+if (document.getElementById("total")) {
+    cargarInicio();
+}
+
+if (document.getElementById("cuerpoTraslados")) {
+    cargarLista();
+}
+
+if (document.getElementById("cuerpoAmbulancias")) {
+    cargarAmbulancias();
+}
+
+if (document.getElementById("matricula") && document.getElementById("id")) {
+    cargarAmbulancia();
+}

@@ -7,8 +7,13 @@ $que = $_GET['que'];
 if ($que == "persona") {
     $rol = $_POST['rol'];
 
-    $vuelve   = isset($_POST['vuelve']) ? $_POST['vuelve'] : "Html/Administrativo/usuarios.html";
-    $formulario = isset($_POST['formulario']) ? $_POST['formulario'] : "Html/Administrativo/registrar.html";
+    $vuelve = "Html/Administrativo/usuarios.html";
+    $formulario = "Html/Administrativo/registrar.html";
+
+    if (isset($_POST['vuelve'])) {
+        $vuelve = $_POST['vuelve'];
+        $formulario = $_POST['formulario'];
+    }
 
     if ($rol != "paciente") {
         $token = $_POST['token'];
