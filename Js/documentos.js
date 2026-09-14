@@ -3,7 +3,6 @@ async function cargarInicio() {
 
     document.getElementById("totalPacientes").textContent = d.pacientes;
     document.getElementById("totalDocumentos").textContent = d.documentos;
-    document.getElementById("totalEncuestas").textContent = d.encuestas;
 }
 
 if (document.getElementById("totalPacientes")) { cargarInicio(); }
