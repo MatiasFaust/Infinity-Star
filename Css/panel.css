@@ -577,28 +577,6 @@ td.acciones .marcar {
     color: var(--grisOscuro);
 }
 
-.enConstruccion {
-    background-color: var(--blanco);
-
-    margin-top: 25px;
-    padding: 40px 25px;
-
-    border: 1px dashed var(--grisBorde);
-    border-radius: 10px;
-
-    text-align: center;
-}
-
-.enConstruccion h2 {
-    margin: 0 0 10px 0;
-    color: var(--gris);
-}
-
-.enConstruccion p {
-    margin: 0;
-    color: var(--grisSuave);
-}
-
 .pendiente {
     color: var(--naranja);
     font-weight: bold;

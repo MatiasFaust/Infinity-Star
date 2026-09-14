@@ -18,7 +18,6 @@
     "Registrar traslados": "Transfers",
     "Ver traslados": "View transfers",
     "Ambulancias": "Ambulances",
-    "Mapa en vivo": "Live map",
     "Mis traslados": "My transfers",
     "Panel de traslados": "Transfers panel",
 
@@ -147,7 +146,6 @@
     "Todavía no hay traslados registrados.": "No transfers registered yet.",
     "Todavía no te asignaron ningún traslado.": "You have no transfers assigned yet.",
     "Este paciente todavía no tiene documentos.": "This patient has no documents yet.",
-    "Aún no funciona": "Not working yet",
 
     "Guardado correctamente.": "Saved successfully.",
     "Eliminado correctamente.": "Deleted successfully.",
@@ -182,8 +180,5 @@
     "no tiene cuenta": "no account",
     "Ver contraseña": "Show password",
     "Ocultar contraseña": "Hide password",
-    "Archivo cargado:": "Uploaded file:",
-    "Necesitás la clave de acceso que te entrega el hospital.": "You need the access key the hospital gives you.",
-    "Acá va a verse la posición de cada ambulancia en circulación. Todavía no está implementado.": "Here you will see the position of every ambulance on the road. Not implemented yet.",
-    "Acá se va a generar el documento de cada paciente y su código QR. Todavía no está implementado.": "Here each patient's document and its QR code will be generated. Not implemented yet."
+    "Necesitás la clave de acceso que te entrega el hospital.": "You need the access key the hospital gives you."
 }
