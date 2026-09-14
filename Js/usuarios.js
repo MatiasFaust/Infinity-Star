@@ -96,9 +96,25 @@ async function cargarFormulario() {
     }
 }
 
+function limpiarCuenta() {
+    const esPaciente = document.getElementById("esPaciente");
+
+    if (!esPaciente) {
+        return;
+    }
+
+    esPaciente.addEventListener("change", function () {
+        document.querySelector("input[name='usuario']").value = "";
+        document.querySelector("input[name='contrasena']").value = "";
+        document.querySelector("input[name='token']").value = "";
+    });
+}
+
 if (document.getElementById("cuerpo_paciente")) {
     cargarLista();
 }
+
+limpiarCuenta();
 
 if (document.getElementById("id") && document.getElementById("rol")) {
     cargarFormulario();
