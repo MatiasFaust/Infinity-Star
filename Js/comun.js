@@ -243,20 +243,25 @@ async function prepararIdioma() {
     vigilante.observe(document.body, { childList: true, subtree: true });
 }
 
-function limitarCedula() {
+function limitarCampos() {
     const cedula = document.querySelector("input[name='cedula']");
+    const nombres = document.querySelectorAll("input[name='nombre'], input[name='apellido']");
 
-    if (!cedula) {
-        return;
+    if (cedula) {
+        cedula.addEventListener("input", function () {
+            cedula.value = cedula.value.replace(/[^0-9]/g, "").substring(0, 8);
+        });
     }
 
-    cedula.addEventListener("input", function () {
-        cedula.value = cedula.value.replace(/[^0-9]/g, "").substring(0, 8);
-    });
+    for (let i = 0; i < nombres.length; i++) {
+        nombres[i].addEventListener("input", function () {
+            this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚÑáéíóúñ ]/g, "");
+        });
+    }
 }
 
 marcarActivo();
 avisosDeLaDireccion();
 ponerOjitos();
-limitarCedula();
+limitarCampos();
 window.addEventListener("load", prepararIdioma);
