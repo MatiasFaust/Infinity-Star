@@ -12,8 +12,6 @@ $columnas = "traslado.id_traslado          AS idTraslado,
              traslado.estado,
              traslado.tiempo_salida         AS salida,
              traslado.tiempo_llegada        AS llegada,
-             traslado.inicio_real           AS inicio,
-             TIMESTAMPDIFF(SECOND, traslado.inicio_real, traslado.fin_real) AS duracion,
              paci.nombre                    AS nombrePaciente,
              paci.apellido                  AS apellidoPaciente,
              ambulancia.matricula";

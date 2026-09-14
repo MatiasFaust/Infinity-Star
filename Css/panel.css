@@ -629,13 +629,6 @@ td.acciones .marcar {
     font-weight: bold;
 }
 
-.reloj {
-    font-family: monospace;
-    font-size: 16px;
-    font-weight: bold;
-    color: var(--verde);
-}
-
 @media (max-width: 768px) {
     .contenedor {
         display: block;

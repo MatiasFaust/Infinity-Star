@@ -37,11 +37,6 @@ async function cargarLista() {
             matricula = t.matricula;
         }
 
-        let duracion = "";
-        if (t.duracion != null) {
-            duracion = aReloj(Number(t.duracion));
-        }
-
         const fila = document.createElement("tr");
 
         fila.innerHTML =
@@ -54,7 +49,6 @@ async function cargarLista() {
             "<td>" + matricula + "</td>" +
             "<td>" + chofer + "</td>" +
             "<td class='" + colorEstado(t.estado) + "'>" + t.estado + "</td>" +
-            "<td>" + duracion + "</td>" +
             "<td class='acciones'>" + botonAccion("borrar.php?que=traslado", t.idTraslado, "Eliminar", "eliminar") + "</td>";
 
         cuerpo.appendChild(fila);

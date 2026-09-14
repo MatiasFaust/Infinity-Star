@@ -66,8 +66,6 @@ CREATE TABLE traslado (
   id_paciente          int,
   id_ambulancia        int,
   estado               varchar(50) DEFAULT 'Pendiente',
-  inicio_real          datetime,
-  fin_real             datetime,
   PRIMARY KEY (id_traslado),
   FOREIGN KEY (id_paciente) REFERENCES paciente (id_paciente),
   FOREIGN KEY (id_ambulancia) REFERENCES ambulancia (id_ambulancia)

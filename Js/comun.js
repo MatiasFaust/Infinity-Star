@@ -33,21 +33,6 @@ function fechaCorta(texto) {
     return fecha[2] + "/" + fecha[1] + "/" + fecha[0] + " " + hora;
 }
 
-function dosDigitos(numero) {
-    if (numero < 10) {
-        return "0" + numero;
-    }
-    return "" + numero;
-}
-
-function aReloj(segundos) {
-    const horas = Math.floor(segundos / 3600);
-    const minutos = Math.floor((segundos % 3600) / 60);
-    const resto = segundos % 60;
-
-    return dosDigitos(horas) + ":" + dosDigitos(minutos) + ":" + dosDigitos(resto);
-}
-
 function colorEstado(estado) {
     if (estado == "En curso") {
         return "curso";
