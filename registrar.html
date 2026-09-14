@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Registrar</title>
-    <link rel="stylesheet" href="Css/panel.css?v=42">
+    <link rel="stylesheet" href="Css/panel.css?v=44">
 </head>
 
 <body>
@@ -54,7 +54,7 @@
                 <input type="text" name="apellido" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" title="Solo letras" required>
 
                 <label>CI</label>
-                <input type="number" name="cedula" placeholder="12345678" min="1" max="99999999" maxlength="8" required>
+                <input type="text" name="cedula" placeholder="12345678" pattern="[0-9]+" required>
 
                 <label>Dirección</label>
                 <input type="text" name="direccion" placeholder="Av. Italia 2870" required>
@@ -81,10 +81,10 @@
 
     </main>
 
-    <button class="idioma" data-traducciones="Js/traducciones.json?v=42">EN</button>
+    <button class="idioma" data-traducciones="Js/traducciones.json?v=44">EN</button>
 
-    <script src="Js/comun.js?v=42"></script>
-    <script src="Js/acceso.js?v=42"></script>
+    <script src="Js/comun.js?v=44"></script>
+    <script src="Js/acceso.js?v=44"></script>
 </body>
 
 </html>

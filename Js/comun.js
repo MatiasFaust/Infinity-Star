@@ -251,9 +251,7 @@ function limitarCedula() {
     }
 
     cedula.addEventListener("input", function () {
-        if (cedula.value.length > 8) {
-            cedula.value = cedula.value.substring(0, 8);
-        }
+        cedula.value = cedula.value.replace(/[^0-9]/g, "").substring(0, 8);
     });
 }
 
