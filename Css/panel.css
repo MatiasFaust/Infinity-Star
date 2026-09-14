@@ -2,20 +2,16 @@
     --verde: green;
     --verdeOscuro: #0a6b0a;
     --verdeClaro: #e8f5e9;
-
     --blanco: white;
     --negro: black;
-
     --gris: gray;
     --grisClaro: #f4f4f4;
     --grisBorde: lightgray;
     --grisTexto: #555;
     --grisSuave: #777;
     --grisOscuro: #333;
-
     --rojo: crimson;
     --rojoClaro: #fdecea;
-
     --naranja: orange;
     --celeste: #1565c0;
 }
@@ -317,24 +313,18 @@ select {
 .tipos {
     display: flex;
     gap: 10px;
-
     margin-top: 5px;
 }
 
 .tipo {
     flex: 1;
-
     margin: 0;
     padding: 14px 5px;
-
     text-align: center;
-
     border: 2px solid var(--grisBorde);
     border-radius: 5px;
-
     color: var(--gris);
     font-weight: normal;
-
     cursor: pointer;
 }
 
