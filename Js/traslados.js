@@ -1,20 +1,25 @@
+/*
 function queSeTraslada(t) {
     if (t.nombrePaciente) {
         return t.nombrePaciente + " " + t.apellidoPaciente;
     }
     return t.descripcion;
 }
+*/
 
 async function cargarInicio() {
     const d = await pedir("../../Api/traslados.php?tipo=contadores");
 
+    /*
     document.getElementById("total").textContent = d.total;
     document.getElementById("curso").textContent = d.curso;
     document.getElementById("retorno").textContent = d.retorno;
     document.getElementById("finalizados").textContent = d.finalizados;
+    */
     document.getElementById("ambulancias").textContent = d.ambulancias;
 }
 
+/*
 async function cargarLista() {
     const traslados = await pedir("../../Api/traslados.php?tipo=lista");
     const cuerpo = document.getElementById("cuerpoTraslados");
@@ -54,6 +59,7 @@ async function cargarLista() {
         cuerpo.appendChild(fila);
     }
 }
+*/
 
 async function cargarAmbulancias() {
     const lista = await pedir("../../Api/traslados.php?tipo=ambulancias");
@@ -100,13 +106,15 @@ async function cargarAmbulancia() {
     document.getElementById("movil").value = a.movil;
 }
 
-if (document.getElementById("total")) {
+if (document.getElementById("ambulancias")) {
     cargarInicio();
 }
 
+/*
 if (document.getElementById("cuerpoTraslados")) {
     cargarLista();
 }
+*/
 
 if (document.getElementById("cuerpoAmbulancias")) {
     cargarAmbulancias();

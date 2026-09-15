@@ -577,6 +577,7 @@ td.acciones .marcar {
     color: var(--grisOscuro);
 }
 
+/*
 .pendiente {
     color: var(--naranja);
     font-weight: bold;
@@ -596,6 +597,7 @@ td.acciones .marcar {
     color: var(--gris);
     font-weight: bold;
 }
+*/
 
 @media (max-width: 768px) {
     .contenedor {

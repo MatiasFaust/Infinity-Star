@@ -59,12 +59,14 @@ if ($que == "persona") {
 
     $vuelve = $_POST['vuelve'];
 
+/*
 } else if ($que == "traslado") {
     $db->query("DELETE FROM funcionario_traslado_maneja WHERE id_traslado = $id");
     $db->query("DELETE FROM traslado WHERE id_traslado = $id");
 
     $vuelve = "verTraslados.html";
 
+*/
 } else if ($que == "ambulancia") {
     if (contar("traslado", "id_ambulancia = $id") > 0) {
         header("Location: Html/Administrativo/ambulancias.html?error=usada");

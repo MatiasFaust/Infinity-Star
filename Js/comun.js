@@ -33,15 +33,7 @@ function fechaCorta(texto) {
     return fecha[2] + "/" + fecha[1] + "/" + fecha[0] + " " + hora;
 }
 
-function colorEstado(estado) {
-    if (estado == "En curso") {
-        return "curso";
-    }
-    if (estado == "Finalizado") {
-        return "finalizado";
-    }
-    return "pendiente";
-}
+
 
 function filtrar(lista, texto, campos) {
     const busqueda = texto.toLowerCase();

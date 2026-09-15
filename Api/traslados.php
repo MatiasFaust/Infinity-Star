@@ -4,6 +4,7 @@ require_once '../conexion.php';
 
 $tipo = $_GET['tipo'];
 
+/*
 $columnas = "traslado.id_traslado          AS idTraslado,
              traslado.tipo_elemento         AS tipo,
              traslado.descripcion_elemento  AS descripcion,
@@ -20,15 +21,18 @@ $tablas = "FROM traslado
            LEFT JOIN paciente ON paciente.id_paciente = traslado.id_paciente
            LEFT JOIN persona AS paci ON paci.id_persona = paciente.id_persona
            LEFT JOIN ambulancia ON ambulancia.id_ambulancia = traslado.id_ambulancia";
+*/
 
 $ambulancias = "SELECT id_ambulancia AS idAmbulancia, matricula, movil FROM ambulancia";
 
 if ($tipo == "contadores") {
     responder(array(
+        /*
         'total'       => contar("traslado"),
         'curso'       => contar("traslado", "estado = 'En curso'"),
         'retorno'     => contar("traslado", "estado = 'En retorno'"),
         'finalizados' => contar("traslado", "estado = 'Finalizado'"),
+        */
         'ambulancias' => contar("ambulancia")
     ));
 }
@@ -42,6 +46,7 @@ if ($tipo == "ambulancia") {
     responder($db->query("$ambulancias WHERE id_ambulancia = $id")->fetch_assoc());
 }
 
+/*
 if ($tipo == "lista") {
     responder(comoLista($db->query("SELECT $columnas,
                                            chof.nombre AS nombreChofer, chof.apellido AS apellidoChofer
@@ -51,5 +56,6 @@ if ($tipo == "lista") {
                                     LEFT JOIN persona AS chof ON chof.id_persona = funcionario.id_persona
                                     ORDER BY traslado.tiempo_salida DESC")));
 }
+*/
 
 responder(array());
