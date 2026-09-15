@@ -1,3 +1,14 @@
+async function revisarSesion() {
+    const respuesta = await fetch("/Web/Api/sesion.php", { cache: "no-store" });
+    const hay = await respuesta.text();
+
+    if (hay != "1") {
+        window.location.replace("/Web/Index.html");
+    }
+}
+
+window.addEventListener("pageshow", revisarSesion);
+
 async function pedir(url) {
     const respuesta = await fetch(url);
     const datos = await respuesta.json();
