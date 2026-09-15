@@ -26,6 +26,7 @@ if ($que == "persona") {
             $db->query("DELETE FROM documento WHERE id_paciente = $idPaciente");
             $db->query("DELETE FROM paciente_traslado_acompania WHERE id_paciente = $idPaciente");
             $db->query("DELETE FROM encuesta_paciente_entra WHERE id_paciente = $idPaciente");
+            $db->query("DELETE FROM respuesta WHERE id_paciente = $idPaciente");
             $db->query("DELETE FROM funcionario_paciente_lleva WHERE id_paciente = $idPaciente");
             $db->query("UPDATE traslado SET id_paciente = NULL WHERE id_paciente = $idPaciente");
             $db->query("DELETE FROM paciente WHERE id_paciente = $idPaciente");
