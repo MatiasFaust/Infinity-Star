@@ -7,7 +7,9 @@ async function revisarSesion() {
     }
 }
 
-window.addEventListener("pageshow", revisarSesion);
+if (window.location.pathname.includes("/Html/")) {
+    window.addEventListener("pageshow", revisarSesion);
+}
 
 async function pedir(url) {
     const respuesta = await fetch(url);
