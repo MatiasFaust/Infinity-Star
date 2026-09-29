@@ -577,27 +577,7 @@ td.acciones .marcar {
     color: var(--grisOscuro);
 }
 
-/*
-.pendiente {
-    color: var(--naranja);
-    font-weight: bold;
-}
 
-.curso {
-    color: var(--verde);
-    font-weight: bold;
-}
-
-.retorno {
-    color: var(--celeste);
-    font-weight: bold;
-}
-
-.finalizado {
-    color: var(--gris);
-    font-weight: bold;
-}
-*/
 
 @media (max-width: 768px) {
     .contenedor {
@@ -655,6 +635,9 @@ td.acciones .marcar {
 }
 
 #mapa {
+    position: relative;
+    z-index: 0;
+
     height: 320px;
     margin-bottom: 20px;
 
