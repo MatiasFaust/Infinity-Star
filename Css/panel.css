@@ -780,3 +780,57 @@ td.acciones .marcar {
         margin: 0;
     }
 }
+
+.tabla {
+    overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+    .fila,
+    .buscarLugar {
+        display: block;
+    }
+
+    .fila input,
+    .buscarLugar input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .fila .eliminar,
+    .buscarLugar button {
+        width: 100%;
+    }
+
+    #mapa {
+        height: 240px;
+    }
+
+    .enViaje {
+        padding: 15px;
+    }
+
+    .enViaje h2 {
+        font-size: 34px;
+    }
+
+    .publico .hoja {
+        margin: 15px;
+        padding: 20px 16px;
+    }
+
+    .botones {
+        text-align: center;
+    }
+
+    .botones button,
+    .botones a {
+        display: block;
+        width: 100%;
+        margin: 10px 0 0;
+    }
+
+    table {
+        min-width: 560px;
+    }
+}
