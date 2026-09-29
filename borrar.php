@@ -71,16 +71,6 @@ if ($que == "persona") {
 
     $vuelve = "ambulancias.html?borrada=si";
 
-} else if ($que == "ruta") {
-    if (contar("traslado", "id_ruta = $id") > 0) {
-        header("Location: Html/Administrativo/rutas.html?error=rutaUsada");
-        exit;
-    }
-
-    $db->query("DELETE FROM ruta WHERE id_ruta = $id");
-
-    $vuelve = "rutas.html?borrada=si";
-
 } else {
     $vuelve = "usuarios.html";
 }

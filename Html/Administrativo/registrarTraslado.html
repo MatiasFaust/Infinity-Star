@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar traslado</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="../../Css/panel.css?v=56">
+</head>
+
+<body>
+
+    <header>
+
+        <h3>Hospital de Clínicas Montevideo</h3>
+
+        <a href="../../salir.php" class="cerrar">
+            Cerrar sesión
+        </a>
+
+    </header>
+
+    <div class="contenedor">
+
+        <nav>
+
+            <p class="tituloMenu">NAVEGACIÓN</p>
+
+            <a href="InicioT.html">
+                Inicio
+            </a>
+
+            <a href="registrarTraslado.html">
+                Registrar traslado
+            </a>
+
+            <a href="verTraslados.html">
+                Ver traslados
+            </a>
+
+            <a href="ambulancias.html">
+                Ambulancias
+            </a>
+
+            <hr>
+
+            <a href="../Modulos.html">
+                ← Volver a módulos
+            </a>
+
+        </nav>
+
+        <main>
+
+            <h1>Registrar traslado</h1>
+
+            <p class="aviso" id="aviso" hidden></p>
+
+            <form action="../../guardar.php?que=traslado" method="POST">
+
+                <label>Recorrido</label>
+                <p class="ayuda">Buscá la dirección o hacé clic en el mapa: primero el punto de salida, después el de llegada.</p>
+
+                <div class="fila buscarLugar">
+                    <input type="text" id="direccion" placeholder="Escribí una dirección, por ejemplo: Av. Italia 2870">
+                    <button type="button" id="buscarDireccion">Buscar</button>
+                </div>
+
+                <div id="mapa"></div>
+
+                <p class="estimado" id="estimado" hidden></p>
+
+                <label>Origen</label>
+                <input type="text" name="origen" id="origen" placeholder="Marcalo en el mapa" required>
+                <input type="hidden" name="origenLat" id="origenLat">
+                <input type="hidden" name="origenLng" id="origenLng">
+
+                <label>Destino</label>
+                <input type="text" name="destino" id="destino" placeholder="Marcalo en el mapa" required>
+                <input type="hidden" name="destinoLat" id="destinoLat">
+                <input type="hidden" name="destinoLng" id="destinoLng">
+                <input type="hidden" name="minutos" id="minutos">
+
+                <label>Ambulancia</label>
+                <select name="ambulancia" id="ambulanciaRuta" required></select>
+
+                <label>Conductor responsable</label>
+                <select name="chofer" id="chofer" required></select>
+
+                <label>¿Qué se traslada?</label>
+                <select name="lleva" id="queLleva">
+                    <option value="paciente">Un paciente</option>
+                    <option value="elemento">Un elemento</option>
+                </select>
+
+                <div id="partePaciente">
+                    <label>Paciente</label>
+                    <select name="paciente" id="paciente"></select>
+                </div>
+
+                <div id="parteElemento" hidden>
+                    <label>Tipo de elemento</label>
+                    <input type="text" name="tipoElemento" id="tipoElemento" placeholder="Equipo médico">
+
+                    <label>Descripción</label>
+                    <input type="text" name="descripcionElemento" id="descripcionElemento" placeholder="Respirador portátil">
+                </div>
+
+                <label>Copiloto acompañante</label>
+
+                <div class="fila">
+                    <input type="text" name="copilotoNombre" placeholder="Nombre">
+                    <input type="text" name="copilotoApellido" placeholder="Apellido">
+                    <input type="text" name="copilotoCedula" id="copilotoCedula" placeholder="Cédula" maxlength="8">
+                </div>
+
+                <p class="ayuda">Las horas de salida y de llegada las marca el chofer desde su pantalla cuando arranca el viaje.</p>
+
+                <div class="botones">
+                    <button type="button" id="limpiar" class="secundario">Volver a marcar</button>
+                    <button type="submit">Registrar traslado</button>
+                </div>
+
+            </form>
+
+        </main>
+
+    </div>
+
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=56">EN</button>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../../Js/comun.js?v=56"></script>
+    <script src="../../Js/mapa.js?v=56"></script>
+    <script src="../../Js/traslados.js?v=56"></script>
+</body>
+
+</html>

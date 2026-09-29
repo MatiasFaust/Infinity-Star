@@ -102,36 +102,100 @@ if ($que == "persona") {
     header("Location: Html/Administrativo/ambulancias.html");
 }
 
-if ($que == "ruta") {
+if ($que == "traslado") {
+    session_start();
+
+    $vuelve = "Html/Administrativo/registrarTraslado.html";
+
     $origen     = $_POST['origen'];
     $destino    = $_POST['destino'];
-    $ambulancia = $_POST['ambulancia'];
     $origenLat  = $_POST['origenLat'];
     $origenLng  = $_POST['origenLng'];
     $destinoLat = $_POST['destinoLat'];
     $destinoLng = $_POST['destinoLng'];
+    $minutos    = $_POST['minutos'];
+    $ambulancia = $_POST['ambulancia'];
+    $chofer     = $_POST['chofer'];
+    $lleva      = $_POST['lleva'];
+
+    $copilotoNombre   = $_POST['copilotoNombre'];
+    $copilotoApellido = $_POST['copilotoApellido'];
+    $copilotoCedula   = $_POST['copilotoCedula'];
 
     if ($origenLat == "" || $destinoLat == "") {
-        header("Location: Html/Administrativo/rutas.html?error=sinMarcar");
+        header("Location: $vuelve?error=sinMarcar");
         exit;
     }
 
     if ($origenLat == $destinoLat && $origenLng == $destinoLng) {
-        header("Location: Html/Administrativo/rutas.html?error=mismaRuta");
+        header("Location: $vuelve?error=mismaRuta");
         exit;
     }
 
-    $repetida = "origen = '$origen' AND destino = '$destino' AND id_ambulancia = $ambulancia";
-
-    if (contar("ruta", $repetida) > 0) {
-        header("Location: Html/Administrativo/rutas.html?error=rutaRepetida");
-        exit;
+    if ($minutos == "") {
+        $minutos = "NULL";
     }
 
-    $db->query("INSERT INTO ruta (origen, destino, id_ambulancia,
-                                  origen_lat, origen_lng, destino_lat, destino_lng)
-                VALUES ('$origen', '$destino', $ambulancia,
-                        $origenLat, $origenLng, $destinoLat, $destinoLng)");
+    $paciente    = "NULL";
+    $tipo        = "";
+    $descripcion = "";
 
-    header("Location: Html/Administrativo/rutas.html?guardado=si");
+    if ($lleva == "paciente") {
+        $paciente = $_POST['paciente'];
+
+        if ($paciente == "") {
+            header("Location: $vuelve?error=sinPaciente");
+            exit;
+        }
+
+    } else {
+        $tipo        = $_POST['tipoElemento'];
+        $descripcion = $_POST['descripcionElemento'];
+
+        if ($tipo == "") {
+            header("Location: $vuelve?error=sinElemento");
+            exit;
+        }
+    }
+
+    $misma = "origen = '$origen' AND destino = '$destino' AND id_ambulancia = $ambulancia";
+    $ya    = $db->query("SELECT id_ruta FROM ruta WHERE $misma")->fetch_assoc();
+
+    if ($ya) {
+        $idRuta = $ya['id_ruta'];
+
+    } else {
+        $db->query("INSERT INTO ruta (origen, destino, id_ambulancia,
+                                      origen_lat, origen_lng, destino_lat, destino_lng)
+                    VALUES ('$origen', '$destino', $ambulancia,
+                            $origenLat, $origenLng, $destinoLat, $destinoLng)");
+
+        $idRuta = $db->insert_id;
+    }
+
+    $db->query("INSERT INTO traslado (punto_origen, destino, tipo_elemento, descripcion_elemento,
+                                      id_paciente, id_ambulancia, id_ruta, estado, minutos_estimados,
+                                      copiloto_nombre, copiloto_apellido, copiloto_cedula)
+                VALUES ('$origen', '$destino', '$tipo', '$descripcion',
+                        $paciente, $ambulancia, $idRuta, 'Pendiente', $minutos,
+                        '$copilotoNombre', '$copilotoApellido', '$copilotoCedula')");
+
+    $idTraslado = $db->insert_id;
+
+    $db->query("INSERT INTO funcionario_traslado_maneja (id_funcionario, id_traslado)
+                VALUES ($chofer, $idTraslado)");
+
+    if (isset($_SESSION['id_persona'])) {
+        $quien = $_SESSION['id_persona'];
+
+        $admin = $db->query("SELECT id_funcionario FROM funcionario
+                             WHERE id_persona = $quien AND tipo_funcion = 'administrativo'")->fetch_assoc();
+
+        if ($admin) {
+            $db->query("INSERT INTO funcionario_traslado_administra (id_funcionario, id_traslado)
+                        VALUES (" . $admin['id_funcionario'] . ", $idTraslado)");
+        }
+    }
+
+    header("Location: $vuelve?guardado=si");
 }

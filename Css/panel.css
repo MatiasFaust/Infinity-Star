@@ -679,3 +679,69 @@ td.acciones .marcar {
 .secundario:hover {
     background-color: var(--grisClaro);
 }
+
+.fila {
+    display: flex;
+    gap: 10px;
+}
+
+.fila input {
+    flex: 1;
+}
+
+.estimado {
+    margin: 0 0 20px;
+    padding: 10px 14px;
+
+    background-color: var(--verdeClaro);
+    border-radius: 5px;
+
+    color: var(--grisOscuro);
+    font-size: 14px;
+}
+
+.enViaje {
+    margin-bottom: 25px;
+    padding: 20px;
+
+    background-color: var(--blanco);
+    border: 1px solid var(--grisBorde);
+    border-radius: 5px;
+
+    text-align: center;
+}
+
+.tituloViaje {
+    margin: 0;
+
+    color: var(--grisSuave);
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.enViaje h2 {
+    margin: 5px 0;
+
+    color: var(--verde);
+    font-size: 44px;
+}
+
+.enViaje p {
+    color: var(--grisTexto);
+    font-size: 14px;
+}
+
+.enViaje #mapa {
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+
+.buscarLugar {
+    margin-bottom: 12px;
+}
+
+.botonesCentro {
+    text-align: center;
+    margin: 0 0 5px;
+}
