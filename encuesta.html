@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Encuesta de satisfacción</title>
+    <link rel="stylesheet" href="Css/panel.css?v=62">
+</head>
+
+<body class="publico">
+
+    <header>
+
+        <h3>Hospital de Clínicas Montevideo</h3>
+
+    </header>
+
+    <main class="hoja">
+
+        <h1 id="titulo">Encuesta de satisfacción</h1>
+
+        <p class="aviso" id="aviso" hidden></p>
+
+        <div id="gracias" hidden>
+            <p class="ayuda">¡Gracias por responder! Tus respuestas quedaron guardadas.</p>
+        </div>
+
+        <form action="guardar.php?que=respuesta" method="POST" id="formulario">
+
+            <input type="hidden" name="encuesta" id="encuesta">
+
+            <label>Tu cédula</label>
+            <input type="text" name="cedula" id="cedula" placeholder="12345678" maxlength="8" required>
+
+            <div id="preguntas"></div>
+
+            <div class="botones">
+                <button type="submit">Enviar respuestas</button>
+            </div>
+
+        </form>
+
+    </main>
+
+    <script src="Js/comun.js?v=62"></script>
+    <script src="Js/encuesta.js?v=62"></script>
+</body>
+
+</html>
