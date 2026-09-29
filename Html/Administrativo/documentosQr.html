@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Documentos QR</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=62">
+    <link rel="stylesheet" href="../../Css/panel.css?v=65">
 </head>
 
 <body>
@@ -89,6 +89,7 @@
                 <label>Archivo PDF</label>
                 <input type="file" name="archivo" accept="application/pdf" required>
                 <p class="ayuda">Solo se aceptan archivos PDF de hasta 2 MB.</p>
+                <p class="ayuda">Los QR apuntan a <b id="direccion"></b> — el celular tiene que estar en la misma red Wi-Fi.</p>
 
                 <div class="botones">
                     <button type="submit">Cargar documento</button>
@@ -121,11 +122,11 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=62">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=65">EN</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="../../Js/comun.js?v=62"></script>
-    <script src="../../Js/documentosQr.js?v=62"></script>
+    <script src="../../Js/comun.js?v=65"></script>
+    <script src="../../Js/documentosQr.js?v=65"></script>
 </body>
 
 </html>

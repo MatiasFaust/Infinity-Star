@@ -14,7 +14,7 @@ async function cargarQr() {
 
     document.getElementById("titulo").textContent = d.titulo;
 
-    const enlace = location.origin + location.pathname.replace("imprimirQr.html", "") + "documento.php?id=" + d.idDocumento;
+    const enlace = d.enlace;
 
     new QRCode(document.getElementById("qr"), {
         text: enlace,
@@ -22,6 +22,8 @@ async function cargarQr() {
         height: 260,
         correctLevel: QRCode.CorrectLevel.M
     });
+
+    document.getElementById("enlace").textContent = enlace;
 
     document.getElementById("imprimir").addEventListener("click", function () {
         window.print();

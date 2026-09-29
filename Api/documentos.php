@@ -46,13 +46,22 @@ if ($tipo == "encuesta") {
 }
 
 if ($tipo == "documentos") {
-    responder(comoLista($db->query("SELECT id_documento AS idDocumento, titulo, archivo, fecha
+    $base = direccionPublica();
+
+    $lista = comoLista($db->query("SELECT id_documento AS idDocumento, titulo, archivo, fecha
                                     FROM documento
                                     WHERE categoria_tipo = 'pdf'
-                                    ORDER BY id_documento DESC")));
+                                    ORDER BY id_documento DESC"));
+
+    for ($i = 0; $i < count($lista); $i++) {
+        $lista[$i]['enlace'] = enlaceDelDocumento($lista[$i]['idDocumento'], $lista[$i]['archivo']);
+    }
+
+    responder(array("base" => $base, "lista" => $lista));
 }
 
 if ($tipo == "documento") {
+    $base = direccionPublica();
     $id = $_GET['id'];
 
     $fila = $db->query("SELECT id_documento AS idDocumento, titulo, archivo, fecha
@@ -62,6 +71,9 @@ if ($tipo == "documento") {
     if (!$fila) {
         responder(array());
     }
+
+    $fila["base"] = $base;
+    $fila["enlace"] = enlaceDelDocumento($fila["idDocumento"], $fila["archivo"]);
 
     responder($fila);
 }
