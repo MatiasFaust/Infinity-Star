@@ -653,3 +653,29 @@ td.acciones .marcar {
     background-color: currentColor;
     transform: translate(-50%, -50%) rotate(45deg);
 }
+
+#mapa {
+    height: 320px;
+    margin-bottom: 20px;
+
+    border: 1px solid var(--grisBorde);
+    border-radius: 5px;
+}
+
+.ayuda {
+    margin: 0 0 12px;
+
+    color: var(--grisTexto);
+    font-size: 14px;
+}
+
+.secundario {
+    background-color: var(--blanco);
+    color: var(--grisOscuro);
+
+    border: 1px solid var(--grisBorde);
+}
+
+.secundario:hover {
+    background-color: var(--grisClaro);
+}

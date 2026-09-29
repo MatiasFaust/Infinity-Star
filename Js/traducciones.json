@@ -25,6 +25,11 @@
     "Rutas registradas": "Registered routes",
     "Todavía no hay rutas cargadas.": "No routes added yet.",
     "Elegir...": "Choose...",
+    "Hacé clic en el mapa para marcar el punto de salida, y después otro clic para el de llegada.": "Click the map to mark the pick-up point, then click again for the drop-off point.",
+    "Marcalo en el mapa": "Mark it on the map",
+    "Volver a marcar": "Mark again",
+    "Salida": "Pick-up",
+    "Llegada": "Drop-off",
     "Mis traslados": "My transfers",
     "Panel de traslados": "Transfers panel",
 

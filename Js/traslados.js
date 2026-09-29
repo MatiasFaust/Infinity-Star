@@ -63,27 +63,11 @@ if (document.getElementById("matricula") && document.getElementById("id")) {
     cargarAmbulancia();
 }
 
-
-const departamentos = [
-    "Artigas", "Canelones", "Cerro Largo", "Colonia", "Durazno",
-    "Flores", "Florida", "Lavalleja", "Maldonado", "Montevideo",
-    "Paysandú", "Río Negro", "Rivera", "Rocha", "Salto",
-    "San José", "Soriano", "Tacuarembó", "Treinta y Tres"
-];
-
 function ponerOpcion(select, valor, texto) {
     const opcion = document.createElement("option");
     opcion.value = valor;
     opcion.textContent = texto;
     select.appendChild(opcion);
-}
-
-function llenarDepartamentos(select) {
-    ponerOpcion(select, "", "Elegir...");
-
-    for (let i = 0; i < departamentos.length; i++) {
-        ponerOpcion(select, departamentos[i], departamentos[i]);
-    }
 }
 
 async function llenarAmbulancias(select) {
@@ -96,9 +80,72 @@ async function llenarAmbulancias(select) {
     }
 }
 
+
+let marcaOrigen = null;
+let marcaDestino = null;
+let lineaRuta = null;
+
+function borrarMarcas(mapa) {
+    if (marcaOrigen) {
+        mapa.removeLayer(marcaOrigen);
+        marcaOrigen = null;
+    }
+
+    if (marcaDestino) {
+        mapa.removeLayer(marcaDestino);
+        marcaDestino = null;
+    }
+
+    if (lineaRuta) {
+        mapa.removeLayer(lineaRuta);
+        lineaRuta = null;
+    }
+
+    const campos = ["origen", "origenLat", "origenLng", "destino", "destinoLat", "destinoLng"];
+
+    for (let i = 0; i < campos.length; i++) {
+        document.getElementById(campos[i]).value = "";
+    }
+}
+
+async function marcarPunto(mapa, lat, lng) {
+    if (marcaOrigen && marcaDestino) {
+        borrarMarcas(mapa);
+    }
+
+    if (!marcaOrigen) {
+        marcaOrigen = L.marker([lat, lng]).addTo(mapa).bindPopup("Salida").openPopup();
+
+        document.getElementById("origenLat").value = lat;
+        document.getElementById("origenLng").value = lng;
+        document.getElementById("origen").value = "Buscando la dirección...";
+        document.getElementById("origen").value = await nombreDelPunto(lat, lng);
+        return;
+    }
+
+    marcaDestino = L.marker([lat, lng]).addTo(mapa).bindPopup("Llegada").openPopup();
+
+    document.getElementById("destinoLat").value = lat;
+    document.getElementById("destinoLng").value = lng;
+    document.getElementById("destino").value = "Buscando la dirección...";
+    document.getElementById("destino").value = await nombreDelPunto(lat, lng);
+
+    const desde = [Number(document.getElementById("origenLat").value), Number(document.getElementById("origenLng").value)];
+
+    lineaRuta = await dibujarRuta(mapa, desde, [lat, lng]);
+}
+
 async function cargarRutas() {
-    llenarDepartamentos(document.getElementById("origen"));
-    llenarDepartamentos(document.getElementById("destino"));
+    const mapa = crearMapa("mapa");
+
+    mapa.on("click", function (evento) {
+        marcarPunto(mapa, evento.latlng.lat, evento.latlng.lng);
+    });
+
+    document.getElementById("limpiar").addEventListener("click", function () {
+        borrarMarcas(mapa);
+    });
+
     await llenarAmbulancias(document.getElementById("ambulanciaRuta"));
 
     const lista = await pedir("../../Api/traslados.php?tipo=rutas");

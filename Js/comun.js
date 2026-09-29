@@ -113,7 +113,9 @@ function avisosDeLaDireccion() {
     } else if (direccion.get("error") == "matricula") {
         mensaje = "Esa matrícula ya está registrada.";
     } else if (direccion.get("error") == "mismaRuta") {
-        mensaje = "El origen y el destino no pueden ser el mismo departamento.";
+        mensaje = "El origen y el destino no pueden ser el mismo punto.";
+    } else if (direccion.get("error") == "sinMarcar") {
+        mensaje = "Marcá el origen y el destino en el mapa antes de guardar.";
     } else if (direccion.get("error") == "rutaRepetida") {
         mensaje = "Esa ruta ya está asignada a esa ambulancia.";
     } else if (direccion.get("error") == "rutaUsada") {

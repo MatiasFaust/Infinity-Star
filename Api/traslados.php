@@ -8,6 +8,8 @@ $tipo = $_GET['tipo'];
 $ambulancias = "SELECT id_ambulancia AS idAmbulancia, matricula, movil FROM ambulancia";
 
 $rutas = "SELECT ruta.id_ruta AS idRuta, ruta.origen, ruta.destino,
+                 ruta.origen_lat AS origenLat, ruta.origen_lng AS origenLng,
+                 ruta.destino_lat AS destinoLat, ruta.destino_lng AS destinoLng,
                  ambulancia.id_ambulancia AS idAmbulancia,
                  ambulancia.matricula, ambulancia.movil
           FROM ruta

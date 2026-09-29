@@ -106,8 +106,17 @@ if ($que == "ruta") {
     $origen     = $_POST['origen'];
     $destino    = $_POST['destino'];
     $ambulancia = $_POST['ambulancia'];
+    $origenLat  = $_POST['origenLat'];
+    $origenLng  = $_POST['origenLng'];
+    $destinoLat = $_POST['destinoLat'];
+    $destinoLng = $_POST['destinoLng'];
 
-    if ($origen == $destino) {
+    if ($origenLat == "" || $destinoLat == "") {
+        header("Location: Html/Administrativo/rutas.html?error=sinMarcar");
+        exit;
+    }
+
+    if ($origenLat == $destinoLat && $origenLng == $destinoLng) {
         header("Location: Html/Administrativo/rutas.html?error=mismaRuta");
         exit;
     }
@@ -119,8 +128,10 @@ if ($que == "ruta") {
         exit;
     }
 
-    $db->query("INSERT INTO ruta (origen, destino, id_ambulancia)
-                VALUES ('$origen', '$destino', $ambulancia)");
+    $db->query("INSERT INTO ruta (origen, destino, id_ambulancia,
+                                  origen_lat, origen_lng, destino_lat, destino_lng)
+                VALUES ('$origen', '$destino', $ambulancia,
+                        $origenLat, $origenLng, $destinoLat, $destinoLng)");
 
     header("Location: Html/Administrativo/rutas.html?guardado=si");
 }

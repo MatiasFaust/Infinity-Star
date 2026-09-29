@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Rutas</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=50">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="../../Css/panel.css?v=51">
 </head>
 
 <body>
@@ -53,16 +54,25 @@
 
             <form action="../../guardar.php?que=ruta" method="POST">
 
+                <p class="ayuda">Hacé clic en el mapa para marcar el punto de salida, y después otro clic para el de llegada.</p>
+
+                <div id="mapa"></div>
+
                 <label>Origen</label>
-                <select name="origen" id="origen" required></select>
+                <input type="text" name="origen" id="origen" placeholder="Marcalo en el mapa" required>
+                <input type="hidden" name="origenLat" id="origenLat">
+                <input type="hidden" name="origenLng" id="origenLng">
 
                 <label>Destino</label>
-                <select name="destino" id="destino" required></select>
+                <input type="text" name="destino" id="destino" placeholder="Marcalo en el mapa" required>
+                <input type="hidden" name="destinoLat" id="destinoLat">
+                <input type="hidden" name="destinoLng" id="destinoLng">
 
                 <label>Ambulancia asignada</label>
                 <select name="ambulancia" id="ambulanciaRuta" required></select>
 
                 <div class="botones">
+                    <button type="button" id="limpiar" class="secundario">Volver a marcar</button>
                     <button type="submit">Guardar ruta</button>
                 </div>
 
@@ -93,10 +103,12 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=50">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=51">EN</button>
 
-    <script src="../../Js/comun.js?v=50"></script>
-    <script src="../../Js/traslados.js?v=50"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../../Js/comun.js?v=51"></script>
+    <script src="../../Js/mapa.js?v=51"></script>
+    <script src="../../Js/traslados.js?v=51"></script>
 </body>
 
 </html>
