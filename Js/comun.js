@@ -120,6 +120,14 @@ function avisosDeLaDireccion() {
         mensaje = "Esa ruta ya está asignada a esa ambulancia.";
     } else if (direccion.get("error") == "rutaUsada") {
         mensaje = "No se puede eliminar: hay traslados que usan esa ruta.";
+    } else if (direccion.get("error") == "sinRuta") {
+        mensaje = "Elegí una ruta para el traslado.";
+    } else if (direccion.get("error") == "horas") {
+        mensaje = "La hora de llegada tiene que ser posterior a la de salida.";
+    } else if (direccion.get("error") == "sinPaciente") {
+        mensaje = "Elegí el paciente que se traslada.";
+    } else if (direccion.get("error") == "sinElemento") {
+        mensaje = "Escribí qué elemento se traslada.";
     }
 
     if (mensaje != "") {

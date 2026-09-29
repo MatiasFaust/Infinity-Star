@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Panel de traslados</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=51">
+    <link rel="stylesheet" href="../../Css/panel.css?v=56">
 </head>
 
 <body>
@@ -29,19 +29,16 @@
                 Inicio
             </a>
 
-            
-            <!--
+            <a href="registrarTraslado.html">
+                Registrar traslado
+            </a>
+
             <a href="verTraslados.html">
                 Ver traslados
             </a>
-            -->
 
             <a href="ambulancias.html">
                 Ambulancias
-            </a>
-
-            <a href="rutas.html">
-                Rutas
             </a>
 
             <hr>
@@ -58,10 +55,19 @@
 
             <div class="datos">
 
-                <!--
                 <div class="dato">
                     <p>Traslados registrados</p>
-                    <h2 id="total">0</h2>
+                    <h2 id="traslados">0</h2>
+                </div>
+
+                <div class="dato">
+                    <p>Pendientes</p>
+                    <h2 id="pendientes">0</h2>
+                </div>
+
+                <div class="dato">
+                    <p>Confirmados</p>
+                    <h2 id="confirmados">0</h2>
                 </div>
 
                 <div class="dato">
@@ -70,36 +76,24 @@
                 </div>
 
                 <div class="dato">
-                    <p>En retorno</p>
-                    <h2 id="retorno">0</h2>
-                </div>
-
-                <div class="dato">
                     <p>Finalizados</p>
                     <h2 id="finalizados">0</h2>
                 </div>
-                -->
 
                 <div class="dato">
                     <p>Ambulancias disponibles</p>
                     <h2 id="ambulancias">0</h2>
                 </div>
-
-                <div class="dato">
-                    <p>Rutas registradas</p>
-                    <h2 id="rutas">0</h2>
-                </div>
-
             </div>
 
         </main>
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=51">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=56">EN</button>
 
-    <script src="../../Js/comun.js?v=51"></script>
-    <script src="../../Js/traslados.js?v=51"></script>
+    <script src="../../Js/comun.js?v=56"></script>
+    <script src="../../Js/traslados.js?v=56"></script>
 </body>
 
 </html>
