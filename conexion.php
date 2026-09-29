@@ -33,3 +33,44 @@ function responder($datos) {
     echo json_encode($datos, JSON_UNESCAPED_UNICODE);
     exit;
 }
+
+function direccionPublica() {
+    if (SitioPublico != "") {
+        return SitioPublico;
+    }
+
+    $host = $_SERVER['HTTP_HOST'];
+
+    $esLocal = ($host == "localhost" || substr($host, 0, 10) == "localhost:" ||
+                substr($host, 0, 4) == "127." || $host == "[::1]");
+
+    if ($esLocal) {
+        $ip = gethostbyname(gethostname());
+
+        if ($ip != "" && substr($ip, 0, 4) != "127." && strpos($ip, ":") === false) {
+            $host = $ip;
+        }
+    }
+
+    $esquema = "http";
+
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != "" && $_SERVER['HTTPS'] != "off") {
+        $esquema = "https";
+    }
+
+    $carpeta = dirname(dirname($_SERVER['SCRIPT_NAME']));
+
+    if ($carpeta == "\\" || $carpeta == "/" || $carpeta == ".") {
+        $carpeta = "";
+    }
+
+    return $esquema . "://" . $host . str_replace("\\", "/", $carpeta);
+}
+
+function enlaceDelDocumento($idDocumento, $archivo) {
+    if (SitioDocumentos != "" && $archivo != "") {
+        return SitioDocumentos . "/Archivos/" . $archivo;
+    }
+
+    return direccionPublica() . "/documento.php?id=" . $idDocumento;
+}

@@ -1,9 +1,15 @@
+function raizDelSitio() {
+    const partes = location.pathname.split("/Html/");
+    return partes[0];
+}
+
 async function revisarSesion() {
-    const respuesta = await fetch("/Web/Api/sesion.php", { cache: "no-store" });
+    const raiz = raizDelSitio();
+    const respuesta = await fetch(raiz + "/Api/sesion.php", { cache: "no-store" });
     const hay = await respuesta.text();
 
     if (hay != "1") {
-        window.location.replace("/Web/Index.html");
+        window.location.replace(raiz + "/Index.html");
     }
 }
 
