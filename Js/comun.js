@@ -168,6 +168,24 @@ function ponerOjitos() {
     }
 }
 
+let tablaIdioma = {};
+
+const alCambiarIdioma = [];
+
+function avisarCambioDeIdioma() {
+    for (let i = 0; i < alCambiarIdioma.length; i++) {
+        alCambiarIdioma[i]();
+    }
+}
+
+function enIdioma(texto) {
+    if (tablaIdioma[texto]) {
+        return tablaIdioma[texto];
+    }
+
+    return texto;
+}
+
 async function prepararIdioma() {
     const boton = document.querySelector(".idioma");
 
@@ -219,10 +237,25 @@ async function prepararIdioma() {
         }
     }
 
+    let vigilante = null;
+
+    function traducirTodo(tabla) {
+        if (vigilante) {
+            vigilante.disconnect();
+        }
+
+        traducir(document.body, tabla);
+
+        if (vigilante) {
+            vigilante.observe(document.body, { childList: true, subtree: true });
+        }
+    }
+
     let enIngles = localStorage.getItem("idioma") == "en";
 
     if (enIngles) {
-        traducir(document.body, diccionario);
+        tablaIdioma = diccionario;
+        traducirTodo(diccionario);
         boton.textContent = "ES";
     } else {
         boton.textContent = "EN";
@@ -230,22 +263,28 @@ async function prepararIdioma() {
 
     boton.addEventListener("click", function () {
         if (enIngles) {
-            traducir(document.body, alEspanol);
+            tablaIdioma = {};
+            traducirTodo(alEspanol);
             localStorage.setItem("idioma", "es");
             boton.textContent = "EN";
             enIngles = false;
+            avisarCambioDeIdioma();
         } else {
-            traducir(document.body, diccionario);
+            tablaIdioma = diccionario;
+            traducirTodo(diccionario);
             localStorage.setItem("idioma", "en");
             boton.textContent = "ES";
             enIngles = true;
+            avisarCambioDeIdioma();
         }
     });
 
-    const vigilante = new MutationObserver(function (cambios) {
+    vigilante = new MutationObserver(function (cambios) {
         if (!enIngles) {
             return;
         }
+
+        vigilante.disconnect();
 
         for (let i = 0; i < cambios.length; i++) {
             const nuevos = cambios[i].addedNodes;
@@ -259,6 +298,8 @@ async function prepararIdioma() {
                 }
             }
         }
+
+        vigilante.observe(document.body, { childList: true, subtree: true });
     });
 
     vigilante.observe(document.body, { childList: true, subtree: true });

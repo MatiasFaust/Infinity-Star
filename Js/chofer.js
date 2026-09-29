@@ -64,9 +64,9 @@ function actualizarContador() {
     const faltan = Math.floor((llegada - ahora) / 1000 / 60);
 
     if (faltan > 0) {
-        document.getElementById("restante").textContent = "Llegada estimada en " + faltan + " minutos.";
+        document.getElementById("restante").textContent = enIdioma("Llegada estimada en") + " " + faltan + " " + enIdioma("minutos.");
     } else {
-        document.getElementById("restante").textContent = "Ya pasó la hora estimada de llegada.";
+        document.getElementById("restante").textContent = enIdioma("Ya pasó la hora estimada de llegada.");
     }
 }
 

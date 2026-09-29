@@ -120,8 +120,22 @@ function borrarMarcas(mapa) {
         document.getElementById(campos[i]).value = "";
     }
 
+    document.getElementById("estimado").dataset.km = "";
     document.getElementById("estimado").hidden = true;
 }
+
+function mostrarEstimado() {
+    const aviso = document.getElementById("estimado");
+
+    if (!aviso || !aviso.dataset.km) {
+        return;
+    }
+
+    aviso.textContent = enIdioma("Recorrido de") + " " + aviso.dataset.km + " km, " +
+                        enIdioma("unos") + " " + aviso.dataset.min + " " + enIdioma("minutos de viaje.");
+}
+
+alCambiarIdioma.push(mostrarEstimado);
 
 async function marcarPunto(mapa, lat, lng) {
     if (marcaOrigen && marcaDestino) {
@@ -133,7 +147,7 @@ async function marcarPunto(mapa, lat, lng) {
 
         document.getElementById("origenLat").value = lat;
         document.getElementById("origenLng").value = lng;
-        document.getElementById("origen").value = "Buscando la dirección...";
+        document.getElementById("origen").value = enIdioma("Buscando la dirección...");
         document.getElementById("origen").value = await nombreDelPunto(lat, lng);
         return;
     }
@@ -142,7 +156,7 @@ async function marcarPunto(mapa, lat, lng) {
 
     document.getElementById("destinoLat").value = lat;
     document.getElementById("destinoLng").value = lng;
-    document.getElementById("destino").value = "Buscando la dirección...";
+    document.getElementById("destino").value = enIdioma("Buscando la dirección...");
     document.getElementById("destino").value = await nombreDelPunto(lat, lng);
 
     const desde = [Number(document.getElementById("origenLat").value), Number(document.getElementById("origenLng").value)];
@@ -155,9 +169,12 @@ async function marcarPunto(mapa, lat, lng) {
     const aviso = document.getElementById("estimado");
 
     if (info.minutos > 0) {
-        aviso.textContent = "Recorrido de " + info.kilometros + " km, unos " + info.minutos + " minutos de viaje.";
+        aviso.dataset.km = info.kilometros;
+        aviso.dataset.min = info.minutos;
+        mostrarEstimado();
     } else {
-        aviso.textContent = "No se pudo calcular la duración del recorrido.";
+        aviso.dataset.km = "";
+        aviso.textContent = enIdioma("No se pudo calcular la duración del recorrido.");
     }
 
     aviso.hidden = false;
@@ -178,15 +195,16 @@ async function cargarRegistroTraslado() {
             return;
         }
 
-        botonBuscar.textContent = "Buscando...";
+        botonBuscar.textContent = enIdioma("Buscando...");
 
         const lugar = await buscarDireccion(campoDireccion.value);
 
-        botonBuscar.textContent = "Buscar";
+        botonBuscar.textContent = enIdioma("Buscar");
 
         if (!lugar) {
             const aviso = document.getElementById("estimado");
-            aviso.textContent = "No encontré esa dirección. Probá escribirla de otra forma o marcala en el mapa.";
+            aviso.dataset.km = "";
+            aviso.textContent = enIdioma("No encontré esa dirección. Probá escribirla de otra forma o marcala en el mapa.");
             aviso.hidden = false;
             return;
         }
