@@ -60,14 +60,7 @@ if ($que == "persona") {
 
     $vuelve = $_POST['vuelve'];
 
-/*
-} else if ($que == "traslado") {
-    $db->query("DELETE FROM funcionario_traslado_maneja WHERE id_traslado = $id");
-    $db->query("DELETE FROM traslado WHERE id_traslado = $id");
 
-    $vuelve = "verTraslados.html";
-
-*/
 } else if ($que == "ambulancia") {
     if (contar("traslado", "id_ambulancia = $id") > 0) {
         header("Location: Html/Administrativo/ambulancias.html?error=usada");
@@ -77,6 +70,16 @@ if ($que == "persona") {
     $db->query("DELETE FROM ambulancia WHERE id_ambulancia = $id");
 
     $vuelve = "ambulancias.html?borrada=si";
+
+} else if ($que == "ruta") {
+    if (contar("traslado", "id_ruta = $id") > 0) {
+        header("Location: Html/Administrativo/rutas.html?error=rutaUsada");
+        exit;
+    }
+
+    $db->query("DELETE FROM ruta WHERE id_ruta = $id");
+
+    $vuelve = "rutas.html?borrada=si";
 
 } else {
     $vuelve = "usuarios.html";

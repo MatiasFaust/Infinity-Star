@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Ver traslados</title>
+    <title>Rutas</title>
     <link rel="stylesheet" href="../../Css/panel.css?v=50">
 </head>
 
@@ -29,13 +29,6 @@
                 Inicio
             </a>
 
-            
-            <!--
-            <a href="verTraslados.html">
-                Ver traslados
-            </a>
-            -->
-
             <a href="ambulancias.html">
                 Ambulancias
             </a>
@@ -54,11 +47,26 @@
 
         <main>
 
-            <div class="parteSuperior">
+            <h1>Rutas del circuito nacional</h1>
 
-                <h1>Ver traslados</h1>
+            <p class="aviso" id="aviso" hidden></p>
 
-            </div>
+            <form action="../../guardar.php?que=ruta" method="POST">
+
+                <label>Origen</label>
+                <select name="origen" id="origen" required></select>
+
+                <label>Destino</label>
+                <select name="destino" id="destino" required></select>
+
+                <label>Ambulancia asignada</label>
+                <select name="ambulancia" id="ambulanciaRuta" required></select>
+
+                <div class="botones">
+                    <button type="submit">Guardar ruta</button>
+                </div>
+
+            </form>
 
             <div class="tabla">
 
@@ -66,24 +74,18 @@
 
                     <thead>
                         <tr>
-                            <th>Paciente o elemento</th>
-                            <th>Tipo</th>
                             <th>Origen</th>
                             <th>Destino</th>
-                            <th>Salida</th>
-                            <th>Llegada</th>
-                            <th>Móvil</th>
-                            <th>Chofer</th>
-                            <th>Estado</th>
+                            <th>Ambulancia</th>
                             <th></th>
                         </tr>
                     </thead>
 
-                    <tbody id="cuerpoTraslados"></tbody>
+                    <tbody id="cuerpoRutas"></tbody>
 
                 </table>
 
-                <p class="vacio" id="vacio" hidden>Todavía no hay traslados registrados.</p>
+                <p class="vacio" id="vacio" hidden>Todavía no hay rutas cargadas.</p>
 
             </div>
 

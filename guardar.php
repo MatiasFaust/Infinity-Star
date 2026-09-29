@@ -101,3 +101,26 @@ if ($que == "persona") {
 
     header("Location: Html/Administrativo/ambulancias.html");
 }
+
+if ($que == "ruta") {
+    $origen     = $_POST['origen'];
+    $destino    = $_POST['destino'];
+    $ambulancia = $_POST['ambulancia'];
+
+    if ($origen == $destino) {
+        header("Location: Html/Administrativo/rutas.html?error=mismaRuta");
+        exit;
+    }
+
+    $repetida = "origen = '$origen' AND destino = '$destino' AND id_ambulancia = $ambulancia";
+
+    if (contar("ruta", $repetida) > 0) {
+        header("Location: Html/Administrativo/rutas.html?error=rutaRepetida");
+        exit;
+    }
+
+    $db->query("INSERT INTO ruta (origen, destino, id_ambulancia)
+                VALUES ('$origen', '$destino', $ambulancia)");
+
+    header("Location: Html/Administrativo/rutas.html?guardado=si");
+}

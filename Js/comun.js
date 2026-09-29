@@ -112,6 +112,12 @@ function avisosDeLaDireccion() {
         mensaje = "Esa cédula ya está registrada en otra persona.";
     } else if (direccion.get("error") == "matricula") {
         mensaje = "Esa matrícula ya está registrada.";
+    } else if (direccion.get("error") == "mismaRuta") {
+        mensaje = "El origen y el destino no pueden ser el mismo departamento.";
+    } else if (direccion.get("error") == "rutaRepetida") {
+        mensaje = "Esa ruta ya está asignada a esa ambulancia.";
+    } else if (direccion.get("error") == "rutaUsada") {
+        mensaje = "No se puede eliminar: hay traslados que usan esa ruta.";
     }
 
     if (mensaje != "") {
