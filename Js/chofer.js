@@ -155,10 +155,119 @@ async function cargarMisTraslados() {
         L.marker(desde).addTo(mapa).bindPopup(enIdioma("Salida"));
         L.marker(hasta).addTo(mapa).bindPopup(enIdioma("Llegada"));
 
+        prepararBotonUbicacion();
+
         await dibujarRuta(mapa, desde, hasta);
     }
 }
 
 if (document.getElementById("cuerpoMisTraslados")) {
     cargarMisTraslados();
+}
+
+
+const segundosEntreAvisos = 20;
+
+let vigilancia = null;
+let ultimoEnvio = 0;
+
+function mostrarAvisoUbicacion(texto) {
+    const aviso = document.getElementById("avisoUbicacion");
+    aviso.textContent = texto;
+    aviso.hidden = false;
+}
+
+async function mandarUbicacion(lat, lng) {
+    const datos = new FormData();
+    datos.append("id", viaje.idTraslado);
+    datos.append("latitud", lat);
+    datos.append("longitud", lng);
+
+    const respuesta = await fetch("../../ubicacion.php", { method: "POST", body: datos });
+    const r = await respuesta.json();
+
+    if (r.ok == 1) {
+        mostrarAvisoUbicacion(enIdioma("Compartiendo ubicación") + " · " + enIdioma("último aviso") + " " + r.momento);
+    } else {
+        mostrarAvisoUbicacion(enIdioma("No se pudo enviar la ubicación."));
+    }
+}
+
+function alMoverse(pos) {
+    const ahora = Date.now();
+
+    if (ahora - ultimoEnvio < segundosEntreAvisos * 1000) {
+        return;
+    }
+
+    ultimoEnvio = ahora;
+
+    mandarUbicacion(pos.coords.latitude, pos.coords.longitude);
+}
+
+function alFallar() {
+    mostrarAvisoUbicacion(enIdioma("No diste permiso para usar la ubicación, o la página no es segura (https)."));
+    apagarUbicacion();
+}
+
+function ponerTextoBoton(prendido) {
+    const boton = document.getElementById("compartirUbicacion");
+
+    if (prendido) {
+        boton.textContent = enIdioma("Dejar de compartir");
+    } else {
+        boton.textContent = enIdioma("Compartir mi ubicación");
+    }
+}
+
+function prenderUbicacion() {
+    if (!navigator.geolocation) {
+        mostrarAvisoUbicacion(enIdioma("Este navegador no puede dar la ubicación."));
+        return;
+    }
+
+    ultimoEnvio = 0;
+
+    vigilancia = navigator.geolocation.watchPosition(alMoverse, alFallar, {
+        enableHighAccuracy: true,
+        maximumAge: 10000,
+        timeout: 20000
+    });
+
+    localStorage.setItem("compartirUbicacion", "si");
+    ponerTextoBoton(true);
+    mostrarAvisoUbicacion(enIdioma("Buscando la ubicación..."));
+}
+
+function apagarUbicacion() {
+    if (vigilancia != null) {
+        navigator.geolocation.clearWatch(vigilancia);
+        vigilancia = null;
+    }
+
+    localStorage.setItem("compartirUbicacion", "no");
+    ponerTextoBoton(false);
+}
+
+function prepararBotonUbicacion() {
+    const boton = document.getElementById("compartirUbicacion");
+
+    if (!boton || !viaje) {
+        return;
+    }
+
+    boton.addEventListener("click", function () {
+        if (vigilancia == null) {
+            prenderUbicacion();
+        } else {
+            apagarUbicacion();
+            mostrarAvisoUbicacion(enIdioma("Dejaste de compartir tu ubicación."));
+        }
+    });
+
+    if (localStorage.getItem("compartirUbicacion") == "si") {
+        prenderUbicacion();
+    } else {
+        ponerTextoBoton(false);
+    }
 }

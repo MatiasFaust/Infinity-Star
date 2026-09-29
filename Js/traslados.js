@@ -286,6 +286,16 @@ function horaOGuion(texto) {
     return fechaCorta(texto);
 }
 
+function ubicacionDelTraslado(t) {
+    if (!t.ultimaPosicion) {
+        return "-";
+    }
+
+
+    return "<a class='editar' target='_blank' href='https://www.google.com/maps?q=" + t.ultimaPosicion + "'>" +
+           fechaCorta(t.ultimoMomento) + "</a>";
+}
+
 function dibujarTraslados(lista, texto) {
     const cuerpo = document.getElementById("cuerpoTraslados");
     cuerpo.innerHTML = "";
@@ -310,6 +320,7 @@ function dibujarTraslados(lista, texto) {
             "<td>" + horaOGuion(t.llegada) + "</td>" +
             "<td>" + horaOGuion(t.llegadaReal) + "</td>" +
             "<td>" + enIdioma(t.estado) + "</td>" +
+            "<td>" + ubicacionDelTraslado(t) + "</td>" +
             "<td>" + nombreCompleto(t.nombreAdmin, t.apellidoAdmin) + "</td>";
 
         cuerpo.appendChild(fila);
