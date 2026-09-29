@@ -2,7 +2,7 @@
 
 require_once 'config.php';
 
-$db = new mysqli(BDhost, BDuser, BDpass, BDnombre);
+$db = new mysqli(BDhost, BDuser, BDpass, BDnombre, BDpuerto);
 
 function comoLista($resultado) {
     $datos = array();
