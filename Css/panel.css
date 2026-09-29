@@ -728,3 +728,55 @@ td.acciones .marcar {
     text-align: center;
     margin: 0 0 5px;
 }
+
+.publico .hoja {
+    max-width: 640px;
+    margin: 30px auto;
+    padding: 25px 30px;
+
+    background-color: var(--blanco);
+    border: 1px solid var(--grisBorde);
+    border-radius: 5px;
+}
+
+.publico header {
+    justify-content: center;
+}
+
+.fila .eliminar {
+    flex: 0 0 auto;
+}
+
+.qrGrande {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.paraImprimir {
+    text-align: center;
+}
+
+.paraImprimir h1 {
+    font-size: 22px;
+}
+
+#cuerpoDocumentos img,
+#cuerpoDocumentos canvas {
+    display: block;
+}
+
+@media print {
+    .sinImprimir {
+        display: none;
+    }
+
+    .publico header {
+        display: none;
+    }
+
+    .paraImprimir {
+        border: none;
+        margin: 0;
+    }
+}

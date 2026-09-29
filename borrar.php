@@ -71,6 +71,42 @@ if ($que == "persona") {
 
     $vuelve = "ambulancias.html?borrada=si";
 
+} else if ($que == "encuesta") {
+    $preguntas = $db->query("SELECT id_pregunta FROM pregunta WHERE id_encuesta = $id");
+
+    while ($p = $preguntas->fetch_assoc()) {
+        $db->query("DELETE FROM respuesta WHERE id_pregunta = " . $p['id_pregunta']);
+    }
+
+    $documento = $db->query("SELECT id_documento FROM encuesta WHERE id_encuesta = $id")->fetch_assoc();
+
+    $db->query("DELETE FROM encuesta_paciente_entra WHERE id_encuesta = $id");
+    $db->query("DELETE FROM pregunta WHERE id_encuesta = $id");
+    $db->query("DELETE FROM encuesta WHERE id_encuesta = $id");
+
+    if ($documento) {
+        $db->query("DELETE FROM documento WHERE id_documento = " . $documento['id_documento']);
+    }
+
+    $vuelve = "encuestas.html?borrada=si";
+
+} else if ($que == "documento") {
+    $doc = $db->query("SELECT archivo FROM documento
+                       WHERE id_documento = $id AND categoria_tipo = 'pdf'")->fetch_assoc();
+
+    if ($doc && $doc['archivo'] != "") {
+        $ruta = "Archivos/" . $doc['archivo'];
+
+        if (file_exists($ruta)) {
+            unlink($ruta);
+        }
+    }
+
+    $db->query("DELETE FROM qr WHERE id_documento = $id");
+    $db->query("DELETE FROM documento WHERE id_documento = $id");
+
+    $vuelve = "documentosQr.html?borrada=si";
+
 } else {
     $vuelve = "usuarios.html";
 }

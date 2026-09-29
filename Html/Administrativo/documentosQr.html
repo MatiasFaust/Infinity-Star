@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Documentos QR</title>
+    <link rel="stylesheet" href="../../Css/panel.css?v=62">
+</head>
+
+<body>
+
+    <header>
+
+        <h3>Hospital de Clínicas Montevideo</h3>
+
+        <a href="../../salir.php" class="cerrar">
+            Cerrar sesión
+        </a>
+
+    </header>
+
+    <div class="contenedor">
+
+        <nav>
+
+            <p class="tituloMenu">NAVEGACIÓN</p>
+
+            <a href="documentos.html">
+                Inicio DOC
+            </a>
+
+            <a href="registrar.html">
+                Registrar
+            </a>
+
+            <a href="usuarios.html">
+                Usuarios
+            </a>
+
+            <a href="documentosQr.html">
+                Documentos QR
+            </a>
+
+            <a href="encuestas.html">
+                Encuestas
+            </a>
+
+            <hr>
+
+            <a href="../Modulos.html">
+                ← Volver a módulos
+            </a>
+
+        </nav>
+
+        <main>
+
+            <h1>Documentos con QR</h1>
+
+            <p class="aviso" id="aviso" hidden></p>
+
+            <form action="../../subir.php" method="POST" enctype="multipart/form-data">
+
+                <label>Documento</label>
+                <select name="titulo" id="tituloDocumento" required>
+                    <option value="">Elegir...</option>
+                    <option>Indicaciones de interrupción voluntaria del embarazo</option>
+                    <option>Prostatectomía radical (indicaciones e información para el paciente)</option>
+                    <option>Preparación para estudios imagenológicos</option>
+                    <option>Estudios diagnósticos con pertecneciato</option>
+                    <option>Centellograma de perfusión miocárdica</option>
+                    <option>Indicaciones ecocardiograma con dobutamina</option>
+                    <option>Indicaciones para pacientes en tratamiento con warfarina</option>
+                    <option>Indicaciones ecocardiograma transesofágico</option>
+                    <option>Indicaciones para ingreso a centro de nefrología y trasplante</option>
+                    <option>Plan de alta enfermería, Nefrología</option>
+                    <option>Indicaciones de enfermería para usuarios trasplantados</option>
+                    <option>Prevención de infecciones</option>
+                    <option>Encuesta de satisfacción del usuario trasplantado</option>
+                    <option>Pauta para pacientes ostomizados</option>
+                    <option value="otro">Otro (lo escribo yo)</option>
+                </select>
+
+                <div id="parteOtro" hidden>
+                    <label>Nombre del documento</label>
+                    <input type="text" name="otroTitulo" id="otroTitulo" placeholder="Escribí el nombre">
+                </div>
+
+                <label>Archivo PDF</label>
+                <input type="file" name="archivo" accept="application/pdf" required>
+                <p class="ayuda">Solo se aceptan archivos PDF de hasta 2 MB.</p>
+
+                <div class="botones">
+                    <button type="submit">Cargar documento</button>
+                </div>
+
+            </form>
+
+            <div class="tabla">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th>Cargado</th>
+                            <th>QR</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="cuerpoDocumentos"></tbody>
+
+                </table>
+
+                <p class="vacio" id="vacio" hidden>Todavía no hay documentos cargados.</p>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=62">EN</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="../../Js/comun.js?v=62"></script>
+    <script src="../../Js/documentosQr.js?v=62"></script>
+</body>
+
+</html>
