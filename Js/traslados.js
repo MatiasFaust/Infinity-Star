@@ -26,7 +26,7 @@ async function cargarAmbulancias() {
             "<td>" + a.matricula + "</td>" +
             "<td>" + a.movil + "</td>" +
             "<td>" +
-            "<a class='editar' href='editarAmbulancia.html?id=" + a.idAmbulancia + "'>Editar</a>" +
+            "<a class='editar' href='editarAmbulancia.html?id=" + a.idAmbulancia + "'>" + enIdioma("Editar") + "</a>" +
             botonAccion("borrar.php?que=ambulancia", a.idAmbulancia, "Eliminar", "eliminar") +
             "</td>";
 
@@ -69,7 +69,7 @@ if (document.getElementById("matricula") && document.getElementById("id")) {
 function ponerOpcion(select, valor, texto) {
     const opcion = document.createElement("option");
     opcion.value = valor;
-    opcion.textContent = texto;
+    opcion.textContent = enIdioma(texto);
     select.appendChild(opcion);
 }
 
@@ -143,7 +143,7 @@ async function marcarPunto(mapa, lat, lng) {
     }
 
     if (!marcaOrigen) {
-        marcaOrigen = L.marker([lat, lng]).addTo(mapa).bindPopup("Salida").openPopup();
+        marcaOrigen = L.marker([lat, lng]).addTo(mapa).bindPopup(enIdioma("Salida")).openPopup();
 
         document.getElementById("origenLat").value = lat;
         document.getElementById("origenLng").value = lng;
@@ -152,7 +152,7 @@ async function marcarPunto(mapa, lat, lng) {
         return;
     }
 
-    marcaDestino = L.marker([lat, lng]).addTo(mapa).bindPopup("Llegada").openPopup();
+    marcaDestino = L.marker([lat, lng]).addTo(mapa).bindPopup(enIdioma("Llegada")).openPopup();
 
     document.getElementById("destinoLat").value = lat;
     document.getElementById("destinoLng").value = lng;
@@ -309,7 +309,7 @@ function dibujarTraslados(lista, texto) {
             "<td>" + horaOGuion(t.salida) + "</td>" +
             "<td>" + horaOGuion(t.llegada) + "</td>" +
             "<td>" + horaOGuion(t.llegadaReal) + "</td>" +
-            "<td>" + t.estado + "</td>" +
+            "<td>" + enIdioma(t.estado) + "</td>" +
             "<td>" + nombreCompleto(t.nombreAdmin, t.apellidoAdmin) + "</td>";
 
         cuerpo.appendChild(fila);

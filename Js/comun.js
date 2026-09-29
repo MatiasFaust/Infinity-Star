@@ -18,6 +18,8 @@ async function pedir(url) {
 }
 
 function botonAccion(accion, id, texto, clase, extra) {
+    texto = enIdioma(texto);
+
     let campos = "<input type='hidden' name='id' value='" + id + "'>";
 
     if (extra) {
@@ -112,6 +114,20 @@ function avisosDeLaDireccion() {
         mensaje = "Esa cédula ya está registrada en otra persona.";
     } else if (direccion.get("error") == "matricula") {
         mensaje = "Esa matrícula ya está registrada.";
+    } else if (direccion.get("error") == "sinPreguntas") {
+        mensaje = "Escribí al menos una pregunta para la encuesta.";
+    } else if (direccion.get("error") == "noEsPaciente") {
+        mensaje = "Esa cédula no está registrada como paciente del hospital.";
+    } else if (direccion.get("error") == "yaRespondio") {
+        mensaje = "Con esa cédula ya se respondió esta encuesta.";
+    } else if (direccion.get("error") == "sinTitulo") {
+        mensaje = "Elegí o escribí el nombre del documento.";
+    } else if (direccion.get("error") == "noEsPdf") {
+        mensaje = "El archivo tiene que ser un PDF.";
+    } else if (direccion.get("error") == "archivoGrande") {
+        mensaje = "No se pudo subir el archivo. Fijate que sea un PDF de menos de 2 MB.";
+    } else if (direccion.get("error") == "noSeGuardo") {
+        mensaje = "No se pudo guardar el archivo en el servidor.";
     } else if (direccion.get("error") == "mismaRuta") {
         mensaje = "El origen y el destino no pueden ser el mismo punto.";
     } else if (direccion.get("error") == "sinMarcar") {
@@ -131,7 +147,7 @@ function avisosDeLaDireccion() {
     }
 
     if (mensaje != "") {
-        aviso.textContent = mensaje;
+        aviso.textContent = enIdioma(mensaje);
         aviso.hidden = false;
     }
 }
@@ -151,24 +167,26 @@ function ponerOjitos() {
         ojo.type = "button";
         ojo.className = "ojo";
         ojo.textContent = "👁";
-        ojo.title = "Ver contraseña";
+        ojo.title = enIdioma("Ver contraseña");
         marco.appendChild(ojo);
 
         ojo.addEventListener("click", function () {
             if (clave.type == "password") {
                 clave.type = "text";
                 ojo.classList.add("tachado");
-                ojo.title = "Ocultar contraseña";
+                ojo.title = enIdioma("Ocultar contraseña");
             } else {
                 clave.type = "password";
                 ojo.classList.remove("tachado");
-                ojo.title = "Ver contraseña";
+                ojo.title = enIdioma("Ver contraseña");
             }
         });
     }
 }
 
 let tablaIdioma = {};
+let tablaAlEspanol = {};
+let yaTraducido = false;
 
 const alCambiarIdioma = [];
 
@@ -186,6 +204,80 @@ function enIdioma(texto) {
     return texto;
 }
 
+function traducirTexto(nodo, tabla) {
+    const original = nodo.nodeValue.trim();
+    const limpio = original.replace(/\s+/g, " ");
+
+    if (tabla[limpio]) {
+        nodo.nodeValue = nodo.nodeValue.replace(original, tabla[limpio]);
+    }
+}
+
+function traducirElemento(elemento, tabla) {
+    const hijos = elemento.childNodes;
+
+    for (let i = 0; i < hijos.length; i++) {
+        if (hijos[i].nodeType == 3) {
+            traducirTexto(hijos[i], tabla);
+        }
+    }
+
+    if (elemento.placeholder && tabla[elemento.placeholder]) {
+        elemento.placeholder = tabla[elemento.placeholder];
+    }
+
+    if (elemento.title && tabla[elemento.title]) {
+        elemento.title = tabla[elemento.title];
+    }
+}
+
+function traducir(raiz, tabla) {
+    traducirElemento(raiz, tabla);
+
+    const elementos = raiz.querySelectorAll("*");
+
+    for (let i = 0; i < elementos.length; i++) {
+        traducirElemento(elementos[i], tabla);
+    }
+}
+
+function armarVuelta(diccionario) {
+    const vuelta = {};
+
+    for (const palabra in diccionario) {
+        vuelta[diccionario[palabra]] = palabra;
+    }
+
+    return vuelta;
+}
+
+function diccionarioGuardado() {
+    try {
+        return JSON.parse(localStorage.getItem("diccionario"));
+    } catch (error) {
+        return null;
+    }
+}
+
+function traducirApenasCarga() {
+    if (localStorage.getItem("idioma") != "en") {
+        return;
+    }
+
+    const diccionario = diccionarioGuardado();
+
+    if (!diccionario) {
+        return;
+    }
+
+    tablaIdioma = diccionario;
+    tablaAlEspanol = armarVuelta(diccionario);
+
+    traducir(document.body, diccionario);
+
+    yaTraducido = true;
+}
+
 async function prepararIdioma() {
     const boton = document.querySelector(".idioma");
 
@@ -194,49 +286,12 @@ async function prepararIdioma() {
     }
 
     const diccionario = await pedir(boton.dataset.traducciones);
-    const alEspanol = {};
 
-    for (const palabra in diccionario) {
-        alEspanol[diccionario[palabra]] = palabra;
-    }
+    localStorage.setItem("diccionario", JSON.stringify(diccionario));
 
-    function traducirTexto(nodo, tabla) {
-        const original = nodo.nodeValue.trim();
-        const limpio = original.replace(/\s+/g, " ");
+    tablaAlEspanol = armarVuelta(diccionario);
 
-        if (tabla[limpio]) {
-            nodo.nodeValue = nodo.nodeValue.replace(original, tabla[limpio]);
-        }
-    }
-
-    function traducirElemento(elemento, tabla) {
-        const hijos = elemento.childNodes;
-
-        for (let i = 0; i < hijos.length; i++) {
-            if (hijos[i].nodeType == 3) {
-                traducirTexto(hijos[i], tabla);
-            }
-        }
-
-        if (elemento.placeholder && tabla[elemento.placeholder]) {
-            elemento.placeholder = tabla[elemento.placeholder];
-        }
-
-        if (elemento.title && tabla[elemento.title]) {
-            elemento.title = tabla[elemento.title];
-        }
-    }
-
-    function traducir(raiz, tabla) {
-        traducirElemento(raiz, tabla);
-
-        const elementos = raiz.querySelectorAll("*");
-
-        for (let i = 0; i < elementos.length; i++) {
-            traducirElemento(elementos[i], tabla);
-        }
-    }
-
+    let enIngles = localStorage.getItem("idioma") == "en";
     let vigilante = null;
 
     function traducirTodo(tabla) {
@@ -251,11 +306,14 @@ async function prepararIdioma() {
         }
     }
 
-    let enIngles = localStorage.getItem("idioma") == "en";
-
     if (enIngles) {
         tablaIdioma = diccionario;
-        traducirTodo(diccionario);
+
+        if (!yaTraducido) {
+            traducir(document.body, diccionario);
+            yaTraducido = true;
+        }
+
         boton.textContent = "ES";
     } else {
         boton.textContent = "EN";
@@ -264,19 +322,21 @@ async function prepararIdioma() {
     boton.addEventListener("click", function () {
         if (enIngles) {
             tablaIdioma = {};
-            traducirTodo(alEspanol);
+            traducirTodo(tablaAlEspanol);
             localStorage.setItem("idioma", "es");
             boton.textContent = "EN";
             enIngles = false;
-            avisarCambioDeIdioma();
+            yaTraducido = false;
         } else {
             tablaIdioma = diccionario;
             traducirTodo(diccionario);
             localStorage.setItem("idioma", "en");
             boton.textContent = "ES";
             enIngles = true;
-            avisarCambioDeIdioma();
+            yaTraducido = true;
         }
+
+        avisarCambioDeIdioma();
     });
 
     vigilante = new MutationObserver(function (cambios) {
@@ -322,6 +382,7 @@ function limitarCampos() {
     }
 }
 
+traducirApenasCarga();
 marcarActivo();
 avisosDeLaDireccion();
 ponerOjitos();

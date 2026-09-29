@@ -129,7 +129,7 @@ async function cargarMisTraslados() {
             "<td>" + t.destino + "</td>" +
             "<td>" + t.movil + "</td>" +
             "<td>" + estimado + "</td>" +
-            "<td>" + t.estado + "</td>" +
+            "<td>" + enIdioma(t.estado) + "</td>" +
             "<td>" + botonDelEstado(t) + "</td>";
 
         cuerpo.appendChild(fila);
@@ -152,8 +152,8 @@ async function cargarMisTraslados() {
         const desde = [Number(viaje.origenLat), Number(viaje.origenLng)];
         const hasta = [Number(viaje.destinoLat), Number(viaje.destinoLng)];
 
-        L.marker(desde).addTo(mapa).bindPopup("Salida");
-        L.marker(hasta).addTo(mapa).bindPopup("Llegada");
+        L.marker(desde).addTo(mapa).bindPopup(enIdioma("Salida"));
+        L.marker(hasta).addTo(mapa).bindPopup(enIdioma("Llegada"));
 
         await dibujarRuta(mapa, desde, hasta);
     }

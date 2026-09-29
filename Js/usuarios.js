@@ -38,7 +38,7 @@ function dibujarGrupo(rol, lista, texto) {
         }
 
         celdas = celdas + "<td>";
-        celdas = celdas + "<a class='editar' href='editarUsuario.html?id=" + u.idPersona + "'>Editar</a>";
+        celdas = celdas + "<a class='editar' href='editarUsuario.html?id=" + u.idPersona + "'>" + enIdioma("Editar") + "</a>";
         celdas = celdas + botonAccion("borrar.php?que=persona", u.idPersona, "Eliminar", "eliminar", { vuelve: "usuarios.html", rol: rol });
         celdas = celdas + "</td>";
 
