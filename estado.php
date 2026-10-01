@@ -29,6 +29,8 @@ if ($mio == 0) {
     exit;
 }
 
+$queHizo = "";
+
 if ($accion == "confirmar") {
     $db->query("UPDATE traslado SET estado = 'Confirmado'
                 WHERE id_traslado = $id AND estado = 'Pendiente'");
@@ -40,10 +42,32 @@ if ($accion == "confirmar") {
                     tiempo_llegada = DATE_ADD(NOW(), INTERVAL IFNULL(minutos_estimados, 0) MINUTE)
                 WHERE id_traslado = $id AND estado = 'Confirmado'");
 
+} else if ($accion == "llegue") {
+    $db->query("UPDATE traslado
+                SET estado = 'En retorno', llegada_real = NOW()
+                WHERE id_traslado = $id AND estado = 'En curso'");
+
 } else if ($accion == "finalizar") {
     $db->query("UPDATE traslado
-                SET estado = 'Finalizado', llegada_real = NOW()
-                WHERE id_traslado = $id AND estado = 'En curso'");
+                SET estado = 'Finalizado'
+                WHERE id_traslado = $id AND estado = 'En retorno'");
+}
+
+if ($accion == "confirmar") {
+    $queHizo = "Confirmó el traslado " . $id;
+
+} else if ($accion == "iniciar") {
+    $queHizo = "Salió con el traslado " . $id;
+
+} else if ($accion == "llegue") {
+    $queHizo = "Llegó al destino del traslado " . $id;
+
+} else if ($accion == "finalizar") {
+    $queHizo = "Volvió al hospital con el traslado " . $id;
+}
+
+if ($queHizo != "") {
+    anotar($_SESSION['id_persona'], $queHizo);
 }
 
 header("Location: $vuelve?guardado=si");

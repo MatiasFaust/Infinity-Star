@@ -1,7 +1,7 @@
 async function cargarInicio() {
     const d = await pedir("../../Api/traslados.php?tipo=contadores");
 
-    const tarjetas = ["traslados", "pendientes", "confirmados", "curso", "finalizados", "ambulancias"];
+    const tarjetas = ["traslados", "pendientes", "confirmados", "curso", "retorno", "finalizados", "ambulancias"];
 
     for (let i = 0; i < tarjetas.length; i++) {
         document.getElementById(tarjetas[i]).textContent = d[tarjetas[i]];
@@ -278,23 +278,7 @@ function queSeTraslada(t) {
     return "-";
 }
 
-function horaOGuion(texto) {
-    if (!texto) {
-        return "-";
-    }
 
-    return fechaCorta(texto);
-}
-
-function ubicacionDelTraslado(t) {
-    if (!t.ultimaPosicion) {
-        return "-";
-    }
-
-
-    return "<a class='editar' target='_blank' href='https://www.google.com/maps?q=" + t.ultimaPosicion + "'>" +
-           fechaCorta(t.ultimoMomento) + "</a>";
-}
 
 function dibujarTraslados(lista, texto) {
     const cuerpo = document.getElementById("cuerpoTraslados");
@@ -320,7 +304,6 @@ function dibujarTraslados(lista, texto) {
             "<td>" + horaOGuion(t.llegada) + "</td>" +
             "<td>" + horaOGuion(t.llegadaReal) + "</td>" +
             "<td>" + enIdioma(t.estado) + "</td>" +
-            "<td>" + ubicacionDelTraslado(t) + "</td>" +
             "<td>" + nombreCompleto(t.nombreAdmin, t.apellidoAdmin) + "</td>";
 
         cuerpo.appendChild(fila);

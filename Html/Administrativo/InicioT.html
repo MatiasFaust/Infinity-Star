@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Panel de traslados</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=68">
+    <link rel="stylesheet" href="../../Css/panel.css?v=83">
 </head>
 
 <body>
@@ -77,6 +78,11 @@
                 </div>
 
                 <div class="dato">
+                    <p>En retorno</p>
+                    <h2 id="retorno">0</h2>
+                </div>
+
+                <div class="dato">
                     <p>Finalizados</p>
                     <h2 id="finalizados">0</h2>
                 </div>
@@ -91,10 +97,10 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=68">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=83">EN</button>
 
-    <script src="../../Js/comun.js?v=68"></script>
-    <script src="../../Js/traslados.js?v=68"></script>
+    <script src="../../Js/comun.js?v=83"></script>
+    <script src="../../Js/traslados.js?v=83"></script>
 </body>
 
 </html>

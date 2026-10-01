@@ -23,6 +23,7 @@ if ($tipo == "contadores") {
         'pendientes'  => contar("traslado", "estado = 'Pendiente'"),
         'confirmados' => contar("traslado", "estado = 'Confirmado'"),
         'curso'       => contar("traslado", "estado = 'En curso'"),
+        'retorno'     => contar("traslado", "estado = 'En retorno'"),
         'finalizados' => contar("traslado", "estado = 'Finalizado'")
     ));
 }
@@ -114,12 +115,6 @@ if ($tipo == "lista") {
                                            traslado.copiloto_apellido    AS copilotoApellido,
                                            ambulancia.matricula, ambulancia.movil,
                                            paci.nombre AS nombrePaciente, paci.apellido AS apellidoPaciente,
-                                           (SELECT CONCAT(latitud, ',', longitud) FROM posicion
-                                            WHERE posicion.id_traslado = traslado.id_traslado
-                                            ORDER BY id_posicion DESC LIMIT 1) AS ultimaPosicion,
-                                           (SELECT momento FROM posicion
-                                            WHERE posicion.id_traslado = traslado.id_traslado
-                                            ORDER BY id_posicion DESC LIMIT 1) AS ultimoMomento,
                                            chof.nombre AS nombreChofer,  chof.apellido AS apellidoChofer,
                                            admi.nombre AS nombreAdmin,   admi.apellido AS apellidoAdmin
                                     FROM traslado
