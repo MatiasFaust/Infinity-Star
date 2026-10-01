@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Superadministrador</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=83">
+    <link rel="stylesheet" href="../../Css/panel.css?v=84">
 </head>
 
 <body>
@@ -49,28 +49,14 @@
 
                 <h2>Tokens de acceso</h2>
 
-                <p class="ayuda">Es el código que necesita un funcionario para poder registrarse.</p>
-
-                <form action="../../super.php" method="POST">
-                    <input type="hidden" name="accion" value="guardarToken">
-
-                    <div class="fila">
-                        <input type="text" name="codigo" placeholder="Funcionario2026" required>
-                        <select name="tipo">
-                            <option value="registro">Para registrarse</option>
-                            <option value="eliminar">Para eliminar</option>
-                        </select>
-                        <button type="submit">Agregar token</button>
-                    </div>
-                </form>
+                <p class="ayuda">Cada acción tiene su propio token. Cambiá el que quieras y guardá.</p>
 
                 <table>
 
                     <thead>
                         <tr>
-                            <th>Código</th>
                             <th>Para qué sirve</th>
-                            <th></th>
+                            <th>Token</th>
                         </tr>
                     </thead>
 
@@ -141,10 +127,10 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=83">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=84">EN</button>
 
-    <script src="../../Js/comun.js?v=83"></script>
-    <script src="../../Js/superadmin.js?v=83"></script>
+    <script src="../../Js/comun.js?v=84"></script>
+    <script src="../../Js/superadmin.js?v=84"></script>
 </body>
 
 </html>

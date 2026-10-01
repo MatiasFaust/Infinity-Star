@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Editar ambulancia</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=83">
+    <link rel="stylesheet" href="../../Css/panel.css?v=84">
 </head>
 
 <body>
@@ -66,6 +66,9 @@
                 <label>Móvil</label>
                 <input type="text" name="movil" id="movil" required>
 
+                <label>Token para editar</label>
+                <input type="password" name="token" placeholder="El token de editar ambulancias" required>
+
                 <div class="botones">
                     <a href="ambulancias.html">Cancelar</a>
                     <button type="submit">Guardar cambios</button>
@@ -77,10 +80,10 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=83">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=84">EN</button>
 
-    <script src="../../Js/comun.js?v=83"></script>
-    <script src="../../Js/traslados.js?v=83"></script>
+    <script src="../../Js/comun.js?v=84"></script>
+    <script src="../../Js/traslados.js?v=84"></script>
 </body>
 
 </html>

@@ -20,68 +20,31 @@ $yo     = $_SESSION['id_persona'];
 $accion = $_POST['accion'];
 
 if ($accion == "guardarToken") {
+    $id     = $_POST['id'];
     $codigo = trim($_POST['codigo']);
-
-    $tipoToken = "registro";
-
-    if (isset($_POST["tipo"]) && $_POST["tipo"] == "eliminar") {
-        $tipoToken = "eliminar";
-    }
 
     if ($codigo == "") {
         header("Location: $vuelve?error=sinCodigo");
         exit;
     }
 
-    $id = "";
-
-    if (isset($_POST['id'])) {
-        $id = $_POST['id'];
-    }
-
-    $repetido = "codigo = '$codigo'";
-
-    if ($id != "") {
-        $repetido = $repetido . " AND id_clave <> $id";
-    }
-
-    if (contar("clave_acceso", $repetido) > 0) {
+    if (contar("token", "codigo = '$codigo' AND id_token <> $id") > 0) {
         header("Location: $vuelve?error=tokenRepetido");
         exit;
     }
 
-    if ($id == "") {
-        $db->query("INSERT INTO clave_acceso (codigo, tipo) VALUES ('$codigo', '$tipoToken')");
-        anotar($yo, "Creó el token de acceso " . $codigo);
+    $cual = $db->query("SELECT accion FROM token WHERE id_token = $id")->fetch_assoc();
 
-    } else {
-        $db->query("UPDATE clave_acceso SET codigo = '$codigo' WHERE id_clave = $id");
-        anotar($yo, "Cambió un token de acceso a " . $codigo);
+    $db->query("UPDATE token SET codigo = '$codigo' WHERE id_token = $id");
+
+    if ($cual) {
+        anotar($yo, "Cambió el token de " . $cual['accion']);
     }
 
     header("Location: $vuelve?guardado=si");
     exit;
 }
 
-if ($accion == "borrarToken") {
-    $id = $_POST['id'];
-
-    if (contar("clave_acceso", "") <= 1) {
-        header("Location: $vuelve?error=ultimoToken");
-        exit;
-    }
-
-    $clave = $db->query("SELECT codigo FROM clave_acceso WHERE id_clave = $id")->fetch_assoc();
-
-    $db->query("DELETE FROM clave_acceso WHERE id_clave = $id");
-
-    if ($clave) {
-        anotar($yo, "Borró el token de acceso " . $clave['codigo']);
-    }
-
-    header("Location: $vuelve?borrada=si");
-    exit;
-}
 
 $id = $_POST['id'];
 

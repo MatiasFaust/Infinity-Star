@@ -24,23 +24,35 @@ if (isset($_POST['tokenBorrado'])) {
     $tokenBorrado = trim($_POST['tokenBorrado']);
 }
 
-if ($que == "persona" || $que == "docPaciente" || $que == "ambulancia") {
-    if (contar("clave_acceso", "codigo = '$tokenBorrado' AND tipo = 'eliminar'") == 0) {
-        $vuelve = "usuarios.html";
+$queToken = "";
+$vuelveSiFalla = "usuarios.html";
 
-        if (isset($_POST['vuelve'])) {
-            $vuelve = $_POST['vuelve'];
-        }
+if ($que == "persona") {
+    $queToken = "eliminarPersona";
 
-        if ($que == "docPaciente") {
-            $vuelve = "documentosPaciente.html";
-        }
+    if (isset($_POST['vuelve'])) {
+        $vuelveSiFalla = $_POST['vuelve'];
+    }
+}
 
-        if ($que == "ambulancia") {
-            $vuelve = "ambulancias.html";
-        }
+if ($que == "docPaciente") {
+    $queToken = "eliminarDocumento";
+    $vuelveSiFalla = "documentosPaciente.html";
+}
 
-        header("Location: Html/Administrativo/" . $vuelve . "?error=tokenBorrado");
+if ($que == "documento") {
+    $queToken = "eliminarDocumento";
+    $vuelveSiFalla = "documentosQr.html";
+}
+
+if ($que == "ambulancia") {
+    $queToken = "eliminarAmbulancia";
+    $vuelveSiFalla = "ambulancias.html";
+}
+
+if ($queToken != "") {
+    if (!tokenCorrecto($queToken, $tokenBorrado)) {
+        header("Location: Html/Administrativo/" . $vuelveSiFalla . "?error=tokenBorrado");
         exit;
     }
 }

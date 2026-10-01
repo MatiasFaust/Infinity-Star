@@ -11,6 +11,11 @@ if (!esSuperadmin()) {
 $tipo = $_GET['tipo'];
 
 if ($tipo == "tokens") {
+    responder(comoLista($db->query("SELECT id_token AS idToken, accion, codigo
+                                    FROM token ORDER BY id_token")));
+}
+
+if ($tipo == "tokensViejos") {
     responder(comoLista($db->query("SELECT id_clave AS idClave, codigo, tipo
                                     FROM clave_acceso
                                     ORDER BY tipo, id_clave")));

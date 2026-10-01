@@ -23,13 +23,11 @@ if ($que == "persona") {
         $formulario = $_POST['formulario'];
     }
 
-    if ($rol != "paciente") {
-        $token = $_POST['token'];
+    $token = $_POST['token'];
 
-        if (contar("clave_acceso", "codigo = '$token'") == 0) {
-            header("Location: $formulario?error=token");
-            exit;
-        }
+    if (!tokenCorrecto("registrar" . ucfirst($rol), $token)) {
+        header("Location: $formulario?error=token");
+        exit;
     }
 
     $nombre    = $_POST['nombre'];

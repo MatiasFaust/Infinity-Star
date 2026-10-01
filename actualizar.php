@@ -36,6 +36,17 @@ if ($que == "persona") {
     header("Location: Html/Administrativo/usuarios.html");
 
 } else if ($que == "ambulancia") {
+    $token = "";
+
+    if (isset($_POST["token"])) {
+        $token = $_POST["token"];
+    }
+
+    if (!tokenCorrecto("editarAmbulancia", $token)) {
+        header("Location: Html/Administrativo/editarAmbulancia.html?id=" . $_POST["id"] . "&error=token");
+        exit;
+    }
+
     $matricula = $_POST['matricula'];
     $movil     = $_POST['movil'];
 

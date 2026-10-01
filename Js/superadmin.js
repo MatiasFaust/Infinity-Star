@@ -16,12 +16,17 @@ function botonSuper(accion, id, texto, clase, extra) {
     return html;
 }
 
-function nombreDelTipo(tipo) {
-    if (tipo == "eliminar") {
-        return "Para eliminar";
-    }
 
-    return "Para registrarse";
+function nombreDeLaAccion(accion) {
+    if (accion == "registrarPaciente") { return "Registrar un paciente"; }
+    if (accion == "registrarFuncionario") { return "Registrar un administrativo"; }
+    if (accion == "registrarChofer") { return "Registrar un chofer"; }
+    if (accion == "eliminarPersona") { return "Eliminar una persona"; }
+    if (accion == "editarAmbulancia") { return "Editar una ambulancia"; }
+    if (accion == "eliminarAmbulancia") { return "Eliminar una ambulancia"; }
+    if (accion == "eliminarDocumento") { return "Eliminar un documento"; }
+
+    return accion;
 }
 
 async function cargarTokens() {
@@ -40,16 +45,15 @@ async function cargarTokens() {
         const fila = document.createElement("tr");
 
         fila.innerHTML =
+            "<td>" + enIdioma(nombreDeLaAccion(t.accion)) + "</td>" +
             "<td>" +
             "<form class='enLinea' method='POST' action='../../super.php'>" +
             "<input type='hidden' name='accion' value='guardarToken'>" +
-            "<input type='hidden' name='id' value='" + t.idClave + "'>" +
+            "<input type='hidden' name='id' value='" + t.idToken + "'>" +
             "<input type='text' name='codigo' value='" + t.codigo + "' required>" +
             "<button type='submit' class='editar'>" + enIdioma("Guardar") + "</button>" +
             "</form>" +
-            "</td>" +
-            "<td>" + enIdioma(nombreDelTipo(t.tipo)) + "</td>" +
-            "<td>" + botonSuper("borrarToken", t.idClave, "Eliminar", "eliminar") + "</td>";
+            "</td>";
 
         cuerpo.appendChild(fila);
     }

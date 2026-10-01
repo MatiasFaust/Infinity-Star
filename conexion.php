@@ -97,3 +97,16 @@ function esSuperadmin() {
 
     return contar("funcionario", "id_persona = $quien AND tipo_funcion = 'superadmin'") > 0;
 }
+
+function tokenCorrecto($accion, $codigo) {
+    global $db;
+
+    $accion = $db->real_escape_string($accion);
+    $codigo = $db->real_escape_string(trim($codigo));
+
+    if ($codigo == "") {
+        return false;
+    }
+
+    return contar("token", "accion = '$accion' AND codigo = '$codigo'") > 0;
+}
