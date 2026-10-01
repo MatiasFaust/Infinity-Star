@@ -64,8 +64,22 @@ function horaOGuion(texto) {
 
 
 
+function sinTildes(texto) {
+    texto = texto.toLowerCase();
+
+    texto = texto.replace(/á/g, "a");
+    texto = texto.replace(/é/g, "e");
+    texto = texto.replace(/í/g, "i");
+    texto = texto.replace(/ó/g, "o");
+    texto = texto.replace(/ú/g, "u");
+    texto = texto.replace(/ü/g, "u");
+    texto = texto.replace(/ñ/g, "n");
+
+    return texto;
+}
+
 function filtrar(lista, texto, campos) {
-    const busqueda = texto.toLowerCase();
+    const busqueda = sinTildes(texto);
     const resultado = [];
 
     for (let i = 0; i < lista.length; i++) {
@@ -78,7 +92,7 @@ function filtrar(lista, texto, campos) {
             }
         }
 
-        if (todo.toLowerCase().indexOf(busqueda) != -1) {
+        if (sinTildes(todo).indexOf(busqueda) != -1) {
             resultado.push(lista[i]);
         }
     }

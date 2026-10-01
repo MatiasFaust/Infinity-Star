@@ -285,7 +285,9 @@ function dibujarTraslados(lista, texto) {
     cuerpo.innerHTML = "";
 
     const encontrados = filtrar(lista, texto, ["origen", "destino", "nombrePaciente", "apellidoPaciente",
-                                               "nombreChofer", "apellidoChofer", "tipo", "estado", "movil"]);
+                                               "nombreChofer", "apellidoChofer", "copilotoNombre", "copilotoApellido",
+                                               "nombreAdmin", "apellidoAdmin", "tipo", "descripcion",
+                                               "estado", "movil", "matricula"]);
 
     document.getElementById("vacio").hidden = encontrados.length > 0;
 
