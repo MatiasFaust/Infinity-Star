@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
+    <title>Nueva contraseña</title>
+    <link rel="stylesheet" href="Css/panel.css?v=83">
+</head>
+
+<body class="publico">
+
+    <header>
+
+        <h3>Hospital de Clínicas Montevideo</h3>
+
+    </header>
+
+    <main class="hoja">
+
+        <h1>Poner una contraseña nueva</h1>
+
+        <p class="aviso" id="aviso" hidden></p>
+
+        <form action="guardarClave.php" method="POST" id="formulario">
+
+            <input type="hidden" name="codigo" id="codigo">
+
+            <label>Contraseña nueva</label>
+            <input type="password" name="contrasena" minlength="8" maxlength="16" required>
+
+            <p class="ayuda">Tiene que tener al menos 8 letras o números.</p>
+
+            <div class="botones">
+                <button type="submit">Guardar contraseña</button>
+            </div>
+
+        </form>
+
+    </main>
+
+    <script src="Js/comun.js?v=83"></script>
+    <script src="Js/nuevaClave.js?v=83"></script>
+</body>
+
+</html>
