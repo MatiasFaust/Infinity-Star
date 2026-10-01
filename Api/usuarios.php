@@ -5,7 +5,7 @@ require_once '../conexion.php';
 $tipo = $_GET['tipo'];
 
 $columnas = "persona.id_persona AS idPersona, persona.nombre, persona.apellido,
-             persona.cedula, persona.correo, persona.direccion,
+             persona.cedula, persona.correo, persona.direccion, persona.telefono,
              usuario.usuario";
 
 $cuenta = "LEFT JOIN usuario ON usuario.id_persona = persona.id_persona";
@@ -33,6 +33,30 @@ if ($tipo == "uno") {
     $fila['rol'] = implode(", ", $roles);
 
     responder($fila);
+}
+
+if ($tipo == "buscarPaciente") {
+    $texto = "";
+
+    if (isset($_GET['q'])) {
+        $texto = $db->real_escape_string(trim($_GET['q']));
+    }
+
+    if ($texto == "") {
+        responder(array());
+    }
+
+    responder(comoLista($db->query("SELECT paciente.id_paciente AS idPaciente,
+                                           persona.nombre, persona.apellido,
+                                           persona.cedula, persona.correo
+                                    FROM paciente
+                                    JOIN persona ON persona.id_persona = paciente.id_persona
+                                    WHERE persona.nombre LIKE '%$texto%'
+                                    OR persona.apellido LIKE '%$texto%'
+                                    OR persona.cedula LIKE '%$texto%'
+                                    OR persona.correo LIKE '%$texto%'
+                                    ORDER BY persona.apellido
+                                    LIMIT 15")));
 }
 
 $rol = "";

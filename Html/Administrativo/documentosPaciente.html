@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
+    <title>Documentos del paciente</title>
+    <link rel="stylesheet" href="../../Css/panel.css?v=83">
+</head>
+
+<body>
+
+    <header>
+
+        <h3>Hospital de Clínicas Montevideo</h3>
+
+        <a href="../../salir.php" class="cerrar">
+            Cerrar sesión
+        </a>
+
+    </header>
+
+    <div class="contenedor">
+
+        <nav>
+
+            <p class="tituloMenu">NAVEGACIÓN</p>
+
+            <a href="documentos.html">
+                Inicio DOC
+            </a>
+
+            <a href="registrar.html">
+                Registrar
+            </a>
+
+            <a href="usuarios.html">
+                Usuarios
+            </a>
+
+            <a href="documentosQr.html">
+                Documentos QR
+            </a>
+
+            <a href="documentosPaciente.html">
+                Documentos del paciente
+            </a>
+
+
+            <hr>
+
+            <a href="../Modulos.html">
+                ← Volver a módulos
+            </a>
+
+        </nav>
+
+        <main>
+
+            <h1>Documentos del paciente</h1>
+
+            <p class="ayuda">Acá se cargan los diagnósticos y resultados de cada paciente. Después se le manda el enlace por WhatsApp, y solo quien tenga ese enlace puede abrirlo.</p>
+
+            <p class="aviso" id="aviso" hidden></p>
+
+            <form action="../../subir.php" method="POST" enctype="multipart/form-data">
+
+                <label>Paciente</label>
+                <input type="text" id="buscarPaciente" placeholder="Buscar por nombre, apellido o cédula">
+                <div id="resultadosPaciente" class="resultados"></div>
+                <p class="elegido" id="pacienteElegido" hidden></p>
+                <input type="hidden" name="paciente" id="paciente" required>
+
+                <label>Tipo de documento</label>
+                <select name="titulo" id="tituloPaciente" required>
+                    <option value="">Elegir...</option>
+                    <option>Diagnóstico</option>
+                    <option>Resultado de análisis</option>
+                    <option>Resultado de estudio por imágenes</option>
+                    <option>Informe médico</option>
+                    <option value="otro">Otro (lo escribo yo)</option>
+                </select>
+
+                <div id="parteOtro" hidden>
+                    <label>Nombre del documento</label>
+                    <input type="text" name="otroTitulo" id="otroTitulo" placeholder="Escribí el nombre">
+                </div>
+
+                <label>Archivo PDF</label>
+                <input type="file" name="archivo" accept="application/pdf" required>
+                <p class="ayuda">Solo se aceptan archivos PDF de hasta 2 MB.</p>
+
+                <div class="botones">
+                    <button type="submit">Cargar documento</button>
+                </div>
+
+            </form>
+
+            <div class="tabla">
+
+                <input type="text" id="buscarDocPaciente" class="buscar" placeholder="Buscar por paciente o tipo de documento">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Paciente</th>
+                            <th>Cédula</th>
+                            <th>Documento</th>
+                            <th>Cargado</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="cuerpoDocPaciente"></tbody>
+
+                </table>
+
+                <p class="vacio" id="vacio" hidden>Todavía no hay documentos cargados.</p>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=83">EN</button>
+
+    <script src="../../Js/comun.js?v=83"></script>
+    <script src="../../Js/documentosPaciente.js?v=83"></script>
+</body>
+
+</html>
