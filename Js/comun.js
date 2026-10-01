@@ -223,8 +223,13 @@ function pedirTokenAlBorrar() {
             return;
         }
 
+        if (accion.indexOf("borrar.php") == -1) {
+            return;
+        }
+
         const pideToken = accion.indexOf("que=persona") != -1 ||
                           accion.indexOf("que=docPaciente") != -1 ||
+                          accion.indexOf("que=documento") != -1 ||
                           accion.indexOf("que=ambulancia") != -1;
 
         if (!pideToken) {

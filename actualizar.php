@@ -11,6 +11,17 @@ $que = $_GET['que'];
 $id  = $_POST['id'];
 
 if ($que == "persona") {
+    $token = "";
+
+    if (isset($_POST["token"])) {
+        $token = $_POST["token"];
+    }
+
+    if (!tokenCorrecto("editarPersona", $token)) {
+        header("Location: Html/Administrativo/editarUsuario.html?id=" . $id . "&error=token");
+        exit;
+    }
+
     $nombre    = $_POST['nombre'];
     $apellido  = $_POST['apellido'];
     $cedula    = $_POST['cedula'];

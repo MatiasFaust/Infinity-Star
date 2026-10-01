@@ -25,6 +25,7 @@ function nombreDeLaAccion(accion) {
     if (accion == "editarAmbulancia") { return "Editar una ambulancia"; }
     if (accion == "eliminarAmbulancia") { return "Eliminar una ambulancia"; }
     if (accion == "eliminarDocumento") { return "Eliminar un documento"; }
+    if (accion == "editarPersona") { return "Editar una persona"; }
 
     return accion;
 }

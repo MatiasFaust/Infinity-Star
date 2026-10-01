@@ -13,4 +13,5 @@ INSERT INTO token (accion, codigo) VALUES
   ('eliminarPersona',      'BorrarPersona2026'),
   ('editarAmbulancia',     'EditarMovil2026'),
   ('eliminarAmbulancia',   'BorrarMovil2026'),
-  ('eliminarDocumento',    'BorrarDoc2026');
+  ('eliminarDocumento',    'BorrarDoc2026'),
+  ('editarPersona',        'EditarPersona2026');

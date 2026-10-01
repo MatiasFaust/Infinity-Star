@@ -22,6 +22,8 @@
     "Registrar un administrativo": "Register an admin staff member",
     "Registrar un chofer": "Register a driver",
     "Eliminar una persona": "Delete a person",
+    "Editar una persona": "Edit a person",
+    "El token de editar personas": "The person editing token",
     "Editar una ambulancia": "Edit an ambulance",
     "Eliminar una ambulancia": "Delete an ambulance",
     "Eliminar un documento": "Delete a document",
