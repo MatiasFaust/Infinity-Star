@@ -2,6 +2,14 @@
 
 require_once 'conexion.php';
 
+session_start();
+
+$yo = 0;
+
+if (isset($_SESSION['id_persona'])) {
+    $yo = $_SESSION['id_persona'];
+}
+
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     header("Location: Index.html");
     exit;
@@ -9,6 +17,33 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 
 $que = $_GET['que'];
 $id  = $_POST['id'];
+
+$tokenBorrado = "";
+
+if (isset($_POST['tokenBorrado'])) {
+    $tokenBorrado = trim($_POST['tokenBorrado']);
+}
+
+if ($que == "persona" || $que == "docPaciente" || $que == "ambulancia") {
+    if (contar("clave_acceso", "codigo = '$tokenBorrado' AND tipo = 'eliminar'") == 0) {
+        $vuelve = "usuarios.html";
+
+        if (isset($_POST['vuelve'])) {
+            $vuelve = $_POST['vuelve'];
+        }
+
+        if ($que == "docPaciente") {
+            $vuelve = "documentosPaciente.html";
+        }
+
+        if ($que == "ambulancia") {
+            $vuelve = "ambulancias.html";
+        }
+
+        header("Location: Html/Administrativo/" . $vuelve . "?error=tokenBorrado");
+        exit;
+    }
+}
 
 if ($que == "persona") {
     $rol = "";
@@ -71,25 +106,6 @@ if ($que == "persona") {
 
     $vuelve = "ambulancias.html?borrada=si";
 
-} else if ($que == "encuesta") {
-    $preguntas = $db->query("SELECT id_pregunta FROM pregunta WHERE id_encuesta = $id");
-
-    while ($p = $preguntas->fetch_assoc()) {
-        $db->query("DELETE FROM respuesta WHERE id_pregunta = " . $p['id_pregunta']);
-    }
-
-    $documento = $db->query("SELECT id_documento FROM encuesta WHERE id_encuesta = $id")->fetch_assoc();
-
-    $db->query("DELETE FROM encuesta_paciente_entra WHERE id_encuesta = $id");
-    $db->query("DELETE FROM pregunta WHERE id_encuesta = $id");
-    $db->query("DELETE FROM encuesta WHERE id_encuesta = $id");
-
-    if ($documento) {
-        $db->query("DELETE FROM documento WHERE id_documento = " . $documento['id_documento']);
-    }
-
-    $vuelve = "encuestas.html?borrada=si";
-
 } else if ($que == "documento") {
     $doc = $db->query("SELECT archivo FROM documento
                        WHERE id_documento = $id AND categoria_tipo = 'pdf'")->fetch_assoc();
@@ -107,8 +123,26 @@ if ($que == "persona") {
 
     $vuelve = "documentosQr.html?borrada=si";
 
+} else if ($que == "docPaciente") {
+    $doc = $db->query("SELECT archivo FROM documento
+                       WHERE id_documento = $id AND categoria_tipo = 'paciente'")->fetch_assoc();
+
+    if ($doc && $doc['archivo'] != "") {
+        $ruta = "Archivos/" . $doc['archivo'];
+
+        if (file_exists($ruta)) {
+            unlink($ruta);
+        }
+    }
+
+    $db->query("DELETE FROM documento WHERE id_documento = $id");
+
+    $vuelve = "documentosPaciente.html?borrada=si";
+
 } else {
     $vuelve = "usuarios.html";
 }
+
+anotar($yo, "Eliminó un registro (" . $que . ")");
 
 header("Location: Html/Administrativo/$vuelve");

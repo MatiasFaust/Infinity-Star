@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Documentos</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=68">
+    <link rel="stylesheet" href="../../Css/panel.css?v=83">
 </head>
 
 <body>
@@ -42,9 +43,10 @@
                 Documentos QR
             </a>
 
-            <a href="encuestas.html">
-                Encuestas
+            <a href="documentosPaciente.html">
+                Documentos del paciente
             </a>
+
 
             <hr>
 
@@ -67,7 +69,7 @@
 
 
                 <div class="dato">
-                    <p>Encuestas cargadas</p>
+                    <p>Pacientes con correo</p>
                     <h2 id="totalEncuestas">0</h2>
                 </div>
 
@@ -79,18 +81,18 @@
             </div>
 
             <div class="botones">
-                <a href="encuestas.html" class="agregar">Cargar encuesta</a>
                 <a href="documentosQr.html" class="agregar">Documento QR</a>
+                <a href="documentosPaciente.html" class="agregar">Documentos del paciente</a>
             </div>
 
         </main>
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=68">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=83">EN</button>
 
-    <script src="../../Js/comun.js?v=68"></script>
-    <script src="../../Js/documentos.js?v=68"></script>
+    <script src="../../Js/comun.js?v=83"></script>
+    <script src="../../Js/documentos.js?v=83"></script>
 </body>
 
 </html>

@@ -834,3 +834,198 @@ td.acciones .marcar {
         min-width: 560px;
     }
 }
+
+
+
+
+
+.estadoActivo,
+.estadoSuspendido {
+    padding: 3px 9px;
+    border-radius: 10px;
+
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.estadoActivo {
+    background-color: var(--verdeClaro);
+    color: var(--verdeOscuro);
+}
+
+.estadoSuspendido {
+    background-color: var(--rojoClaro);
+    color: var(--rojo);
+}
+
+#cuerpoTokens .enLinea input[type="text"] {
+    width: auto;
+    margin: 0 8px 0 0;
+    display: inline-block;
+}
+
+.tema {
+    position: fixed;
+
+    bottom: 25px;
+    left: 25px;
+
+    z-index: 10;
+
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    background-color: var(--verde);
+    color: white;
+
+    border: none;
+    border-radius: 50%;
+
+    font-size: 22px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+
+html.oscuro {
+    --verde: #4caf50;
+    --verdeOscuro: #3d8b40;
+    --verdeClaro: #16331c;
+    --blanco: #242424;
+    --negro: #ededed;
+    --grisClaro: #171717;
+    --grisBorde: #3d3d3d;
+    --grisTexto: #c2c2c2;
+    --grisSuave: #a3a3a3;
+    --grisOscuro: #ededed;
+    --rojoClaro: #3b1e1e;
+
+    color: #ededed;
+}
+
+html.oscuro header {
+    background-color: #0d4f0d;
+    color: white;
+}
+
+
+html.oscuro .cerrar,
+html.oscuro .volver {
+    background-color: white;
+    color: #0a6b0a;
+}
+
+html.oscuro input,
+html.oscuro select {
+    background-color: #1c1c1c;
+    color: #ededed;
+}
+
+html.oscuro .agregar,
+html.oscuro button {
+    color: white;
+}
+
+html.oscuro .botones a,
+html.oscuro .secundario {
+    background-color: #2f2f2f;
+    color: #ededed;
+}
+
+html.oscuro .editar {
+    background-color: #16331c;
+    color: #7fd48a;
+}
+
+.resultados {
+    margin-bottom: 10px;
+}
+
+.resultado {
+    display: block;
+    width: 100%;
+
+    margin-bottom: 6px;
+    padding: 10px 12px;
+
+    background-color: var(--blanco);
+    color: var(--grisOscuro);
+
+    border: 1px solid var(--grisBorde);
+    border-radius: 5px;
+
+    text-align: left;
+    font-size: 14px;
+}
+
+.resultado:hover {
+    background-color: var(--verdeClaro);
+}
+
+.elegido {
+    margin: 0 0 15px;
+    padding: 8px 12px;
+
+    background-color: var(--verdeClaro);
+    border-radius: 5px;
+
+    color: var(--verdeOscuro);
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.fondoCartel {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 50;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+.fondoCartel[hidden] {
+    display: none;
+}
+
+.cartel {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px;
+    padding: 25px;
+
+    background-color: var(--blanco);
+    border-radius: 10px;
+
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.cartel h2 {
+    margin: 0 0 10px;
+    color: var(--rojo);
+    font-size: 18px;
+}
+
+.cartel .botones {
+    text-align: right;
+}
+
+.cartel .botones button {
+    margin-left: 10px;
+}

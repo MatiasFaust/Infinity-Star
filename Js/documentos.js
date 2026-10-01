@@ -2,7 +2,7 @@ async function cargarInicio() {
     const d = await pedir("../../Api/documentos.php?tipo=contadores");
 
     document.getElementById("totalPacientes").textContent = d.pacientes;
-    document.getElementById("totalEncuestas").textContent = d.encuestas;
+    document.getElementById("totalEncuestas").textContent = d.pacientesConCorreo;
     document.getElementById("totalDocumentos").textContent = d.documentos;
 }
 

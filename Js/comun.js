@@ -54,6 +54,14 @@ function fechaCorta(texto) {
     return fecha[2] + "/" + fecha[1] + "/" + fecha[0] + " " + hora;
 }
 
+function horaOGuion(texto) {
+    if (!texto) {
+        return "-";
+    }
+
+    return fechaCorta(texto);
+}
+
 
 
 function filtrar(lista, texto, campos) {
@@ -76,6 +84,201 @@ function filtrar(lista, texto, campos) {
     }
 
     return resultado;
+}
+
+function prepararBuscadorDePacientes() {
+    const campo = document.getElementById("buscarPaciente");
+
+    if (!campo) {
+        return;
+    }
+
+    const lista = document.getElementById("resultadosPaciente");
+    const elegido = document.getElementById("paciente");
+    const aviso = document.getElementById("pacienteElegido");
+
+    async function buscar() {
+        const texto = campo.value.trim();
+
+        lista.innerHTML = "";
+
+        if (texto.length < 2) {
+            return;
+        }
+
+        const encontrados = await pedir(raizDelSitio() + "/Api/usuarios.php?tipo=buscarPaciente&q=" + encodeURIComponent(texto));
+
+        if (encontrados.length == 0) {
+            lista.innerHTML = "<p class='ayuda'>" + enIdioma("No se encontró ningún paciente con eso.") + "</p>";
+            return;
+        }
+
+        for (let i = 0; i < encontrados.length; i++) {
+            const p = encontrados[i];
+
+            const boton = document.createElement("button");
+            boton.type = "button";
+            boton.className = "resultado";
+            boton.textContent = p.apellido + ", " + p.nombre + "  -  " + enIdioma("Cédula") + " " + p.cedula;
+
+            boton.addEventListener("click", function () {
+                elegido.value = p.idPaciente;
+                aviso.textContent = enIdioma("Paciente elegido:") + " " + p.nombre + " " + p.apellido + " (" + p.cedula + ")";
+                aviso.hidden = false;
+                lista.innerHTML = "";
+                campo.value = "";
+            });
+
+            lista.appendChild(boton);
+        }
+    }
+
+    campo.addEventListener("input", buscar);
+}
+
+function armarCartelDelToken() {
+    const fondo = document.createElement("div");
+    fondo.className = "fondoCartel";
+    fondo.hidden = true;
+
+    const cartel = document.createElement("div");
+    cartel.className = "cartel";
+
+    const titulo = document.createElement("h2");
+    titulo.textContent = enIdioma("Hace falta el token de borrado");
+
+    const texto = document.createElement("p");
+    texto.className = "ayuda";
+    texto.textContent = enIdioma("Esta acción no se puede deshacer. Escribí el token para confirmar.");
+
+    const campo = document.createElement("input");
+    campo.type = "password";
+    campo.id = "tokenDelCartel";
+    campo.placeholder = enIdioma("Token de borrado");
+
+    const botones = document.createElement("div");
+    botones.className = "botones";
+
+    const cancelar = document.createElement("button");
+    cancelar.type = "button";
+    cancelar.className = "secundario";
+    cancelar.textContent = enIdioma("Cancelar");
+
+    const borrar = document.createElement("button");
+    borrar.type = "button";
+    borrar.className = "eliminar";
+    borrar.textContent = enIdioma("Eliminar");
+
+    botones.appendChild(cancelar);
+    botones.appendChild(borrar);
+
+    cartel.appendChild(titulo);
+    cartel.appendChild(texto);
+    cartel.appendChild(campo);
+    cartel.appendChild(botones);
+    fondo.appendChild(cartel);
+
+    document.body.appendChild(fondo);
+
+    return { fondo: fondo, campo: campo, cancelar: cancelar, borrar: borrar };
+}
+
+function pedirTokenAlBorrar() {
+    const cartel = armarCartelDelToken();
+    let formularioEnEspera = null;
+
+    function cerrar() {
+        cartel.fondo.hidden = true;
+        cartel.campo.value = "";
+        formularioEnEspera = null;
+    }
+
+    cartel.cancelar.addEventListener("click", cerrar);
+
+    cartel.fondo.addEventListener("click", function (evento) {
+        if (evento.target == cartel.fondo) {
+            cerrar();
+        }
+    });
+
+    cartel.borrar.addEventListener("click", function () {
+        if (!formularioEnEspera || cartel.campo.value == "") {
+            return;
+        }
+
+        const campo = document.createElement("input");
+        campo.type = "hidden";
+        campo.name = "tokenBorrado";
+        campo.value = cartel.campo.value;
+
+        formularioEnEspera.appendChild(campo);
+        formularioEnEspera.submit();
+    });
+
+    document.addEventListener("submit", function (evento) {
+        const formulario = evento.target;
+        const accion = formulario.getAttribute("action");
+
+        if (!accion) {
+            return;
+        }
+
+        const pideToken = accion.indexOf("que=persona") != -1 ||
+                          accion.indexOf("que=docPaciente") != -1 ||
+                          accion.indexOf("que=ambulancia") != -1;
+
+        if (!pideToken) {
+            return;
+        }
+
+        if (formulario.querySelector("input[name='tokenBorrado']")) {
+            return;
+        }
+
+        evento.preventDefault();
+
+        formularioEnEspera = formulario;
+        cartel.fondo.hidden = false;
+        cartel.campo.focus();
+    });
+}
+
+function aplicarTema() {
+    if (localStorage.getItem("tema") == "oscuro") {
+        document.documentElement.classList.add("oscuro");
+    }
+}
+
+function ponerBotonTema() {
+    const boton = document.createElement("button");
+    boton.type = "button";
+    boton.className = "tema";
+
+    function pintarBoton() {
+        if (document.documentElement.classList.contains("oscuro")) {
+            boton.textContent = "☀";
+            boton.title = enIdioma("Pasar a modo claro");
+        } else {
+            boton.textContent = "🌙";
+            boton.title = enIdioma("Pasar a modo oscuro");
+        }
+    }
+
+    boton.addEventListener("click", function () {
+        document.documentElement.classList.toggle("oscuro");
+
+        if (document.documentElement.classList.contains("oscuro")) {
+            localStorage.setItem("tema", "oscuro");
+        } else {
+            localStorage.setItem("tema", "claro");
+        }
+
+        pintarBoton();
+    });
+
+    pintarBoton();
+
+    document.body.appendChild(boton);
 }
 
 function marcarActivo() {
@@ -134,6 +337,24 @@ function avisosDeLaDireccion() {
         mensaje = "No se pudo subir el archivo. Fijate que sea un PDF de menos de 2 MB.";
     } else if (direccion.get("error") == "noSeGuardo") {
         mensaje = "No se pudo guardar el archivo en el servidor.";
+    } else if (direccion.get("error") == "sinCodigo") {
+        mensaje = "Escribí el código del token.";
+    } else if (direccion.get("error") == "tokenRepetido") {
+        mensaje = "Ese token ya existe.";
+    } else if (direccion.get("error") == "ultimoToken") {
+        mensaje = "No se puede borrar el único token que queda.";
+    } else if (direccion.get("error") == "vosMismo") {
+        mensaje = "No podés suspenderte ni eliminarte a vos mismo.";
+    } else if (direccion.get("error") == "tokenBorrado") {
+        mensaje = "El token de borrado no es correcto.";
+    } else if (direccion.has("enviado")) {
+        mensaje = "Si ese correo está registrado, ya te enviamos tu usuario. Revisá tu casilla.";
+    } else if (direccion.get("clave") == "cambiada") {
+        mensaje = "Tu contraseña se cambió. Ya podés entrar.";
+    } else if (direccion.get("error") == "claveCorta") {
+        mensaje = "La contraseña tiene que tener al menos 8 letras o números.";
+    } else if (direccion.get("error") == "enlaceVencido") {
+        mensaje = "Ese enlace ya se usó o venció. Pedí uno nuevo.";
     } else if (direccion.get("error") == "mismaRuta") {
         mensaje = "El origen y el destino no pueden ser el mismo punto.";
     } else if (direccion.get("error") == "sinMarcar") {
@@ -388,9 +609,13 @@ function limitarCampos() {
     }
 }
 
+aplicarTema();
 traducirApenasCarga();
 marcarActivo();
 avisosDeLaDireccion();
 ponerOjitos();
 limitarCampos();
+ponerBotonTema();
+pedirTokenAlBorrar();
+prepararBuscadorDePacientes();
 window.addEventListener("load", prepararIdioma);

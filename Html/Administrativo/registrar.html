@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Registrar</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=68">
+    <link rel="stylesheet" href="../../Css/panel.css?v=83">
 </head>
 
 <body>
@@ -42,9 +43,10 @@
                 Documentos QR
             </a>
 
-            <a href="encuestas.html">
-                Encuestas
+            <a href="documentosPaciente.html">
+                Documentos del paciente
             </a>
+
 
             <hr>
 
@@ -106,6 +108,9 @@
                     <label>Correo</label>
                     <input type="email" name="correo" placeholder="nombre@gmail.com" required>
 
+                    <label>Teléfono</label>
+                    <input type="text" name="telefono" id="telefono" placeholder="099123456" maxlength="15">
+
                 </div>
 
                 <div class="seccion conCuenta">
@@ -142,10 +147,10 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=68">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=83">EN</button>
 
-    <script src="../../Js/comun.js?v=68"></script>
-    <script src="../../Js/usuarios.js?v=68"></script>
+    <script src="../../Js/comun.js?v=83"></script>
+    <script src="../../Js/usuarios.js?v=83"></script>
 </body>
 
 </html>

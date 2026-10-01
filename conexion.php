@@ -74,3 +74,26 @@ function enlaceDelDocumento($idDocumento, $archivo) {
 
     return direccionPublica() . "/documento.php?id=" . $idDocumento;
 }
+
+function anotar($idPersona, $accion) {
+    global $db;
+
+    $accion = $db->real_escape_string($accion);
+
+    if ($idPersona == "" || $idPersona == null) {
+        $idPersona = "NULL";
+    }
+
+    $db->query("INSERT INTO actividad (id_persona, accion, momento)
+                VALUES ($idPersona, '$accion', NOW())");
+}
+
+function esSuperadmin() {
+    if (!isset($_SESSION['id_persona'])) {
+        return false;
+    }
+
+    $quien = $_SESSION['id_persona'];
+
+    return contar("funcionario", "id_persona = $quien AND tipo_funcion = 'superadmin'") > 0;
+}

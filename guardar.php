@@ -2,6 +2,14 @@
 
 require_once 'conexion.php';
 
+session_start();
+
+$yo = 0;
+
+if (isset($_SESSION['id_persona'])) {
+    $yo = $_SESSION['id_persona'];
+}
+
 $que = $_GET['que'];
 
 if ($que == "persona") {
@@ -29,6 +37,7 @@ if ($que == "persona") {
     $cedula    = $_POST['cedula'];
     $correo    = $_POST['correo'];
     $direccion = $_POST['direccion'];
+    $telefono  = $_POST['telefono'];
 
     $ya = $db->query("SELECT id_persona FROM persona WHERE cedula = '$cedula'")->fetch_assoc();
 
@@ -50,7 +59,7 @@ if ($que == "persona") {
 
         $db->query("UPDATE persona
                     SET nombre = '$nombre', apellido = '$apellido',
-                        correo = '$correo', direccion = '$direccion'
+                        correo = '$correo', direccion = '$direccion', telefono = '$telefono'
                     WHERE id_persona = $idPersona");
 
     } else {
@@ -59,8 +68,8 @@ if ($que == "persona") {
             exit;
         }
 
-        $db->query("INSERT INTO persona (nombre, apellido, cedula, correo, direccion)
-                    VALUES ('$nombre', '$apellido', '$cedula', '$correo', '$direccion')");
+        $db->query("INSERT INTO persona (nombre, apellido, cedula, correo, direccion, telefono)
+                    VALUES ('$nombre', '$apellido', '$cedula', '$correo', '$direccion', '$telefono')");
 
         $idPersona = $db->insert_id;
     }
@@ -85,6 +94,8 @@ if ($que == "persona") {
         }
     }
 
+    anotar($yo, "Registró o editó a " . $nombre . " " . $apellido . " (" . $rol . ")");
+
     header("Location: $vuelve");
 
 } else if ($que == "ambulancia") {
@@ -99,11 +110,12 @@ if ($que == "persona") {
     $db->query("INSERT INTO ambulancia (matricula, movil)
                 VALUES ('$matricula', '$movil')");
 
+    anotar($yo, "Agregó la ambulancia " . $matricula);
+
     header("Location: Html/Administrativo/ambulancias.html");
 }
 
 if ($que == "traslado") {
-    session_start();
 
     $vuelve = "Html/Administrativo/registrarTraslado.html";
 
@@ -197,100 +209,11 @@ if ($que == "traslado") {
         }
     }
 
-    header("Location: $vuelve?guardado=si");
-}
-
-if ($que == "encuesta") {
-    session_start();
-
-    $vuelve = "Html/Administrativo/encuestas.html";
-    $titulo = $_POST['titulo'];
-
-    $preguntas = array();
-
-    foreach ($_POST as $nombre => $valor) {
-        if (substr($nombre, 0, 8) == "pregunta" && trim($valor) != "") {
-            $preguntas[] = trim($valor);
-        }
-    }
-
-    if (count($preguntas) == 0) {
-        header("Location: $vuelve?error=sinPreguntas");
-        exit;
-    }
-
-    $idFuncionario = "NULL";
-
-    if (isset($_SESSION['id_persona'])) {
-        $quien = $_SESSION['id_persona'];
-        $f = $db->query("SELECT id_funcionario FROM funcionario WHERE id_persona = $quien")->fetch_assoc();
-
-        if ($f) {
-            $idFuncionario = $f['id_funcionario'];
-        }
-    }
-
-    $db->query("INSERT INTO documento (titulo, categoria_tipo, id_funcionario, fecha)
-                VALUES ('$titulo', 'encuesta', $idFuncionario, NOW())");
-
-    $idDocumento = $db->insert_id;
-
-    $db->query("INSERT INTO encuesta (id_documento, fecha) VALUES ($idDocumento, NOW())");
-
-    $idEncuesta = $db->insert_id;
-
-    for ($i = 0; $i < count($preguntas); $i++) {
-        $texto = $preguntas[$i];
-        $db->query("INSERT INTO pregunta (id_encuesta, texto) VALUES ($idEncuesta, '$texto')");
-    }
+    anotar($yo, "Registró un traslado de " . $origen . " a " . $destino);
 
     header("Location: $vuelve?guardado=si");
 }
 
-if ($que == "respuesta") {
-    $idEncuesta = $_POST['encuesta'];
-    $cedula     = $_POST['cedula'];
 
-    $vuelve = "encuesta.html?id=$idEncuesta";
 
-    $paciente = $db->query("SELECT paciente.id_paciente
-                            FROM paciente
-                            JOIN persona ON persona.id_persona = paciente.id_persona
-                            WHERE persona.cedula = '$cedula'")->fetch_assoc();
 
-    if (!$paciente) {
-        header("Location: $vuelve&error=noEsPaciente");
-        exit;
-    }
-
-    $idPaciente = $paciente['id_paciente'];
-
-    $yaRespondio = contar("encuesta_paciente_entra",
-                          "id_encuesta = $idEncuesta AND id_paciente = $idPaciente");
-
-    if ($yaRespondio > 0) {
-        header("Location: $vuelve&error=yaRespondio");
-        exit;
-    }
-
-    $preguntas = $db->query("SELECT id_pregunta FROM pregunta WHERE id_encuesta = $idEncuesta");
-
-    while ($p = $preguntas->fetch_assoc()) {
-        $idPregunta = $p['id_pregunta'];
-        $nota = "";
-
-        if (isset($_POST['respuesta' . $idPregunta])) {
-            $nota = $_POST['respuesta' . $idPregunta];
-        }
-
-        if ($nota != "") {
-            $db->query("INSERT INTO respuesta (id_pregunta, id_paciente, respuesta)
-                        VALUES ($idPregunta, $idPaciente, '$nota')");
-        }
-    }
-
-    $db->query("INSERT INTO encuesta_paciente_entra (id_encuesta, id_paciente)
-                VALUES ($idEncuesta, $idPaciente)");
-
-    header("Location: $vuelve&gracias=si");
-}

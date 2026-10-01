@@ -16,6 +16,7 @@ if ($que == "persona") {
     $cedula    = $_POST['cedula'];
     $correo    = $_POST['correo'];
     $direccion = $_POST['direccion'];
+    $telefono  = $_POST['telefono'];
 
     if (contar("persona", "cedula = '$cedula' AND id_persona <> $id") > 0) {
         header("Location: Html/Administrativo/editarUsuario.html?id=$id&error=cedula");
@@ -29,7 +30,7 @@ if ($que == "persona") {
 
     $db->query("UPDATE persona
                 SET nombre = '$nombre', apellido = '$apellido', cedula = '$cedula',
-                    correo = '$correo', direccion = '$direccion'
+                    correo = '$correo', direccion = '$direccion', telefono = '$telefono'
                 WHERE id_persona = $id");
 
     header("Location: Html/Administrativo/usuarios.html");

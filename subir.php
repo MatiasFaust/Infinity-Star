@@ -4,7 +4,15 @@ require_once 'conexion.php';
 
 session_start();
 
+$paciente = "NULL";
+$categoria = "pdf";
 $vuelve = "Html/Administrativo/documentosQr.html";
+
+if (isset($_POST["paciente"]) && $_POST["paciente"] != "") {
+    $paciente = $_POST["paciente"];
+    $categoria = "paciente";
+    $vuelve = "Html/Administrativo/documentosPaciente.html";
+}
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     header("Location: Index.html");
@@ -43,6 +51,11 @@ if ($tipo != "application/pdf") {
 }
 
 $nombreGuardado = "doc" . time() . rand(100, 999) . ".pdf";
+$codigo = "";
+
+if ($categoria == "paciente") {
+    $codigo = md5(uniqid(rand(), true));
+}
 $destino = "Archivos/" . $nombreGuardado;
 
 if (!move_uploaded_file($_FILES['archivo']['tmp_name'], $destino)) {
@@ -61,12 +74,22 @@ if (isset($_SESSION['id_persona'])) {
     }
 }
 
-$db->query("INSERT INTO documento (titulo, categoria_tipo, id_funcionario, archivo, fecha)
-            VALUES ('$titulo', 'pdf', $idFuncionario, '$nombreGuardado', NOW())");
+$db->query("INSERT INTO documento (titulo, categoria_tipo, id_funcionario, id_paciente, archivo, codigo, fecha)
+            VALUES ('$titulo', '$categoria', $idFuncionario, $paciente, '$nombreGuardado', '$codigo', NOW())");
 
 $idDocumento = $db->insert_id;
 
-$db->query("INSERT INTO qr (url, id_documento)
-            VALUES ('documento.php?id=$idDocumento', $idDocumento)");
+if ($categoria == "pdf") {
+    $db->query("INSERT INTO qr (url, id_documento)
+                VALUES ('documento.php?id=$idDocumento', $idDocumento)");
+}
+
+$yo = 0;
+
+if (isset($_SESSION["id_persona"])) {
+    $yo = $_SESSION["id_persona"];
+}
+
+anotar($yo, "Subió el documento " . $titulo);
 
 header("Location: $vuelve?guardado=si");

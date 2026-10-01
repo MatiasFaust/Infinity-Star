@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Usuarios</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=68">
+    <link rel="stylesheet" href="../../Css/panel.css?v=83">
 </head>
 
 <body>
@@ -42,9 +43,10 @@
                 Documentos QR
             </a>
 
-            <a href="encuestas.html">
-                Encuestas
+            <a href="documentosPaciente.html">
+                Documentos del paciente
             </a>
+
 
             <hr>
 
@@ -77,6 +79,7 @@
                             <th>Nombre</th>
                             <th>Apellido</th>
                             <th>Cédula</th>
+                            <th>Teléfono</th>
                             <th>Correo</th>
                             <th>Dirección</th>
                             <th></th>
@@ -104,6 +107,7 @@
                             <th>Nombre</th>
                             <th>Apellido</th>
                             <th>Cédula</th>
+                            <th>Teléfono</th>
                             <th>Correo</th>
                             <th>Dirección</th>
                             <th>Usuario</th>
@@ -132,6 +136,7 @@
                             <th>Nombre</th>
                             <th>Apellido</th>
                             <th>Cédula</th>
+                            <th>Teléfono</th>
                             <th>Correo</th>
                             <th>Dirección</th>
                             <th>Usuario</th>
@@ -151,10 +156,10 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=68">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=83">EN</button>
 
-    <script src="../../Js/comun.js?v=68"></script>
-    <script src="../../Js/usuarios.js?v=68"></script>
+    <script src="../../Js/comun.js?v=83"></script>
+    <script src="../../Js/usuarios.js?v=83"></script>
 </body>
 
 </html>

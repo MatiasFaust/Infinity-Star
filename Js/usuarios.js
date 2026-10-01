@@ -26,6 +26,12 @@ function dibujarGrupo(rol, lista, texto) {
         let celdas = "<td>" + u.nombre + "</td>";
         celdas = celdas + "<td>" + u.apellido + "</td>";
         celdas = celdas + "<td>" + u.cedula + "</td>";
+        let telefono = "-";
+        if (u.telefono) {
+            telefono = u.telefono;
+        }
+
+        celdas = celdas + "<td>" + telefono + "</td>";
         celdas = celdas + "<td>" + correo + "</td>";
         celdas = celdas + "<td>" + direccion + "</td>";
 
@@ -93,6 +99,10 @@ async function cargarFormulario() {
 
     if (u.direccion) {
         document.getElementById("direccion").value = u.direccion;
+
+    if (document.getElementById("telefono")) {
+        document.getElementById("telefono").value = u.telefono;
+    }
     }
 }
 

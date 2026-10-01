@@ -1,19 +1,28 @@
 <?php
 
-// Copiá este archivo como config.php y poné los datos que te da el hosting.
-// En XAMPP, en tu computadora, los datos son los que están abajo.
-
 define('BDhost', '127.0.0.1');
-define('BDpuerto', 3307);
+define('BDpuerto', 3306);
 define('BDuser', 'root');
 define('BDpass', '');
 define('BDnombre', 'hospital');
 
-// Dejalo vacío: el sistema averigua solo la dirección para armar los QR.
-// Solo completalo si el hosting usa un dominio distinto al que ves en el navegador.
 define('SitioPublico', '');
-
-// Si está completo, los QR apuntan acá en vez de a esta computadora.
 define('SitioDocumentos', '');
+
+
+// ---- Correo ----
+// Poné acá el Gmail que va a enviar y la contraseña de aplicación de 16 letras.
+// La contraseña de aplicación la sacás de: myaccount.google.com -> Seguridad -> Contraseñas de aplicaciones
+// Va sin espacios. Ejemplo: 'abcdefghijklmnop'
+
+define('CorreoCuenta', '');
+define('CorreoClave', '');
+define('CorreoNombre', 'Hospital de Clinicas Montevideo');
+
+
+// ---- Encuesta ----
+// Pegá acá el enlace del formulario que creaste en Google Forms.
+
+define('EncuestaEnlace', '');
 
 ?>

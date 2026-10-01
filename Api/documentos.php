@@ -7,43 +7,11 @@ $tipo = $_GET['tipo'];
 if ($tipo == "contadores") {
     responder(array(
         'pacientes'  => contar("paciente"),
-        'encuestas'  => contar("encuesta"),
+        'pacientesConCorreo' => contar("paciente JOIN persona ON persona.id_persona = paciente.id_persona", "persona.correo <> ''"),
         'documentos' => contar("documento", "categoria_tipo = 'pdf'")
     ));
 }
 
-if ($tipo == "encuestas") {
-    responder(comoLista($db->query("SELECT encuesta.id_encuesta AS idEncuesta,
-                                           documento.titulo,
-                                           encuesta.fecha,
-                                           (SELECT COUNT(*) FROM pregunta
-                                            WHERE pregunta.id_encuesta = encuesta.id_encuesta) AS preguntas,
-                                           (SELECT COUNT(*) FROM encuesta_paciente_entra
-                                            WHERE encuesta_paciente_entra.id_encuesta = encuesta.id_encuesta) AS respondieron
-                                    FROM encuesta
-                                    JOIN documento ON documento.id_documento = encuesta.id_documento
-                                    ORDER BY encuesta.id_encuesta DESC")));
-}
-
-if ($tipo == "encuesta") {
-    $id = $_GET['id'];
-
-    $datos = $db->query("SELECT encuesta.id_encuesta AS idEncuesta, documento.titulo
-                         FROM encuesta
-                         JOIN documento ON documento.id_documento = encuesta.id_documento
-                         WHERE encuesta.id_encuesta = $id")->fetch_assoc();
-
-    if (!$datos) {
-        responder(array());
-    }
-
-    $datos['preguntas'] = comoLista($db->query("SELECT id_pregunta AS idPregunta, texto
-                                                FROM pregunta
-                                                WHERE id_encuesta = $id
-                                                ORDER BY id_pregunta"));
-
-    responder($datos);
-}
 
 if ($tipo == "documentos") {
     $base = direccionPublica();
@@ -77,5 +45,27 @@ if ($tipo == "documento") {
 
     responder($fila);
 }
+
+if ($tipo == "documentosPaciente") {
+    $base = direccionPublica();
+
+    $lista = comoLista($db->query("SELECT documento.id_documento AS idDocumento,
+                                          documento.titulo, documento.fecha, documento.codigo,
+                                          persona.nombre, persona.apellido, persona.cedula,
+                                          persona.telefono
+                                   FROM documento
+                                   JOIN paciente ON paciente.id_paciente = documento.id_paciente
+                                   JOIN persona ON persona.id_persona = paciente.id_persona
+                                   WHERE documento.categoria_tipo = 'paciente'
+                                   ORDER BY documento.id_documento DESC"));
+
+    for ($i = 0; $i < count($lista); $i++) {
+        $lista[$i]['enlace'] = $base . "/miDocumento.php?codigo=" . $lista[$i]['codigo'];
+    }
+
+    responder(array("base" => $base, "lista" => $lista));
+}
+
+
 
 responder(array());
