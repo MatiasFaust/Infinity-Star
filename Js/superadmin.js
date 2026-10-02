@@ -19,7 +19,7 @@ function botonSuper(accion, id, texto, clase, extra) {
 
 function nombreDeLaAccion(accion) {
     if (accion == "registrarPaciente") { return "Registrar un paciente"; }
-    if (accion == "registrarFuncionario") { return "Registrar un administrativo"; }
+    if (accion == "registrarAdministrativo") { return "Registrar un administrativo"; }
     if (accion == "registrarChofer") { return "Registrar un chofer"; }
     if (accion == "eliminarPersona") { return "Eliminar una persona"; }
     if (accion == "editarAmbulancia") { return "Editar una ambulancia"; }

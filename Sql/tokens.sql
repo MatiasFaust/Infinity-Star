@@ -8,7 +8,7 @@ CREATE TABLE token (
 
 INSERT INTO token (accion, codigo) VALUES
   ('registrarPaciente',    'Paciente2026'),
-  ('registrarFuncionario', 'Funcionario2026'),
+  ('registrarAdministrativo', 'Funcionario2026'),
   ('registrarChofer',      'Chofer2026'),
   ('eliminarPersona',      'BorrarPersona2026'),
   ('editarAmbulancia',     'EditarMovil2026'),
