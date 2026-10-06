@@ -1040,6 +1040,7 @@ html.oscuro .editar {
     text-align: center;
 }
 
+.pie img.grande,
 .pie img {
     max-width: 420px;
     width: 100%;
@@ -1062,4 +1063,24 @@ html.oscuro .pie img {
 .avisoRecarga {
     margin-top: -10px;
     margin-bottom: 20px;
+}
+
+.logosDelPie {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.pie img.logoChico {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+}
+
+.enLinea input[type="password"] {
+    width: 120px;
+    margin: 0 6px 0 0;
+    display: inline-block;
 }

@@ -276,14 +276,25 @@ function ponerPie() {
     const pie = document.createElement("div");
     pie.className = "pie";
 
-    const logo = document.createElement("img");
-    logo.src = raizDelSitio() + "/Img/logos.png";
-    logo.alt = "ANEP - UTU - Escuela Superior de Comunicación Social y Diseño Gráfico";
+    const fila = document.createElement("div");
+    fila.className = "logosDelPie";
+
+    const estrella = document.createElement("img");
+    estrella.src = raizDelSitio() + "/Img/infinitystar.png";
+    estrella.alt = "Infinity Star";
+    estrella.className = "logoChico";
+
+    const escuela = document.createElement("img");
+    escuela.src = raizDelSitio() + "/Img/logos.png";
+    escuela.alt = "ANEP - UTU - Escuela Superior de Comunicación Social y Diseño Gráfico";
+
+    fila.appendChild(estrella);
+    fila.appendChild(escuela);
 
     const texto = document.createElement("p");
     texto.textContent = "Hospital de Clínicas Montevideo";
 
-    pie.appendChild(logo);
+    pie.appendChild(fila);
     pie.appendChild(texto);
 
     document.body.appendChild(pie);
@@ -393,6 +404,10 @@ function avisosDeLaDireccion() {
         mensaje = "Tu contraseña se cambió. Ya podés entrar.";
     } else if (direccion.get("error") == "claveCorta") {
         mensaje = "La contraseña tiene que tener al menos 8 letras o números.";
+    } else if (direccion.get("error") == "claveActual") {
+        mensaje = "La contraseña actual no es correcta.";
+    } else if (direccion.get("error") == "noCoinciden") {
+        mensaje = "Las contraseñas nuevas no coinciden.";
     } else if (direccion.get("error") == "enlaceVencido") {
         mensaje = "Ese enlace ya se usó o venció. Pedí uno nuevo.";
     } else if (direccion.get("error") == "mismaRuta") {
