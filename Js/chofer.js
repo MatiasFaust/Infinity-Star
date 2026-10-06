@@ -168,3 +168,29 @@ if (document.getElementById("cuerpoMisTraslados")) {
     cargarMisTraslados();
 }
 
+
+
+const segundosParaRecargar = 15;
+
+function avisarQueSeActualiza() {
+    const aviso = document.createElement("p");
+    aviso.className = "ayuda avisoRecarga";
+    aviso.textContent = "Esta pantalla se actualiza sola cada " + segundosParaRecargar + " segundos.";
+
+    const titulo = document.querySelector("main h1");
+
+    if (titulo) {
+        titulo.after(aviso);
+    }
+}
+
+function recargarSolo() {
+    setTimeout(function () {
+        location.reload();
+    }, segundosParaRecargar * 1000);
+}
+
+if (document.getElementById("cuerpoMisTraslados")) {
+    avisarQueSeActualiza();
+    recargarSolo();
+}

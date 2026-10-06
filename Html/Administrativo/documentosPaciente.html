@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Documentos del paciente</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=88">
+    <link rel="stylesheet" href="../../Css/panel.css?v=89">
 </head>
 
 <body>
@@ -64,10 +64,10 @@
 
             <p class="aviso" id="aviso" hidden></p>
 
-            <form action="../../subir.php" method="POST" enctype="multipart/form-data">
+            <form autocomplete="off" action="../../subir.php" method="POST" enctype="multipart/form-data">
 
                 <label>Paciente</label>
-                <input type="text" id="buscarPaciente" placeholder="Buscar por nombre, apellido o cédula">
+                <input autocomplete="off" type="text" id="buscarPaciente" placeholder="Buscar por nombre, apellido o cédula">
                 <div id="resultadosPaciente" class="resultados"></div>
                 <p class="elegido" id="pacienteElegido" hidden></p>
                 <input type="hidden" name="paciente" id="paciente" required>
@@ -99,7 +99,7 @@
 
             <div class="tabla">
 
-                <input type="text" id="buscarDocPaciente" class="buscar" placeholder="Buscar por paciente o tipo de documento">
+                <input autocomplete="off" type="text" id="buscarDocPaciente" class="buscar" autocomplete="off" placeholder="Buscar por paciente o tipo de documento">
 
                 <table>
 
@@ -125,10 +125,10 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=88">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=89">EN</button>
 
-    <script src="../../Js/comun.js?v=88"></script>
-    <script src="../../Js/documentosPaciente.js?v=88"></script>
+    <script src="../../Js/comun.js?v=89"></script>
+    <script src="../../Js/documentosPaciente.js?v=89"></script>
 </body>
 
 </html>

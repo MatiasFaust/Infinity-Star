@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Editar usuario</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=88">
+    <link rel="stylesheet" href="../../Css/panel.css?v=89">
 </head>
 
 <body>
@@ -62,7 +62,7 @@
 
             <p class="aviso" id="aviso" hidden></p>
 
-            <form action="../../actualizar.php?que=persona" method="POST">
+            <form autocomplete="off" action="../../actualizar.php?que=persona" method="POST">
 
                 <input type="hidden" name="id" id="id">
 
@@ -70,19 +70,19 @@
                 <input type="text" id="rol" disabled>
 
                 <label>Nombre</label>
-                <input type="text" name="nombre" id="nombre" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" title="Solo letras" required>
+                <input type="text" name="nombre" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" title="Solo letras" id="nombre" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" title="Solo letras" required>
 
                 <label>Apellido</label>
-                <input type="text" name="apellido" id="apellido" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" title="Solo letras" required>
+                <input type="text" name="apellido" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" title="Solo letras" id="apellido" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" title="Solo letras" required>
 
                 <label>Cédula</label>
-                <input type="text" name="cedula" id="cedula" placeholder="12345678" pattern="[0-9]+" required>
+                <input type="text" name="cedula" inputmode="numeric" pattern="[0-9]{7,8}" title="Solo números, 7 u 8 dígitos" id="cedula" placeholder="12345678" pattern="[0-9]+" required>
 
                 <label>Correo</label>
                 <input type="email" name="correo" id="correo">
 
                     <label>Teléfono</label>
-                    <input type="text" name="telefono" id="telefono" placeholder="099123456" maxlength="15">
+                    <input type="text" name="telefono" inputmode="numeric" pattern="[0-9]{8,9}" title="Solo números" id="telefono" placeholder="099123456" maxlength="15">
 
                 <label>Dirección</label>
                 <input type="text" name="direccion" id="direccion">
@@ -101,10 +101,10 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=88">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=89">EN</button>
 
-    <script src="../../Js/comun.js?v=88"></script>
-    <script src="../../Js/usuarios.js?v=88"></script>
+    <script src="../../Js/comun.js?v=89"></script>
+    <script src="../../Js/usuarios.js?v=89"></script>
 </body>
 
 </html>

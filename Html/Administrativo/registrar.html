@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Registrar</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=88">
+    <link rel="stylesheet" href="../../Css/panel.css?v=89">
 </head>
 
 <body>
@@ -62,7 +62,7 @@
 
             <p class="aviso" id="aviso" hidden></p>
 
-            <form action="../../guardar.php?que=persona" method="POST">
+            <form autocomplete="off" action="../../guardar.php?que=persona" method="POST">
 
                 <div class="seccion">
 
@@ -100,7 +100,7 @@
                     <input type="text" name="apellido" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" title="Solo letras" required>
 
                     <label>Cédula</label>
-                    <input type="text" name="cedula" placeholder="12345678" pattern="[0-9]+" required>
+                    <input type="text" name="cedula" inputmode="numeric" pattern="[0-9]{7,8}" title="Solo números, 7 u 8 dígitos" placeholder="12345678" required>
 
                     <label>Dirección</label>
                     <input type="text" name="direccion" placeholder="Av. Italia 2870">
@@ -109,7 +109,7 @@
                     <input type="email" name="correo" placeholder="nombre@gmail.com" required>
 
                     <label>Teléfono</label>
-                    <input type="text" name="telefono" id="telefono" placeholder="099123456" maxlength="15">
+                    <input type="text" name="telefono" inputmode="numeric" pattern="[0-9]{8,9}" title="Solo números" id="telefono" placeholder="099123456" maxlength="15">
 
                 </div>
 
@@ -147,10 +147,10 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=88">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=89">EN</button>
 
-    <script src="../../Js/comun.js?v=88"></script>
-    <script src="../../Js/usuarios.js?v=88"></script>
+    <script src="../../Js/comun.js?v=89"></script>
+    <script src="../../Js/usuarios.js?v=89"></script>
 </body>
 
 </html>
