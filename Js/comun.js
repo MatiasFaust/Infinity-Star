@@ -668,6 +668,15 @@ function vaciarBuscadores() {
     }
 }
 
+function vaciarBuscadoresVariasVeces() {
+    vaciarBuscadores();
+
+    window.addEventListener("load", vaciarBuscadores);
+    window.addEventListener("pageshow", vaciarBuscadores);
+
+    setTimeout(vaciarBuscadores, 300);
+}
+
 function limitarCampos() {
     const cedulas = document.querySelectorAll("input[name='cedula']");
 
@@ -694,8 +703,7 @@ marcarActivo();
 avisosDeLaDireccion();
 ponerOjitos();
 limitarCampos();
-vaciarBuscadores();
-window.addEventListener("pageshow", vaciarBuscadores);
+vaciarBuscadoresVariasVeces();
 ponerBotonTema();
 ponerPie();
 pedirTokenAlBorrar();
