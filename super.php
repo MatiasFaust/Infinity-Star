@@ -60,6 +60,23 @@ if ($quien) {
     $nombre = $quien['nombre'] . " " . $quien['apellido'];
 }
 
+if ($accion == "ponerClave") {
+    $nueva = $_POST['nueva'];
+
+    if (strlen($nueva) < 8) {
+        header("Location: $vuelve?error=claveCorta");
+        exit;
+    }
+
+    $db->query("UPDATE usuario SET contrasena = SHA2('$nueva', 256)
+                WHERE id_persona = $id");
+
+    anotar($yo, "Le puso una contraseña nueva a " . $nombre);
+
+    header("Location: $vuelve?guardado=si");
+    exit;
+}
+
 if ($accion == "suspender") {
     $valor = $_POST['valor'];
 

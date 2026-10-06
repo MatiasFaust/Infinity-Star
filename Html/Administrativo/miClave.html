@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
-    <title>Editar ambulancia</title>
+    <title>Mi contraseña</title>
     <link rel="stylesheet" href="../../Css/panel.css?v=91">
 </head>
 
@@ -27,19 +27,8 @@
 
             <p class="tituloMenu">NAVEGACIÓN</p>
 
-            <a href="InicioT.html">
-                Inicio
-            </a>
-
-            
-            <!--
-            <a href="verTraslados.html">
-                Ver traslados
-            </a>
-            -->
-
-            <a href="ambulancias.html">
-                Ambulancias
+            <a href="miClave.html">
+                Mi contraseña
             </a>
 
             <hr>
@@ -52,26 +41,27 @@
 
         <main>
 
-            <h1>Editar ambulancia</h1>
+            <h1>Cambiar mi contraseña</h1>
+
+            <p class="ayuda">Poné una contraseña que te acuerdes. Nadie, ni el hospital, puede ver cuál es: por eso conviene que la elijas vos.</p>
 
             <p class="aviso" id="aviso" hidden></p>
 
-            <form action="../../actualizar.php?que=ambulancia" method="POST">
+            <form autocomplete="off" action="../../cambiarClave.php" method="POST">
 
-                <input type="hidden" name="id" id="id">
+                <label>Contraseña actual</label>
+                <input type="password" name="actual" required>
 
-                <label>Matrícula</label>
-                <input type="text" name="matricula" id="matricula" required>
+                <label>Contraseña nueva</label>
+                <input type="password" name="nueva" minlength="8" maxlength="16" required>
 
-                <label>Móvil</label>
-                <input type="text" name="movil" id="movil" required>
+                <label>Repetí la nueva</label>
+                <input type="password" name="repetir" minlength="8" maxlength="16" required>
 
-                <label>Token para editar</label>
-                <input type="password" name="token" placeholder="El token de editar ambulancias" required>
+                <p class="ayuda">Tiene que tener al menos 8 letras o números.</p>
 
                 <div class="botones">
-                    <a href="ambulancias.html">Cancelar</a>
-                    <button type="submit">Guardar cambios</button>
+                    <button type="submit">Guardar contraseña</button>
                 </div>
 
             </form>
@@ -83,7 +73,6 @@
     <button class="idioma" data-traducciones="../../Js/traducciones.json?v=91">EN</button>
 
     <script src="../../Js/comun.js?v=91"></script>
-    <script src="../../Js/traslados.js?v=91"></script>
 </body>
 
 </html>

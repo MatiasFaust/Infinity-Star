@@ -60,6 +60,17 @@ async function cargarTokens() {
     }
 }
 
+function formularioDeClave(idPersona) {
+    let html = "<form class='enLinea' method='POST' action='../../super.php'>";
+    html = html + "<input type='hidden' name='accion' value='ponerClave'>";
+    html = html + "<input type='hidden' name='id' value='" + idPersona + "'>";
+    html = html + "<input type='password' name='nueva' placeholder='" + enIdioma("Clave nueva") + "' minlength='8' required>";
+    html = html + "<button type='submit' class='editar'>" + enIdioma("Poner clave") + "</button>";
+    html = html + "</form>";
+
+    return html;
+}
+
 function dibujarFuncionarios(lista, texto) {
     const cuerpo = document.getElementById("cuerpoFuncionarios");
     cuerpo.innerHTML = "";
@@ -88,6 +99,7 @@ function dibujarFuncionarios(lista, texto) {
         } else {
             acciones = "<a class='editar verActividad' href='#' data-id='" + f.idPersona + "' data-nombre='" + f.nombre + " " + f.apellido + "'>" + enIdioma("Ver actividad") + "</a>" +
                        botonEstado +
+                       formularioDeClave(f.idPersona) +
                        botonSuper("eliminar", f.idPersona, "Eliminar", "eliminar");
         }
 
