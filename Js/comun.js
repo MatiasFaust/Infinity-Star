@@ -268,6 +268,27 @@ function aplicarTema() {
     }
 }
 
+function ponerPie() {
+    if (document.querySelector(".pie")) {
+        return;
+    }
+
+    const pie = document.createElement("div");
+    pie.className = "pie";
+
+    const logo = document.createElement("img");
+    logo.src = raizDelSitio() + "/Img/logos.png";
+    logo.alt = "ANEP - UTU - Escuela Superior de Comunicación Social y Diseño Gráfico";
+
+    const texto = document.createElement("p");
+    texto.textContent = "Hospital de Clínicas Montevideo";
+
+    pie.appendChild(logo);
+    pie.appendChild(texto);
+
+    document.body.appendChild(pie);
+}
+
 function ponerBotonTema() {
     const boton = document.createElement("button");
     boton.type = "button";
@@ -611,20 +632,35 @@ async function prepararIdioma() {
     vigilante.observe(document.body, { childList: true, subtree: true });
 }
 
-function limitarCampos() {
-    const cedula = document.querySelector("input[name='cedula']");
-    const nombres = document.querySelectorAll("input[name='nombre'], input[name='apellido']");
+function soloNumeros(campo, cuantos) {
+    campo.addEventListener("input", function () {
+        campo.value = campo.value.replace(/[^0-9]/g, "").substring(0, cuantos);
+    });
+}
 
-    if (cedula) {
-        cedula.addEventListener("input", function () {
-            cedula.value = cedula.value.replace(/[^0-9]/g, "").substring(0, 8);
-        });
+function soloLetras(campo) {
+    campo.addEventListener("input", function () {
+        campo.value = campo.value.replace(/[^A-Za-zÁÉÍÓÚÑáéíóúñ ]/g, "");
+    });
+}
+
+function limitarCampos() {
+    const cedulas = document.querySelectorAll("input[name='cedula']");
+
+    for (let i = 0; i < cedulas.length; i++) {
+        soloNumeros(cedulas[i], 8);
     }
 
+    const nombres = document.querySelectorAll("input[name='nombre'], input[name='apellido'], input[name='copilotoNombre'], input[name='copilotoApellido']");
+
     for (let i = 0; i < nombres.length; i++) {
-        nombres[i].addEventListener("input", function () {
-            this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚÑáéíóúñ ]/g, "");
-        });
+        soloLetras(nombres[i]);
+    }
+
+    const telefonos = document.querySelectorAll("input[name='telefono'], input[name='copilotoCedula']");
+
+    for (let i = 0; i < telefonos.length; i++) {
+        soloNumeros(telefonos[i], 15);
     }
 }
 
@@ -635,6 +671,7 @@ avisosDeLaDireccion();
 ponerOjitos();
 limitarCampos();
 ponerBotonTema();
+ponerPie();
 pedirTokenAlBorrar();
 prepararBuscadorDePacientes();
 window.addEventListener("load", prepararIdioma);

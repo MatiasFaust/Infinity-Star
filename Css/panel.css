@@ -1029,3 +1029,37 @@ html.oscuro .editar {
 .cartel .botones button {
     margin-left: 10px;
 }
+
+.pie {
+    margin-top: 40px;
+    padding: 25px 20px;
+
+    background-color: var(--blanco);
+    border-top: 1px solid var(--grisBorde);
+
+    text-align: center;
+}
+
+.pie img {
+    max-width: 420px;
+    width: 100%;
+    height: auto;
+}
+
+.pie p {
+    margin: 10px 0 0;
+
+    color: var(--grisSuave);
+    font-size: 13px;
+}
+
+html.oscuro .pie img {
+    background-color: white;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.avisoRecarga {
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
