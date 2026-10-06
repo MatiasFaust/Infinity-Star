@@ -659,6 +659,15 @@ function soloLetras(campo) {
     });
 }
 
+function vaciarBuscadores() {
+    const campos = document.querySelectorAll(".buscar, #buscarPaciente");
+
+    for (let i = 0; i < campos.length; i++) {
+        campos[i].value = "";
+        campos[i].setAttribute("autocomplete", "off");
+    }
+}
+
 function limitarCampos() {
     const cedulas = document.querySelectorAll("input[name='cedula']");
 
@@ -685,6 +694,8 @@ marcarActivo();
 avisosDeLaDireccion();
 ponerOjitos();
 limitarCampos();
+vaciarBuscadores();
+window.addEventListener("pageshow", vaciarBuscadores);
 ponerBotonTema();
 ponerPie();
 pedirTokenAlBorrar();

@@ -1084,3 +1084,9 @@ html.oscuro .pie img {
     margin: 0 6px 0 0;
     display: inline-block;
 }
+
+.buscar:-webkit-autofill,
+#buscarPaciente:-webkit-autofill {
+    box-shadow: 0 0 0 1000px var(--blanco) inset;
+    -webkit-text-fill-color: var(--grisOscuro);
+}
