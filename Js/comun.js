@@ -674,7 +674,11 @@ function vaciarBuscadoresVariasVeces() {
     window.addEventListener("load", vaciarBuscadores);
     window.addEventListener("pageshow", vaciarBuscadores);
 
-    setTimeout(vaciarBuscadores, 300);
+    const momentos = [50, 150, 300, 600, 1000, 1800];
+
+    for (let i = 0; i < momentos.length; i++) {
+        setTimeout(vaciarBuscadores, momentos[i]);
+    }
 }
 
 function limitarCampos() {
