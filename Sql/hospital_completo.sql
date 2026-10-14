@@ -1,9 +1,49 @@
--- Base de datos del Hospital de Clinicas
--- Generado el 30/09/2026 00:16
+-- ============================================================
+--  BASE DE DATOS DEL HOSPITAL DE CLINICAS MONTEVIDEO
+--  Para cargar en el servidor del liceo.
+-- ============================================================
+--
+--  COMO SE USA
+--
+--  1) En el phpMyAdmin del servidor, crear una base vacia
+--     (por ejemplo que se llame hospital).
+--  2) Entrar a esa base, ir a la pestania "Importar"
+--     y subir este archivo.
+--  3) Listo, quedan creadas las 21 tablas con los tokens
+--     y el usuario superadmin para poder entrar.
+--
+--  OJO: este archivo trae solo la estructura, sin pacientes
+--  ni funcionarios cargados. Los datos de prueba de mi
+--  computadora no se suben porque son datos personales.
+--
+-- ============================================================
 
-SET FOREIGN_KEY_CHECKS = 0;
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `actividad`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `actividad` (
+  `id_actividad` int(11) NOT NULL AUTO_INCREMENT,
+  `id_persona` int(11) DEFAULT NULL,
+  `accion` varchar(255) NOT NULL,
+  `momento` datetime NOT NULL,
+  PRIMARY KEY (`id_actividad`)
+) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `ambulancia`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ambulancia` (
   `id_ambulancia` int(11) NOT NULL AUTO_INCREMENT,
   `matricula` varchar(20) NOT NULL,
@@ -11,21 +51,21 @@ CREATE TABLE `ambulancia` (
   PRIMARY KEY (`id_ambulancia`),
   UNIQUE KEY `matricula` (`matricula`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO `ambulancia` (`id_ambulancia`, `matricula`, `movil`) VALUES ('47', 'iad 1234', 'dasd');
-INSERT INTO `ambulancia` (`id_ambulancia`, `matricula`, `movil`) VALUES ('48', 'dasd 123', 'dsadsa 12');
-
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `clave_acceso`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `clave_acceso` (
   `id_clave` int(11) NOT NULL AUTO_INCREMENT,
   `codigo` varchar(50) NOT NULL,
+  `tipo` varchar(20) NOT NULL DEFAULT 'registro',
   PRIMARY KEY (`id_clave`),
   UNIQUE KEY `codigo` (`codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO `clave_acceso` (`id_clave`, `codigo`) VALUES ('1', 'Funcionario2026');
-
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `documento`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `documento` (
   `id_documento` int(11) NOT NULL AUTO_INCREMENT,
   `titulo` varchar(255) DEFAULT NULL,
@@ -34,27 +74,31 @@ CREATE TABLE `documento` (
   `id_paciente` int(11) DEFAULT NULL,
   `archivo` varchar(255) DEFAULT NULL,
   `fecha` datetime DEFAULT current_timestamp(),
+  `codigo` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`id_documento`),
   KEY `id_funcionario` (`id_funcionario`),
   KEY `fk_documento_paciente` (`id_paciente`),
   CONSTRAINT `documento_ibfk_1` FOREIGN KEY (`id_funcionario`) REFERENCES `funcionario` (`id_funcionario`),
   CONSTRAINT `fk_documento_paciente` FOREIGN KEY (`id_paciente`) REFERENCES `paciente` (`id_paciente`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO `documento` (`id_documento`, `titulo`, `categoria_tipo`, `id_funcionario`, `id_paciente`, `archivo`, `fecha`) VALUES ('22', 'Centellograma de perfusión miocárdica', 'pdf', '79', NULL, 'doc1790720079914.pdf', '2026-09-29 19:14:39');
-
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `encuesta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `encuesta` (
   `id_encuesta` int(11) NOT NULL AUTO_INCREMENT,
   `id_documento` int(11) DEFAULT NULL,
   `fecha` datetime DEFAULT current_timestamp(),
+  `codigo` varchar(40) DEFAULT NULL,
+  `activa` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_encuesta`),
   KEY `id_documento` (`id_documento`),
   CONSTRAINT `encuesta_ibfk_1` FOREIGN KEY (`id_documento`) REFERENCES `documento` (`id_documento`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `encuesta_paciente_entra`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `encuesta_paciente_entra` (
   `id_encuesta` int(11) NOT NULL,
   `id_paciente` int(11) NOT NULL,
@@ -63,9 +107,10 @@ CREATE TABLE `encuesta_paciente_entra` (
   CONSTRAINT `encuesta_paciente_entra_ibfk_1` FOREIGN KEY (`id_encuesta`) REFERENCES `encuesta` (`id_encuesta`),
   CONSTRAINT `encuesta_paciente_entra_ibfk_2` FOREIGN KEY (`id_paciente`) REFERENCES `paciente` (`id_paciente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `funcionario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `funcionario` (
   `id_funcionario` int(11) NOT NULL AUTO_INCREMENT,
   `id_persona` int(11) DEFAULT NULL,
@@ -73,15 +118,11 @@ CREATE TABLE `funcionario` (
   PRIMARY KEY (`id_funcionario`),
   UNIQUE KEY `persona_funcion` (`id_persona`,`tipo_funcion`),
   CONSTRAINT `funcionario_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`)
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO `funcionario` (`id_funcionario`, `id_persona`, `tipo_funcion`) VALUES ('78', '129', 'chofer');
-INSERT INTO `funcionario` (`id_funcionario`, `id_persona`, `tipo_funcion`) VALUES ('79', '130', 'administrativo');
-INSERT INTO `funcionario` (`id_funcionario`, `id_persona`, `tipo_funcion`) VALUES ('80', '131', 'administrativo');
-INSERT INTO `funcionario` (`id_funcionario`, `id_persona`, `tipo_funcion`) VALUES ('81', '133', 'chofer');
-INSERT INTO `funcionario` (`id_funcionario`, `id_persona`, `tipo_funcion`) VALUES ('82', '134', 'chofer');
-
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `funcionario_paciente_lleva`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `funcionario_paciente_lleva` (
   `id_funcionario` int(11) NOT NULL,
   `id_paciente` int(11) NOT NULL,
@@ -90,9 +131,10 @@ CREATE TABLE `funcionario_paciente_lleva` (
   CONSTRAINT `funcionario_paciente_lleva_ibfk_1` FOREIGN KEY (`id_funcionario`) REFERENCES `funcionario` (`id_funcionario`),
   CONSTRAINT `funcionario_paciente_lleva_ibfk_2` FOREIGN KEY (`id_paciente`) REFERENCES `paciente` (`id_paciente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `funcionario_traslado_administra`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `funcionario_traslado_administra` (
   `id_funcionario` int(11) NOT NULL,
   `id_traslado` int(11) NOT NULL,
@@ -101,10 +143,10 @@ CREATE TABLE `funcionario_traslado_administra` (
   CONSTRAINT `funcionario_traslado_administra_ibfk_1` FOREIGN KEY (`id_funcionario`) REFERENCES `funcionario` (`id_funcionario`),
   CONSTRAINT `funcionario_traslado_administra_ibfk_2` FOREIGN KEY (`id_traslado`) REFERENCES `traslado` (`id_traslado`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO `funcionario_traslado_administra` (`id_funcionario`, `id_traslado`) VALUES ('79', '26');
-
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `funcionario_traslado_maneja`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `funcionario_traslado_maneja` (
   `id_funcionario` int(11) NOT NULL,
   `id_traslado` int(11) NOT NULL,
@@ -113,21 +155,21 @@ CREATE TABLE `funcionario_traslado_maneja` (
   CONSTRAINT `funcionario_traslado_maneja_ibfk_1` FOREIGN KEY (`id_funcionario`) REFERENCES `funcionario` (`id_funcionario`),
   CONSTRAINT `funcionario_traslado_maneja_ibfk_2` FOREIGN KEY (`id_traslado`) REFERENCES `traslado` (`id_traslado`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO `funcionario_traslado_maneja` (`id_funcionario`, `id_traslado`) VALUES ('82', '26');
-
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `paciente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `paciente` (
   `id_paciente` int(11) NOT NULL AUTO_INCREMENT,
   `id_persona` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_paciente`),
   UNIQUE KEY `persona_unica` (`id_persona`),
   CONSTRAINT `paciente_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO `paciente` (`id_paciente`, `id_persona`) VALUES ('54', '128');
-
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `paciente_traslado_acompania`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `paciente_traslado_acompania` (
   `id_paciente` int(11) NOT NULL,
   `id_traslado` int(11) NOT NULL,
@@ -136,9 +178,10 @@ CREATE TABLE `paciente_traslado_acompania` (
   CONSTRAINT `paciente_traslado_acompania_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `paciente` (`id_paciente`),
   CONSTRAINT `paciente_traslado_acompania_ibfk_2` FOREIGN KEY (`id_traslado`) REFERENCES `traslado` (`id_traslado`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `persona`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `persona` (
   `id_persona` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
@@ -146,19 +189,15 @@ CREATE TABLE `persona` (
   `cedula` int(11) DEFAULT NULL,
   `correo` varchar(255) DEFAULT NULL,
   `direccion` varchar(255) DEFAULT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id_persona`),
   UNIQUE KEY `cedula` (`cedula`),
   UNIQUE KEY `correo` (`correo`)
-) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO `persona` (`id_persona`, `nombre`, `apellido`, `cedula`, `correo`, `direccion`) VALUES ('128', 'Lautaro', 'Pintos', '99999999', 'facuultad2007@gmail.com', 'cerrito');
-INSERT INTO `persona` (`id_persona`, `nombre`, `apellido`, `cedula`, `correo`, `direccion`) VALUES ('129', 'Matías', 'Faust', '12344444', 'mtsfaust@gmail.com', 'Soriano 1854');
-INSERT INTO `persona` (`id_persona`, `nombre`, `apellido`, `cedula`, `correo`, `direccion`) VALUES ('130', 'Gaston ', 'Gomez', '33333333', 'Gaston@gmail.com', 'Av Italia');
-INSERT INTO `persona` (`id_persona`, `nombre`, `apellido`, `cedula`, `correo`, `direccion`) VALUES ('131', 'Julio', 'Pintos', '28567771', 'Jumakalau@gmail.com', 'Vicente Mongrell 823');
-INSERT INTO `persona` (`id_persona`, `nombre`, `apellido`, `cedula`, `correo`, `direccion`) VALUES ('133', 'Diego', 'Perez', '12351252', 'dedasdwe@gmail.com', 'dasd3eade');
-INSERT INTO `persona` (`id_persona`, `nombre`, `apellido`, `cedula`, `correo`, `direccion`) VALUES ('134', 'Lautaro', 'Lautaro', '41255555', 'sd3e3f@gmail.com', 'daed3');
-
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `posicion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `posicion` (
   `id_posicion` int(11) NOT NULL AUTO_INCREMENT,
   `id_traslado` int(11) NOT NULL,
@@ -168,10 +207,11 @@ CREATE TABLE `posicion` (
   PRIMARY KEY (`id_posicion`),
   KEY `id_traslado` (`id_traslado`),
   CONSTRAINT `posicion_ibfk_1` FOREIGN KEY (`id_traslado`) REFERENCES `traslado` (`id_traslado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `pregunta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `pregunta` (
   `id_pregunta` int(11) NOT NULL AUTO_INCREMENT,
   `id_encuesta` int(11) NOT NULL,
@@ -179,10 +219,11 @@ CREATE TABLE `pregunta` (
   PRIMARY KEY (`id_pregunta`),
   KEY `id_encuesta` (`id_encuesta`),
   CONSTRAINT `pregunta_ibfk_1` FOREIGN KEY (`id_encuesta`) REFERENCES `encuesta` (`id_encuesta`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `qr`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `qr` (
   `id_qr` int(11) NOT NULL AUTO_INCREMENT,
   `url` varchar(255) DEFAULT NULL,
@@ -190,11 +231,11 @@ CREATE TABLE `qr` (
   PRIMARY KEY (`id_qr`),
   KEY `id_documento` (`id_documento`),
   CONSTRAINT `qr_ibfk_1` FOREIGN KEY (`id_documento`) REFERENCES `documento` (`id_documento`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO `qr` (`id_qr`, `url`, `id_documento`) VALUES ('4', 'documento.php?id=22', '22');
-
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `respuesta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `respuesta` (
   `id_respuesta` int(11) NOT NULL AUTO_INCREMENT,
   `id_pregunta` int(11) NOT NULL,
@@ -205,10 +246,11 @@ CREATE TABLE `respuesta` (
   KEY `id_paciente` (`id_paciente`),
   CONSTRAINT `respuesta_ibfk_1` FOREIGN KEY (`id_pregunta`) REFERENCES `pregunta` (`id_pregunta`),
   CONSTRAINT `respuesta_ibfk_2` FOREIGN KEY (`id_paciente`) REFERENCES `paciente` (`id_paciente`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `ruta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ruta` (
   `id_ruta` int(11) NOT NULL AUTO_INCREMENT,
   `origen` varchar(255) NOT NULL,
@@ -222,11 +264,22 @@ CREATE TABLE `ruta` (
   UNIQUE KEY `origen` (`origen`,`destino`,`id_ambulancia`),
   KEY `id_ambulancia` (`id_ambulancia`),
   CONSTRAINT `ruta_ibfk_1` FOREIGN KEY (`id_ambulancia`) REFERENCES `ambulancia` (`id_ambulancia`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `token`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `token` (
+  `id_token` int(11) NOT NULL AUTO_INCREMENT,
+  `accion` varchar(40) NOT NULL,
+  `codigo` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_token`),
+  UNIQUE KEY `accion` (`accion`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO `ruta` (`id_ruta`, `origen`, `destino`, `id_ambulancia`, `origen_lat`, `origen_lng`, `destino_lat`, `destino_lng`) VALUES ('7', '2615, Avenida 8 de Octubre, Tres Cruces, Montevideo, 11601, Uruguay', 'Paysandú, 60000, Uruguay', '48', '-34.8907536', '-56.1614227', '-32.3464670', '-58.0764771');
-
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `traslado`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `traslado` (
   `id_traslado` int(11) NOT NULL AUTO_INCREMENT,
   `tiempo_salida` datetime DEFAULT NULL,
@@ -251,26 +304,72 @@ CREATE TABLE `traslado` (
   CONSTRAINT `traslado_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `paciente` (`id_paciente`),
   CONSTRAINT `traslado_ibfk_2` FOREIGN KEY (`id_ambulancia`) REFERENCES `ambulancia` (`id_ambulancia`),
   CONSTRAINT `traslado_ibfk_3` FOREIGN KEY (`id_ruta`) REFERENCES `ruta` (`id_ruta`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-INSERT INTO `traslado` (`id_traslado`, `tiempo_salida`, `tiempo_llegada`, `punto_origen`, `destino`, `tipo_elemento`, `descripcion_elemento`, `id_paciente`, `id_ambulancia`, `estado`, `copiloto_nombre`, `copiloto_apellido`, `copiloto_cedula`, `id_ruta`, `llegada_real`, `minutos_estimados`) VALUES ('26', '2026-09-29 18:13:25', '2026-09-29 23:09:25', '2615, Avenida 8 de Octubre, Tres Cruces, Montevideo, 11601, Uruguay', 'Paysandú, 60000, Uruguay', '', '', '54', '48', 'Finalizado', 'dead', 'deadea', '12344444', '7', '2026-09-29 18:13:42', '296');
-
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
   `id_persona` int(11) DEFAULT NULL,
   `usuario` varchar(50) NOT NULL,
   `contrasena` varchar(255) NOT NULL,
+  `suspendido` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `usuario` (`usuario`),
   UNIQUE KEY `id_persona` (`id_persona`),
   CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-INSERT INTO `usuario` (`id_usuario`, `id_persona`, `usuario`, `contrasena`) VALUES ('76', '129', 'Matias', '5f684df28279b5dc7537b65e83fd7f6cb3ef0d925d1b0a7688a34c9073275fed');
-INSERT INTO `usuario` (`id_usuario`, `id_persona`, `usuario`, `contrasena`) VALUES ('77', '130', 'Gaston', '0378139a6772568c6f37a4643c1b1a53b357000ed4bb0b27cbe5e459470b05bd');
-INSERT INTO `usuario` (`id_usuario`, `id_persona`, `usuario`, `contrasena`) VALUES ('78', '131', 'Julio', '9fc9b458969f9babde3e0b0fd086b374c49acb03d1e4225a282a36264b2db08a');
-INSERT INTO `usuario` (`id_usuario`, `id_persona`, `usuario`, `contrasena`) VALUES ('79', '133', 'Diego', '7cc7b8a9e8c500509d2b85acae734e700676f11e45f2338370e3421f8a80ae66');
-INSERT INTO `usuario` (`id_usuario`, `id_persona`, `usuario`, `contrasena`) VALUES ('80', '134', 'Lautaro', '4c7b36de6a79c903ad8a8cc52d3dea4767bbc21dc3fd6a807ccbf6180e407551');
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-SET FOREIGN_KEY_CHECKS = 1;
+
+-- ============================================================
+--  TOKENS DE ACCESO
+-- ============================================================
+--  Cada accion de la pagina pide su propio token.
+--  Estos son de ejemplo. Una vez que entres como superadmin
+--  cambialos desde la pantalla de superadmin, porque estos
+--  estan escritos aca y los puede leer cualquiera.
+
+INSERT INTO `token` (`id_token`, `accion`, `codigo`) VALUES
+(1, 'registrarPaciente',   'CambiarEsto1'),
+(2, 'registrarAdministrativo', 'CambiarEsto2'),
+(3, 'registrarChofer',     'CambiarEsto3'),
+(4, 'eliminarPersona',     'CambiarEsto4'),
+(5, 'editarPersona',       'CambiarEsto5'),
+(6, 'editarAmbulancia',    'CambiarEsto6'),
+(7, 'eliminarAmbulancia',  'CambiarEsto7'),
+(8, 'eliminarDocumento',   'CambiarEsto8');
+
+
+-- ============================================================
+--  USUARIO SUPERADMIN
+-- ============================================================
+--  Este es el unico usuario que viene cargado, para poder
+--  entrar la primera vez. Despues, desde la pantalla de
+--  superadmin, se registran los funcionarios y los choferes.
+--
+--  ANTES DE IMPORTAR: cambiale la contrasena abajo donde dice
+--  CambiarEstaClave. La pagina la guarda cifrada con SHA2,
+--  por eso no se puede leer despues, ni siquiera por mi.
+
+INSERT INTO `persona` (`nombre`, `apellido`, `cedula`, `correo`, `telefono`)
+VALUES ('Admin', 'Principal', 11111111, NULL, NULL);
+
+INSERT INTO `funcionario` (`id_persona`, `tipo_funcion`)
+VALUES (LAST_INSERT_ID(), 'superadmin');
+
+INSERT INTO `usuario` (`id_persona`, `usuario`, `contrasena`, `suspendido`)
+VALUES ((SELECT `id_persona` FROM `persona` WHERE `cedula` = 11111111),
+        'Admin1',
+        SHA2('CambiarEstaClave', 256),
+        0);

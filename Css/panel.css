@@ -1032,7 +1032,9 @@ html.oscuro .editar {
 
 .pie {
     margin-top: 40px;
-    padding: 25px 20px;
+
+    /* Abajo dejo lugar de sobra, asi los botones fijos no tapan los logos. */
+    padding: 25px 20px 95px;
 
     background-color: var(--blanco);
     border-top: 1px solid var(--grisBorde);
