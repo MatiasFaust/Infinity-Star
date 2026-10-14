@@ -1,6 +1,12 @@
 function raizDelSitio() {
     const partes = location.pathname.split("/Html/");
-    return partes[0];
+
+    if (partes.length > 1) {
+        return partes[0];
+    }
+
+    // Si la pagina esta en la raiz no hay /Html/, entonces le saco el nombre del archivo.
+    return location.pathname.substring(0, location.pathname.lastIndexOf("/"));
 }
 
 async function revisarSesion() {
@@ -398,6 +404,10 @@ function avisosDeLaDireccion() {
         mensaje = "No podés suspenderte ni eliminarte a vos mismo.";
     } else if (direccion.get("error") == "tokenBorrado") {
         mensaje = "El token de borrado no es correcto.";
+    } else if (direccion.get("credenciales") == "enviadas") {
+        mensaje = "Guardado. Le mandamos el usuario y la contraseña a su correo.";
+    } else if (direccion.get("credenciales") == "noSalio") {
+        mensaje = "Guardado, pero no se pudo enviar el correo. Pasale vos el usuario y la contraseña que escribiste.";
     } else if (direccion.has("enviado")) {
         mensaje = "Si ese correo está registrado, ya te enviamos tu usuario. Revisá tu casilla.";
     } else if (direccion.get("clave") == "cambiada") {
@@ -648,15 +658,23 @@ async function prepararIdioma() {
 }
 
 function soloNumeros(campo, cuantos) {
-    campo.addEventListener("input", function () {
-        campo.value = campo.value.replace(/[^0-9]/g, "").substring(0, cuantos);
-    });
+    const avisos = ["input", "change", "blur"];
+
+    for (let i = 0; i < avisos.length; i++) {
+        campo.addEventListener(avisos[i], function () {
+            campo.value = campo.value.replace(/[^0-9]/g, "").substring(0, cuantos);
+        });
+    }
 }
 
 function soloLetras(campo) {
-    campo.addEventListener("input", function () {
-        campo.value = campo.value.replace(/[^A-Za-zÁÉÍÓÚÑáéíóúñ ]/g, "");
-    });
+    const avisos = ["input", "change", "blur"];
+
+    for (let i = 0; i < avisos.length; i++) {
+        campo.addEventListener(avisos[i], function () {
+            campo.value = campo.value.replace(/[^A-Za-zÁÉÍÓÚÑáéíóúñ ]/g, "");
+        });
+    }
 }
 
 function vaciarBuscadores() {
@@ -668,16 +686,37 @@ function vaciarBuscadores() {
     }
 }
 
-function vaciarBuscadoresVariasVeces() {
+function limpiarLoQueNoVa() {
+    const numericos = document.querySelectorAll("input[name='cedula'], input[name='telefono'], input[name='copilotoCedula']");
+
+    for (let i = 0; i < numericos.length; i++) {
+        numericos[i].setAttribute("autocomplete", "off");
+        numericos[i].value = numericos[i].value.replace(/[^0-9]/g, "");
+    }
+
+    const deLetras = document.querySelectorAll("input[name='nombre'], input[name='apellido'], input[name='copilotoNombre'], input[name='copilotoApellido']");
+
+    for (let i = 0; i < deLetras.length; i++) {
+        deLetras[i].setAttribute("autocomplete", "off");
+        deLetras[i].value = deLetras[i].value.replace(/[^A-Za-zÁÉÍÓÚÑáéíóúñ ]/g, "");
+    }
+}
+
+function ordenarCampos() {
     vaciarBuscadores();
+    limpiarLoQueNoVa();
+}
 
-    window.addEventListener("load", vaciarBuscadores);
-    window.addEventListener("pageshow", vaciarBuscadores);
+function vaciarBuscadoresVariasVeces() {
+    ordenarCampos();
 
-    const momentos = [50, 150, 300, 600, 1000, 1800];
+    window.addEventListener("load", ordenarCampos);
+    window.addEventListener("pageshow", ordenarCampos);
+
+    const momentos = [50, 150, 300, 600, 1000, 1800, 3000];
 
     for (let i = 0; i < momentos.length; i++) {
-        setTimeout(vaciarBuscadores, momentos[i]);
+        setTimeout(ordenarCampos, momentos[i]);
     }
 }
 
