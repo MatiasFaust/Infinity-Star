@@ -111,6 +111,7 @@ if ($tipo == "lista") {
                                            traslado.tiempo_salida        AS salida,
                                            traslado.tiempo_llegada       AS llegada,
                                            traslado.llegada_real         AS llegadaReal,
+                                           traslado.creado,
                                            traslado.copiloto_nombre      AS copilotoNombre,
                                            traslado.copiloto_apellido    AS copilotoApellido,
                                            ambulancia.matricula, ambulancia.movil,

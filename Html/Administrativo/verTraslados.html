@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Ver traslados</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=100">
+    <link rel="stylesheet" href="../../Css/panel.css?v=108">
 </head>
 
 <body>
@@ -59,6 +59,29 @@
 
             <input type="text" id="buscarTraslado" class="buscar" autocomplete="off" placeholder="Buscar por paciente, chofer, origen, destino, estado o quién lo registró">
 
+            <div class="filtros">
+
+                <label for="filtroCuando">Cuándo se registró</label>
+                <select id="filtroCuando">
+                    <option value="hoy">Hoy</option>
+                    <option value="semana">Últimos 7 días</option>
+                    <option value="todos" selected>Todos</option>
+                </select>
+
+                <label for="filtroEstado">Estado</label>
+                <select id="filtroEstado">
+                    <option value="">Todos</option>
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Confirmado">Confirmado</option>
+                    <option value="En curso">En curso</option>
+                    <option value="En retorno">En retorno</option>
+                    <option value="Finalizado">Finalizado</option>
+                </select>
+
+                <span class="cuantos" id="cuantos"></span>
+
+            </div>
+
             <div class="tabla">
 
                 <table>
@@ -91,10 +114,10 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=100">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=108">EN</button>
 
-    <script src="../../Js/comun.js?v=100"></script>
-    <script src="../../Js/traslados.js?v=100"></script>
+    <script src="../../Js/comun.js?v=108"></script>
+    <script src="../../Js/traslados.js?v=108"></script>
 </body>
 
 </html>

@@ -207,10 +207,10 @@ if ($que == "traslado") {
 
     $db->query("INSERT INTO traslado (punto_origen, destino, tipo_elemento, descripcion_elemento,
                                       id_paciente, id_ambulancia, id_ruta, estado, minutos_estimados,
-                                      copiloto_nombre, copiloto_apellido, copiloto_cedula)
+                                      copiloto_nombre, copiloto_apellido, copiloto_cedula, creado)
                 VALUES ('$origen', '$destino', '$tipo', '$descripcion',
                         $paciente, $ambulancia, $idRuta, 'Pendiente', $minutos,
-                        '$copilotoNombre', '$copilotoApellido', '$copilotoCedula')");
+                        '$copilotoNombre', '$copilotoApellido', '$copilotoCedula', NOW())");
 
     $idTraslado = $db->insert_id;
 
