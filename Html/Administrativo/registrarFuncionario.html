@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
+    <title>Registrar funcionario</title>
+    <link rel="stylesheet" href="../../Css/panel.css?v=114">
+</head>
+
+<body>
+
+    <header>
+
+        <h3>Hospital de Clínicas Montevideo</h3>
+
+        <a href="../../salir.php" class="cerrar">
+            Cerrar sesión
+        </a>
+
+    </header>
+
+    <div class="contenedor">
+
+        <nav>
+
+            <p class="tituloMenu">SUPERADMIN</p>
+
+            <a href="superadmin.html">
+                Panel
+            </a>
+
+            <a href="registrarFuncionario.html">
+                Registrar funcionario
+            </a>
+
+        </nav>
+
+        <main>
+
+            <h1>Registrar funcionario</h1>
+
+            <p class="aviso" id="aviso" hidden></p>
+
+            <form data-recordar class="sinRelleno" autocomplete="off" action="../../guardar.php?que=persona" method="POST">
+
+                <!-- El superadmin solo da de alta funcionarios administrativos.
+                     Los pacientes y los choferes los carga el funcionario desde su panel. -->
+                <input type="hidden" name="rol" value="administrativo">
+                <input type="hidden" name="vuelve" value="Html/Administrativo/superadmin.html">
+                <input type="hidden" name="formulario" value="Html/Administrativo/registrarFuncionario.html">
+
+                <div class="seccion">
+
+                    <h3>Datos personales</h3>
+
+                    <p class="ayuda">Acá das de alta a un funcionario administrativo. Después él registra pacientes, choferes y traslados desde su propio panel.</p>
+
+                    <label>Nombre</label>
+                    <input type="text" name="nombre" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" title="Solo letras" required>
+
+                    <label>Apellido</label>
+                    <input type="text" name="apellido" pattern="[A-Za-zÁÉÍÓÚÑáéíóúñ ]+" title="Solo letras" required>
+
+                    <label>Cédula</label>
+                    <input type="text" name="cedula" inputmode="numeric" pattern="[0-9]{7,8}" title="Solo números, 7 u 8 dígitos" placeholder="12345678" required>
+
+                    <label>Dirección</label>
+                    <input type="text" name="direccion" placeholder="Av. Italia 2870">
+
+                    <label>Correo</label>
+                    <input type="email" name="correo" placeholder="nombre@gmail.com" required>
+
+                    <label>Teléfono</label>
+                    <input type="text" name="telefono" inputmode="numeric" pattern="[0-9]{8,9}" title="Solo números" id="telefono" placeholder="099123456" maxlength="15">
+
+                </div>
+
+                <div class="seccion">
+
+                    <h3>Cuenta para iniciar sesión</h3>
+
+                    <p class="ayuda">Con estos datos entra al sistema el funcionario. Anotálos y pasáselos vos, porque una vez guardada la contraseña queda cifrada y ya no se puede ver.</p>
+
+                    <label>Usuario</label>
+                    <input type="text" name="usuario" required>
+
+                    <label>Contraseña</label>
+                    <input type="password" name="contrasena" minlength="8" maxlength="16"
+                       pattern="(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,16}"
+                       title="De 8 a 16 letras y números con al menos una mayúscula y un número" required>
+
+                </div>
+
+                <div class="seccion">
+
+                    <h3>Token de acceso</h3>
+
+                    <label>Token</label>
+                    <input type="text" name="token" placeholder="El de registrar un administrativo" required>
+
+                </div>
+
+                <div class="botones">
+                    <a href="superadmin.html">Cancelar</a>
+                    <button type="submit">Guardar</button>
+                </div>
+
+            </form>
+
+        </main>
+
+    </div>
+
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=114">EN</button>
+
+    <script src="../../Js/comun.js?v=114"></script>
+</body>
+
+</html>
