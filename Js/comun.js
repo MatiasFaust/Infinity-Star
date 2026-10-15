@@ -391,7 +391,7 @@ function avisosDeLaDireccion() {
     } else if (direccion.get("error") == "noEsPdf") {
         mensaje = "El archivo tiene que ser un PDF.";
     } else if (direccion.get("error") == "archivoGrande") {
-        mensaje = "No se pudo subir el archivo. Fijate que sea un PDF de menos de 2 MB.";
+        mensaje = "No se pudo subir el archivo. Fijate que sea un PDF de menos de 40 MB.";
     } else if (direccion.get("error") == "noSeGuardo") {
         mensaje = "No se pudo guardar el archivo en el servidor.";
     } else if (direccion.get("error") == "sinCodigo") {
@@ -404,6 +404,8 @@ function avisosDeLaDireccion() {
         mensaje = "No podés suspenderte ni eliminarte a vos mismo.";
     } else if (direccion.get("error") == "tokenBorrado") {
         mensaje = "El token de borrado no es correcto.";
+    } else if (direccion.has("sustituido")) {
+        mensaje = "Listo, cambiamos el archivo. El QR que ya imprimiste sigue sirviendo.";
     } else if (direccion.get("credenciales") == "enviadas") {
         mensaje = "Guardado. Le mandamos el usuario y la contraseña a su correo.";
     } else if (direccion.get("credenciales") == "noSalio") {
@@ -681,8 +683,86 @@ function vaciarBuscadores() {
     const campos = document.querySelectorAll(".buscar, #buscarPaciente");
 
     for (let i = 0; i < campos.length; i++) {
-        campos[i].value = "";
-        campos[i].setAttribute("autocomplete", "off");
+        const campo = campos[i];
+
+        campo.setAttribute("autocomplete", "off");
+
+        // Chrome no rellena solo los campos de solo lectura, asi que lo dejamos
+        // asi hasta que la persona lo toca. Ahi recien se puede escribir.
+        if (!campo.dataset.cuidado) {
+            campo.dataset.cuidado = "si";
+            campo.value = "";
+            campo.readOnly = true;
+
+            campo.addEventListener("focus", function () {
+                campo.readOnly = false;
+            });
+        }
+
+        // Si todavia no lo tocaron y el navegador le metio algo, lo sacamos.
+        if (campo.readOnly) {
+            campo.value = "";
+        }
+    }
+}
+
+// En el celular las tablas se muestran como tarjetas, una fila abajo de la otra.
+// Para que se entienda qué es cada dato, a cada celda le copiamos el título
+// de su columna.
+function etiquetarTablas() {
+    const tablas = document.querySelectorAll(".tabla table");
+
+    for (let i = 0; i < tablas.length; i++) {
+        const titulos = tablas[i].querySelectorAll("thead th");
+        const filas = tablas[i].querySelectorAll("tbody tr");
+
+        for (let j = 0; j < filas.length; j++) {
+            const celdas = filas[j].querySelectorAll("td");
+
+            for (let k = 0; k < celdas.length; k++) {
+                if (titulos[k]) {
+                    celdas[k].setAttribute("data-titulo", titulos[k].textContent.trim());
+                }
+            }
+        }
+    }
+}
+
+// Las filas se cargan después, así que volvemos a etiquetar cada vez que cambian.
+function vigilarTablas() {
+    etiquetarTablas();
+
+    const cuerpos = document.querySelectorAll(".tabla tbody");
+
+    for (let i = 0; i < cuerpos.length; i++) {
+        const miron = new MutationObserver(etiquetarTablas);
+        miron.observe(cuerpos[i], { childList: true });
+    }
+}
+
+// Filtro simple para cualquier tabla: al buscador se le pone
+// data-tabla="idDelCuerpoDeLaTabla" y esconde las filas que no coinciden.
+function prepararFiltrosDeTabla() {
+    const buscadores = document.querySelectorAll("[data-tabla]");
+
+    for (let i = 0; i < buscadores.length; i++) {
+        const campo = buscadores[i];
+        const cuerpo = document.getElementById(campo.dataset.tabla);
+
+        if (!cuerpo) {
+            continue;
+        }
+
+        campo.addEventListener("input", function () {
+            const texto = sinTildes(campo.value.toLowerCase().trim());
+            const filas = cuerpo.querySelectorAll("tr");
+
+            for (let j = 0; j < filas.length; j++) {
+                const contenido = sinTildes(filas[j].textContent.toLowerCase());
+
+                filas[j].hidden = (texto != "" && contenido.indexOf(texto) == -1);
+            }
+        });
     }
 }
 
@@ -751,4 +831,6 @@ ponerBotonTema();
 ponerPie();
 pedirTokenAlBorrar();
 prepararBuscadorDePacientes();
+prepararFiltrosDeTabla();
+vigilarTablas();
 window.addEventListener("load", prepararIdioma);

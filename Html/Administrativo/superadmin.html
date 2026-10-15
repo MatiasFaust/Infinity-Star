@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Superadministrador</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=100">
+    <link rel="stylesheet" href="../../Css/panel.css?v=108">
 </head>
 
 <body>
@@ -31,12 +31,6 @@
                 Panel
             </a>
 
-            <hr>
-
-            <a href="../../salir.php">
-                ← Salir
-            </a>
-
         </nav>
 
         <main>
@@ -50,6 +44,8 @@
                 <h2>Tokens de acceso</h2>
 
                 <p class="ayuda">Cada acción tiene su propio token. Cambiá el que quieras y guardá.</p>
+
+                <input type="text" class="buscar" autocomplete="off" data-tabla="cuerpoTokens" placeholder="Buscar un token">
 
                 <table>
 
@@ -105,6 +101,8 @@
                     <button type="button" id="verTodo" class="secundario">Ver todos</button>
                 </div>
 
+                <input type="text" class="buscar" autocomplete="off" data-tabla="cuerpoActividad" placeholder="Buscar en los movimientos">
+
                 <table>
 
                     <thead>
@@ -127,10 +125,10 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=100">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=108">EN</button>
 
-    <script src="../../Js/comun.js?v=100"></script>
-    <script src="../../Js/superadmin.js?v=100"></script>
+    <script src="../../Js/comun.js?v=108"></script>
+    <script src="../../Js/superadmin.js?v=108"></script>
 </body>
 
 </html>
