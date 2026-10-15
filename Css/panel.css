@@ -830,8 +830,10 @@ td.acciones .marcar {
         margin: 10px 0 0;
     }
 
+    /* Antes la tabla se estiraba y se scrolleaba de costado.
+       Ahora se apila como tarjetas, así que no necesita ancho mínimo. */
     table {
-        min-width: 560px;
+        min-width: 0;
     }
 }
 
@@ -1028,6 +1030,128 @@ html.oscuro .editar {
 
 .cartel .botones button {
     margin-left: 10px;
+}
+
+/* En el celular las tablas no entran a lo ancho, así que cada fila pasa a ser
+   una tarjetita con el nombre de la columna al costado de cada dato. */
+@media (max-width: 768px) {
+
+    .tabla {
+        padding: 12px;
+        overflow-x: visible;
+    }
+
+    .tabla table,
+    .tabla tbody,
+    .tabla tr,
+    .tabla td {
+        display: block;
+        width: auto;
+    }
+
+    .tabla thead {
+        display: none;
+    }
+
+    .tabla tbody tr {
+        margin-bottom: 12px;
+        padding: 10px 12px;
+
+        background-color: var(--blanco);
+        border: 1px solid var(--grisBorde);
+        border-radius: 8px;
+    }
+
+    /* El buscador esconde filas: esto tiene que seguir mandando. */
+    .tabla tbody tr[hidden] {
+        display: none;
+    }
+
+    .tabla td {
+        padding: 5px 0;
+        border: none;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 14px;
+
+        text-align: right;
+
+        /* Los correos y las direcciones largas se cortan en vez de desbordar. */
+        min-width: 0;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .tabla td + td {
+        border-top: 1px solid var(--grisClaro);
+    }
+
+    .tabla td::before {
+        content: attr(data-titulo);
+
+        flex: 0 0 auto;
+        max-width: 45%;
+
+        color: var(--grisTexto);
+        font-size: 12px;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    /* La celda de los botones va entera, sin el título al costado. */
+    .tabla td:last-child {
+        display: block;
+        text-align: left;
+        padding-top: 10px;
+    }
+
+    .tabla td:last-child::before {
+        display: none;
+    }
+}
+
+/* La fila de filtros que va arriba de las tablas. */
+.filtros {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+
+    margin: 0 0 15px;
+}
+
+.filtros label {
+    margin: 0;
+
+    color: var(--grisTexto);
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.filtros select {
+    width: auto;
+    min-width: 140px;
+    margin: 0;
+}
+
+.filtros .cuantos {
+    margin-left: auto;
+
+    color: var(--grisSuave);
+    font-size: 13px;
+}
+
+@media (max-width: 768px) {
+    .filtros select {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .filtros .cuantos {
+        margin-left: 0;
+    }
 }
 
 .pie {
