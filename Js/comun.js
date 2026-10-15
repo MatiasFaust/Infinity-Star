@@ -683,6 +683,14 @@ function vaciarBuscadores() {
     for (let i = 0; i < campos.length; i++) {
         const campo = campos[i];
 
+        // Los ocultos y los botones no se tocan: ahí van datos que manda el
+        // formulario, como el rol o a dónde volver.
+        if (campo.type == "hidden" || campo.type == "submit" ||
+            campo.type == "button" || campo.type == "radio" ||
+            campo.type == "checkbox" || campo.type == "file") {
+            continue;
+        }
+
         campo.setAttribute("autocomplete", "off");
 
         // Chrome no rellena solo los campos de solo lectura, asi que lo dejamos
@@ -724,8 +732,11 @@ function camposQueSeRecuerdan(formulario) {
     for (let i = 0; i < todos.length; i++) {
         const campo = todos[i];
 
+        // Las contraseñas no se guardan nunca. Los ocultos tampoco, porque
+        // llevan cosas como el paciente elegido y se prestan a confusión.
         if (campo.type == "password" || campo.type == "file" ||
-            campo.type == "submit" || campo.type == "button" || !campo.name) {
+            campo.type == "hidden" || campo.type == "submit" ||
+            campo.type == "button" || !campo.name) {
             continue;
         }
 
