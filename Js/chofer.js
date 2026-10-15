@@ -108,17 +108,48 @@ function abrirMapaAlIniciar(lista) {
     }
 }
 
-async function cargarMisTraslados() {
-    const lista = await pedir("../../Api/traslados.php?tipo=mis");
-    const cuerpo = document.getElementById("cuerpoMisTraslados");
+// Por defecto el chofer ve solo lo que tiene por hacer, asi no se le
+// amontonan todos los viajes que ya termino.
+function trasladosQueVe(lista) {
+    const cual = document.getElementById("filtroMios").value;
 
-    if (lista.length == 0) {
-        document.getElementById("vacio").hidden = false;
-        return;
+    if (cual == "todos") {
+        return lista;
     }
 
+    const quedan = [];
+
     for (let i = 0; i < lista.length; i++) {
-        const t = lista[i];
+        const terminado = lista[i].estado == "Finalizado";
+
+        if (cual == "hechos" && terminado) {
+            quedan.push(lista[i]);
+        }
+
+        if (cual == "pendientes" && !terminado) {
+            quedan.push(lista[i]);
+        }
+    }
+
+    return quedan;
+}
+
+function dibujarMisTraslados(lista) {
+    const cuerpo = document.getElementById("cuerpoMisTraslados");
+    const visibles = trasladosQueVe(lista);
+
+    cuerpo.innerHTML = "";
+
+    document.getElementById("vacio").hidden = visibles.length > 0;
+
+    const cuantos = document.getElementById("cuantosMios");
+
+    if (cuantos) {
+        cuantos.textContent = visibles.length + " " + enIdioma("de") + " " + lista.length;
+    }
+
+    for (let i = 0; i < visibles.length; i++) {
+        const t = visibles[i];
         const fila = document.createElement("tr");
 
         let estimado = "-";
@@ -137,6 +168,20 @@ async function cargarMisTraslados() {
             "<td>" + botonDelEstado(t) + "</td>";
 
         cuerpo.appendChild(fila);
+    }
+}
+
+async function cargarMisTraslados() {
+    const lista = await pedir("../../Api/traslados.php?tipo=mis");
+
+    dibujarMisTraslados(lista);
+
+    document.getElementById("filtroMios").addEventListener("change", function () {
+        dibujarMisTraslados(lista);
+    });
+
+    for (let i = 0; i < lista.length; i++) {
+        const t = lista[i];
 
         if ((t.estado == "En curso" || t.estado == "En retorno") && t.salida) {
             viaje = t;

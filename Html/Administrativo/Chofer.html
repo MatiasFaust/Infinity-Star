@@ -7,7 +7,7 @@
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Mis traslados</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    <link rel="stylesheet" href="../../Css/panel.css?v=108">
+    <link rel="stylesheet" href="../../Css/panel.css?v=110">
 </head>
 
 <body>
@@ -63,6 +63,19 @@
 
             <input type="text" class="buscar" autocomplete="off" data-tabla="cuerpoMisTraslados" placeholder="Buscar en mis traslados">
 
+            <div class="filtros">
+
+                <label for="filtroMios">Qué quiero ver</label>
+                <select id="filtroMios">
+                    <option value="pendientes" selected>Los que tengo por hacer</option>
+                    <option value="hechos">Los que ya hice</option>
+                    <option value="todos">Todos</option>
+                </select>
+
+                <span class="cuantos" id="cuantosMios"></span>
+
+            </div>
+
             <div class="tabla">
 
                 <table>
@@ -91,12 +104,12 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=108">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=110">EN</button>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="../../Js/comun.js?v=108"></script>
-    <script src="../../Js/mapa.js?v=108"></script>
-    <script src="../../Js/chofer.js?v=108"></script>
+    <script src="../../Js/comun.js?v=110"></script>
+    <script src="../../Js/mapa.js?v=110"></script>
+    <script src="../../Js/chofer.js?v=110"></script>
 </body>
 
 </html>
