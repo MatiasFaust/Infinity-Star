@@ -1112,6 +1112,70 @@ html.oscuro .editar {
     }
 }
 
+/* Los botones que cambian de parte en el panel del superadmin. */
+.pestanas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin-bottom: 20px;
+}
+
+.pestana {
+    padding: 10px 16px;
+
+    background-color: var(--blanco);
+    color: var(--verde);
+
+    border: 2px solid var(--verde);
+    border-radius: 20px;
+
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.pestana:hover {
+    background-color: var(--verdeClaro);
+}
+
+.pestana.elegida {
+    background-color: var(--verde);
+    color: var(--blanco);
+}
+
+/* Las tarjetitas con los números del inicio. */
+.resumen {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+.resumen .dato {
+    padding: 18px;
+
+    background-color: var(--blanco);
+    border: 1px solid var(--grisBorde);
+    border-left: 5px solid var(--verde);
+    border-radius: 10px;
+}
+
+.resumen .dato p {
+    margin: 0 0 6px;
+
+    color: var(--grisTexto);
+    font-size: 13px;
+}
+
+.resumen .dato strong {
+    color: var(--verde);
+    font-size: 30px;
+}
+
 /* La fila de filtros que va arriba de las tablas. */
 .filtros {
     display: flex;

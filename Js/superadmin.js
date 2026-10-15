@@ -35,7 +35,7 @@ async function cargarTokens() {
 
     if (lista.permiso == 0) {
         location.replace("../../Index.html");
-        return;
+        return 0;
     }
 
     const cuerpo = document.getElementById("cuerpoTokens");
@@ -58,6 +58,8 @@ async function cargarTokens() {
 
         cuerpo.appendChild(fila);
     }
+
+    return lista.length;
 }
 
 function formularioDeClave(idPersona) {
@@ -139,6 +141,8 @@ async function cargarFuncionarios() {
     buscador.addEventListener("input", function () {
         dibujarFuncionarios(lista, buscador.value);
     });
+
+    return lista;
 }
 
 async function cargarActividad(id, nombre) {
@@ -176,14 +180,106 @@ async function cargarActividad(id, nombre) {
 
         cuerpo.appendChild(fila);
     }
+
+    return lista;
 }
 
-if (document.getElementById("cuerpoFuncionarios")) {
-    cargarTokens();
-    cargarFuncionarios();
-    cargarActividad("", "");
+// ---- Las partes del panel ----
+// Muestra una sola por vez y se acuerda en cuál estabas, así cuando guardás
+// algo y la página se recarga volvés al mismo lugar y no al principio.
+
+function mostrarParte(cual) {
+    const partes = document.querySelectorAll(".parte");
+
+    for (let i = 0; i < partes.length; i++) {
+        partes[i].hidden = (partes[i].id != "parte" + cual.charAt(0).toUpperCase() + cual.slice(1));
+    }
+
+    const botones = document.querySelectorAll(".pestana[data-parte]");
+
+    for (let i = 0; i < botones.length; i++) {
+        botones[i].classList.toggle("elegida", botones[i].dataset.parte == cual);
+    }
+
+    localStorage.setItem("parteSuper", cual);
+}
+
+function prepararPartes() {
+    const botones = document.querySelectorAll(".pestana[data-parte]");
+
+    for (let i = 0; i < botones.length; i++) {
+        const boton = botones[i];
+
+        boton.addEventListener("click", function () {
+            mostrarParte(boton.dataset.parte);
+        });
+    }
+
+    mostrarParte(localStorage.getItem("parteSuper") || "inicio");
+}
+
+// Los numeritos y los últimos movimientos del inicio.
+function llenarResumen(funcionarios, tokens, actividad) {
+    let admin = 0;
+    let choferes = 0;
+    let suspendidos = 0;
+
+    for (let i = 0; i < funcionarios.length; i++) {
+        const roles = funcionarios[i].roles || "";
+
+        if (roles.indexOf("chofer") != -1) {
+            choferes = choferes + 1;
+        } else if (roles.indexOf("administrativo") != -1) {
+            admin = admin + 1;
+        }
+
+        if (funcionarios[i].suspendido == 1) {
+            suspendidos = suspendidos + 1;
+        }
+    }
+
+    document.getElementById("cuentaAdmin").textContent = admin;
+    document.getElementById("cuentaChoferes").textContent = choferes;
+    document.getElementById("cuentaSuspendidos").textContent = suspendidos;
+    document.getElementById("cuentaTokens").textContent = tokens;
+    document.getElementById("cuentaMovimientos").textContent = actividad.length;
+
+    const cuerpo = document.getElementById("cuerpoUltimos");
+    cuerpo.innerHTML = "";
+
+    for (let i = 0; i < actividad.length && i < 5; i++) {
+        const a = actividad[i];
+        const fila = document.createElement("tr");
+
+        let quien = enIdioma("Cuenta eliminada");
+
+        if (a.nombre) {
+            quien = a.nombre + " " + a.apellido;
+        }
+
+        fila.innerHTML =
+            "<td>" + fechaCorta(a.momento) + "</td>" +
+            "<td>" + quien + "</td>" +
+            "<td>" + a.accion + "</td>";
+
+        cuerpo.appendChild(fila);
+    }
+}
+
+async function cargarPanelSuper() {
+    prepararPartes();
+
+    const tokens = await cargarTokens();
+    const funcionarios = await cargarFuncionarios();
+    const actividad = await cargarActividad("", "");
+
+    llenarResumen(funcionarios, tokens, actividad);
 
     document.getElementById("verTodo").addEventListener("click", function () {
         cargarActividad("", "");
     });
+}
+
+if (document.getElementById("cuerpoFuncionarios")) {
+    cargarPanelSuper();
 }
