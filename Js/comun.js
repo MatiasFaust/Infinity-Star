@@ -406,12 +406,8 @@ function avisosDeLaDireccion() {
         mensaje = "El token de borrado no es correcto.";
     } else if (direccion.has("sustituido")) {
         mensaje = "Listo, cambiamos el archivo. El QR que ya imprimiste sigue sirviendo.";
-    } else if (direccion.get("credenciales") == "enviadas") {
-        mensaje = "Guardado. Le mandamos el usuario y la contraseña a su correo.";
-    } else if (direccion.get("credenciales") == "noSalio") {
-        mensaje = "Guardado, pero no se pudo enviar el correo. Pasale vos el usuario y la contraseña que escribiste.";
-    } else if (direccion.has("enviado")) {
-        mensaje = "Si ese correo está registrado, ya te enviamos tu usuario. Revisá tu casilla.";
+    } else if (direccion.get("credenciales") == "anotalas") {
+        mensaje = "Guardado. Anotá el usuario y la contraseña que escribiste y pasáselos, porque después no se pueden ver.";
     } else if (direccion.get("clave") == "cambiada") {
         mensaje = "Tu contraseña se cambió. Ya podés entrar.";
     } else if (direccion.get("error") == "claveCorta") {
@@ -680,7 +676,9 @@ function soloLetras(campo) {
 }
 
 function vaciarBuscadores() {
-    const campos = document.querySelectorAll(".buscar, #buscarPaciente");
+    // Los buscadores y los campos de los formularios que Chrome insiste
+    // en rellenar con datos guardados de otras páginas.
+    const campos = document.querySelectorAll(".buscar, #buscarPaciente, .sinRelleno input");
 
     for (let i = 0; i < campos.length; i++) {
         const campo = campos[i];
@@ -691,8 +689,11 @@ function vaciarBuscadores() {
         // asi hasta que la persona lo toca. Ahi recien se puede escribir.
         if (!campo.dataset.cuidado) {
             campo.dataset.cuidado = "si";
-            campo.value = "";
             campo.readOnly = true;
+
+            if (!campo.dataset.restaurado) {
+                campo.value = "";
+            }
 
             campo.addEventListener("focus", function () {
                 campo.readOnly = false;
@@ -700,10 +701,88 @@ function vaciarBuscadores() {
         }
 
         // Si todavia no lo tocaron y el navegador le metio algo, lo sacamos.
-        if (campo.readOnly) {
+        // Salvo que seamos nosotros los que le devolvimos lo que habia escrito.
+        if (campo.readOnly && !campo.dataset.restaurado) {
             campo.value = "";
         }
     }
+}
+
+
+// ---- Lo que quedó escrito sin guardar ----
+// En cualquier panel: si alguien llena un formulario y se va a otra pantalla,
+// al volver le dejamos todo como estaba. Se borra cuando guarda de verdad.
+
+function laLlaveDelFormulario(formulario) {
+    return "aMedias:" + location.pathname + ":" + (formulario.getAttribute("action") || "");
+}
+
+function camposQueSeRecuerdan(formulario) {
+    const todos = formulario.querySelectorAll("input, select, textarea");
+    const sirven = [];
+
+    for (let i = 0; i < todos.length; i++) {
+        const campo = todos[i];
+
+        if (campo.type == "password" || campo.type == "file" ||
+            campo.type == "submit" || campo.type == "button" || !campo.name) {
+            continue;
+        }
+
+        sirven.push(campo);
+    }
+
+    return sirven;
+}
+
+function recordarFormularios() {
+    const formularios = document.querySelectorAll("form[data-recordar]");
+
+    for (let i = 0; i < formularios.length; i++) {
+        const formulario = formularios[i];
+        const llave = laLlaveDelFormulario(formulario);
+        const campos = camposQueSeRecuerdan(formulario);
+
+        let guardado = null;
+
+        try {
+            guardado = JSON.parse(localStorage.getItem(llave));
+        } catch (error) {
+            guardado = null;
+        }
+
+        for (let j = 0; j < campos.length; j++) {
+            const campo = campos[j];
+
+            if (guardado && guardado[campo.name] !== undefined && guardado[campo.name] !== "") {
+                campo.value = guardado[campo.name];
+                campo.dataset.restaurado = "si";
+            }
+
+            campo.addEventListener("input", function () {
+                guardarFormulario(formulario);
+            });
+
+            campo.addEventListener("change", function () {
+                guardarFormulario(formulario);
+            });
+        }
+
+        formulario.addEventListener("submit", function () {
+            localStorage.removeItem(llave);
+        });
+    }
+}
+
+function guardarFormulario(formulario) {
+    const campos = camposQueSeRecuerdan(formulario);
+    const guardado = {};
+
+    for (let i = 0; i < campos.length; i++) {
+        guardado[campos[i].name] = campos[i].value;
+    }
+
+    localStorage.setItem(laLlaveDelFormulario(formulario), JSON.stringify(guardado));
 }
 
 // En el celular las tablas se muestran como tarjetas, una fila abajo de la otra.
@@ -833,4 +912,5 @@ pedirTokenAlBorrar();
 prepararBuscadorDePacientes();
 prepararFiltrosDeTabla();
 vigilarTablas();
+recordarFormularios();
 window.addEventListener("load", prepararIdioma);

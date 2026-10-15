@@ -1,7 +1,6 @@
 <?php
 
 require_once 'conexion.php';
-require_once 'correo.php';
 
 session_start();
 
@@ -87,30 +86,12 @@ if ($que == "persona") {
                         VALUES ($idPersona, '$rol')");
         }
 
-        $esNuevo = (contar("usuario", "id_persona = $idPersona") == 0);
-
-        if ($esNuevo) {
+        if (contar("usuario", "id_persona = $idPersona") == 0) {
             $db->query("INSERT INTO usuario (id_persona, usuario, contrasena)
                         VALUES ($idPersona, '$usuario', SHA2('$contrasena', 256))");
 
-            // Le avisamos por correo que quedó registrado y le pasamos sus datos.
-            // Esta es la unica vez que podemos mandar la contraseña, porque despues
-            // queda guardada cifrada y no se puede leer mas.
-            $aviso = "<p>Hola " . $nombre . ",</p>";
-            $aviso .= "<p>Ya est&aacute;s registrado en el sistema del Hospital de Cl&iacute;nicas Montevideo como <b>" . $rol . "</b>.</p>";
-            $aviso .= "<p>Estos son tus datos para entrar:</p>";
-            $aviso .= "<p><b>Usuario:</b> " . $usuario . "<br>";
-            $aviso .= "<b>Contrase&ntilde;a:</b> " . $contrasena . "</p>";
-            $aviso .= "<p>Guard&aacute; este correo. La contrase&ntilde;a se guarda cifrada y nadie puede verla, ni el hospital.</p>";
-            $aviso .= "<p>Hospital de Cl&iacute;nicas Montevideo</p>";
-
-            $llego = mandarCorreo($correo, "Quedaste registrado en el Hospital de Clinicas", $aviso);
-
-            if ($llego) {
-                $vuelve = $vuelve . "?credenciales=enviadas";
-            } else {
-                $vuelve = $vuelve . "?credenciales=noSalio";
-            }
+            // El usuario y la contraseña se los pasa a mano quien lo registra.
+            $vuelve = $vuelve . "?credenciales=anotalas";
         }
     }
 
