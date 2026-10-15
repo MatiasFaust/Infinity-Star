@@ -7,7 +7,7 @@
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Registrar traslado</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    <link rel="stylesheet" href="../../Css/panel.css?v=108">
+    <link rel="stylesheet" href="../../Css/panel.css?v=110">
 </head>
 
 <body>
@@ -113,10 +113,11 @@
 
                 <p class="ayuda">Las horas de salida y de llegada las marca el chofer desde su pantalla cuando arranca el viaje.</p>
 
+                <input type="hidden" name="id" id="idTraslado">
+
                 <div class="botones">
-                    <button type="button" id="editarDatos" class="secundario">Editar datos</button>
                     <button type="button" id="limpiar" class="secundario">Volver a marcar</button>
-                    <button type="submit">Registrar traslado</button>
+                    <button type="submit" id="guardarTraslado">Registrar traslado</button>
                 </div>
 
             </form>
@@ -125,12 +126,12 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=108">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=110">EN</button>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="../../Js/comun.js?v=108"></script>
-    <script src="../../Js/mapa.js?v=108"></script>
-    <script src="../../Js/traslados.js?v=108"></script>
+    <script src="../../Js/comun.js?v=110"></script>
+    <script src="../../Js/mapa.js?v=110"></script>
+    <script src="../../Js/traslados.js?v=110"></script>
 </body>
 
 </html>

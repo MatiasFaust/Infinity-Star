@@ -369,20 +369,6 @@ async function cargarRegistroTraslado() {
         guardarLoEscrito();
     });
 
-    document.getElementById("editarDatos").addEventListener("click", function () {
-        borrarMarcas(mapa);
-        olvidarLoEscrito();
-
-        const formulario = document.querySelector("form");
-
-        if (formulario) {
-            formulario.reset();
-        }
-
-        document.getElementById("partePaciente").hidden = false;
-        document.getElementById("parteElemento").hidden = true;
-        document.getElementById("origen").focus();
-    });
 
     await llenarLista(document.getElementById("ambulanciaRuta"), "../../Api/traslados.php?tipo=ambulancias", "idAmbulancia", textoAmbulancia);
     await llenarLista(document.getElementById("chofer"), "../../Api/traslados.php?tipo=choferes", "idFuncionario", textoPersona);
@@ -403,6 +389,14 @@ async function cargarRegistroTraslado() {
         cedula.value = cedula.value.replace(/[^0-9]/g, "").substring(0, 8);
     });
 
+    const queEditar = new URLSearchParams(location.search).get("id");
+
+    if (queEditar) {
+        // Venimos de "Ver traslados" a corregir uno que ya existe.
+        await abrirParaEditar(mapa, queEditar);
+        return;
+    }
+
     // Primero recuperamos lo que había quedado escrito, y recién después
     // empezamos a guardar, para no pisar lo viejo con campos vacíos.
     await recordarLoEscrito(mapa);
@@ -418,6 +412,61 @@ async function cargarRegistroTraslado() {
 
     // Si lo registra de verdad, ya no hace falta recordar nada.
     document.querySelector("form").addEventListener("submit", olvidarLoEscrito);
+}
+
+// Deja el formulario listo para modificar un traslado que ya está cargado.
+async function abrirParaEditar(mapa, id) {
+    const t = await pedir("../../Api/traslados.php?tipo=uno&id=" + id);
+
+    if (!t || !t.idTraslado) {
+        return;
+    }
+
+    const formulario = document.querySelector("form");
+
+    formulario.setAttribute("action", "../../actualizar.php?que=traslado");
+    document.getElementById("idTraslado").value = t.idTraslado;
+    document.getElementById("guardarTraslado").textContent = enIdioma("Guardar cambios");
+    document.querySelector("main h1").textContent = enIdioma("Editar traslado");
+
+    document.getElementById("origen").value = t.origen;
+    document.getElementById("origenLat").value = t.origenLat;
+    document.getElementById("origenLng").value = t.origenLng;
+    document.getElementById("destino").value = t.destino;
+    document.getElementById("destinoLat").value = t.destinoLat;
+    document.getElementById("destinoLng").value = t.destinoLng;
+    document.getElementById("minutos").value = t.minutos;
+
+    document.getElementById("ambulanciaRuta").value = t.idAmbulancia;
+    document.getElementById("chofer").value = t.idChofer;
+
+    const queLleva = document.getElementById("queLleva");
+
+    if (t.idPaciente) {
+        queLleva.value = "paciente";
+        document.getElementById("paciente").value = t.idPaciente;
+    } else {
+        queLleva.value = "elemento";
+        document.getElementById("tipoElemento").value = t.tipo || "";
+        document.getElementById("descripcionElemento").value = t.descripcion || "";
+    }
+
+    document.getElementById("partePaciente").hidden = queLleva.value != "paciente";
+    document.getElementById("parteElemento").hidden = queLleva.value == "paciente";
+
+    campoDelTraslado("copilotoNombre").value = t.copilotoNombre || "";
+    campoDelTraslado("copilotoApellido").value = t.copilotoApellido || "";
+    campoDelTraslado("copilotoCedula").value = t.copilotoCedula || "";
+
+    if (t.origenLat && t.destinoLat) {
+        marcaOrigen = L.marker([Number(t.origenLat), Number(t.origenLng)]).addTo(mapa).bindPopup(enIdioma("Salida"));
+        marcaDestino = L.marker([Number(t.destinoLat), Number(t.destinoLng)]).addTo(mapa).bindPopup(enIdioma("Llegada"));
+
+        await trazarRuta(mapa);
+
+        mapa.fitBounds([[Number(t.origenLat), Number(t.origenLng)],
+                        [Number(t.destinoLat), Number(t.destinoLng)]], { padding: [40, 40] });
+    }
 }
 
 if (document.getElementById("mapa") && document.getElementById("chofer")) {
@@ -525,7 +574,9 @@ function dibujarTraslados(lista, texto) {
             "<td>" + horaOGuion(t.llegada) + "</td>" +
             "<td>" + horaOGuion(t.llegadaReal) + "</td>" +
             "<td>" + enIdioma(t.estado) + "</td>" +
-            "<td>" + nombreCompleto(t.nombreAdmin, t.apellidoAdmin) + "</td>";
+            "<td>" + nombreCompleto(t.nombreAdmin, t.apellidoAdmin) + "</td>" +
+            "<td><a class='editar' href='registrarTraslado.html?id=" + t.idTraslado + "'>" +
+            enIdioma("Editar") + "</a></td>";
 
         cuerpo.appendChild(fila);
     }

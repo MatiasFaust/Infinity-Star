@@ -64,6 +64,33 @@ if ($tipo == "pacientes") {
                                     ORDER BY persona.apellido")));
 }
 
+// Un traslado solo, para poder editarlo.
+if ($tipo == "uno") {
+    $id = $_GET['id'];
+
+    $uno = $db->query("SELECT traslado.id_traslado          AS idTraslado,
+                              traslado.punto_origen         AS origen,
+                              traslado.destino,
+                              traslado.tipo_elemento        AS tipo,
+                              traslado.descripcion_elemento AS descripcion,
+                              traslado.estado,
+                              traslado.minutos_estimados    AS minutos,
+                              traslado.id_paciente          AS idPaciente,
+                              traslado.id_ambulancia        AS idAmbulancia,
+                              traslado.copiloto_nombre      AS copilotoNombre,
+                              traslado.copiloto_apellido    AS copilotoApellido,
+                              traslado.copiloto_cedula      AS copilotoCedula,
+                              ruta.origen_lat AS origenLat, ruta.origen_lng AS origenLng,
+                              ruta.destino_lat AS destinoLat, ruta.destino_lng AS destinoLng,
+                              funcionario_traslado_maneja.id_funcionario AS idChofer
+                       FROM traslado
+                       LEFT JOIN ruta ON ruta.id_ruta = traslado.id_ruta
+                       LEFT JOIN funcionario_traslado_maneja ON funcionario_traslado_maneja.id_traslado = traslado.id_traslado
+                       WHERE traslado.id_traslado = $id")->fetch_assoc();
+
+    responder($uno ? $uno : array());
+}
+
 if ($tipo == "mis") {
     session_start();
 
