@@ -19,6 +19,62 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     exit;
 }
 
+
+// ---- Sustituir el PDF de un documento que ya existe ----
+// Cambiamos solo el archivo. El documento sigue siendo el mismo, asi que
+// el QR que ya se imprimio y se repartio sigue andando.
+
+if (isset($_GET['que']) && $_GET['que'] == "sustituir") {
+    $id = $_POST['id'];
+    $vuelve = "Html/Administrativo/documentosQr.html";
+
+    $viejo = $db->query("SELECT archivo, titulo FROM documento WHERE id_documento = $id")->fetch_assoc();
+
+    if (!$viejo) {
+        header("Location: $vuelve?error=noSeGuardo");
+        exit;
+    }
+
+    if (!isset($_FILES['archivo']) || $_FILES['archivo']['error'] != 0) {
+        header("Location: $vuelve?error=archivoGrande");
+        exit;
+    }
+
+    $extension = strtolower(pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION));
+
+    if ($extension != "pdf" || mime_content_type($_FILES['archivo']['tmp_name']) != "application/pdf") {
+        header("Location: $vuelve?error=noEsPdf");
+        exit;
+    }
+
+    $nombreGuardado = "doc" . time() . rand(100, 999) . ".pdf";
+
+    if (!move_uploaded_file($_FILES['archivo']['tmp_name'], "Archivos/" . $nombreGuardado)) {
+        header("Location: $vuelve?error=noSeGuardo");
+        exit;
+    }
+
+    $db->query("UPDATE documento SET archivo = '$nombreGuardado', fecha = NOW()
+                WHERE id_documento = $id");
+
+    // Recien ahora borramos el viejo, cuando el nuevo ya quedo guardado.
+    if ($viejo['archivo'] != "" && file_exists("Archivos/" . $viejo['archivo'])) {
+        unlink("Archivos/" . $viejo['archivo']);
+    }
+
+    $yo = 0;
+
+    if (isset($_SESSION["id_persona"])) {
+        $yo = $_SESSION["id_persona"];
+    }
+
+    anotar($yo, "Sustituyó el archivo del documento " . $viejo['titulo']);
+
+    header("Location: $vuelve?sustituido=si");
+    exit;
+}
+
+
 $titulo = $_POST['titulo'];
 
 if (isset($_POST['otroTitulo']) && trim($_POST['otroTitulo']) != "") {

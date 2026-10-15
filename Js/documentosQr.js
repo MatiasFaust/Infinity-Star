@@ -7,6 +7,24 @@ function dibujarQr(donde, texto) {
     });
 }
 
+// Cambia el PDF pero deja el mismo documento, asi el QR que ya se imprimio
+// sigue sirviendo y apunta al archivo nuevo.
+function botonSustituir(id) {
+    return "<form class='enLinea' action='../../subir.php?que=sustituir' method='POST' enctype='multipart/form-data'>" +
+           "<input type='hidden' name='id' value='" + id + "'>" +
+           "<input type='file' name='archivo' accept='.pdf,application/pdf' hidden id='archivo" + id + "'>" +
+           "<button type='button' class='editar' onclick=\"document.getElementById('archivo" + id + "').click()\">" +
+           enIdioma("Sustituir") + "</button>" +
+           "</form>";
+}
+
+// Apenas eligen el archivo, se manda solo.
+document.addEventListener("change", function (evento) {
+    if (evento.target.type == "file" && evento.target.id.indexOf("archivo") == 0) {
+        evento.target.form.submit();
+    }
+});
+
 async function cargarDocumentos() {
     const datos = await pedir("../../Api/documentos.php?tipo=documentos");
     const lista = datos.lista;
@@ -42,6 +60,7 @@ async function cargarDocumentos() {
         celdaBotones.innerHTML =
             "<a class='editar' href='../../documento.php?id=" + d.idDocumento + "' target='_blank'>" + enIdioma("Ver PDF") + "</a>" +
             "<a class='editar' href='../../imprimirQr.html?id=" + d.idDocumento + "' target='_blank'>" + enIdioma("Imprimir QR") + "</a>" +
+            botonSustituir(d.idDocumento) +
             botonAccion("borrar.php?que=documento", d.idDocumento, "Eliminar", "eliminar");
 
         fila.appendChild(celdaTitulo);

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Documentos QR</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=100">
+    <link rel="stylesheet" href="../../Css/panel.css?v=108">
 </head>
 
 <body>
@@ -91,7 +91,7 @@
 
                 <label>Archivo PDF</label>
                 <input type="file" name="archivo" accept="application/pdf" required>
-                <p class="ayuda">Solo se aceptan archivos PDF de hasta 2 MB.</p>
+                <p class="ayuda">Solo se aceptan archivos PDF de hasta 40 MB.</p>
                 <p class="ayuda">Los QR apuntan a <b id="direccion"></b> — el celular tiene que estar en la misma red Wi-Fi.</p>
 
                 <div class="botones">
@@ -99,6 +99,8 @@
                 </div>
 
             </form>
+
+            <input type="text" class="buscar" autocomplete="off" data-tabla="cuerpoDocumentos" placeholder="Buscar un documento">
 
             <div class="tabla">
 
@@ -125,11 +127,11 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=100">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=108">EN</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="../../Js/comun.js?v=100"></script>
-    <script src="../../Js/documentosQr.js?v=100"></script>
+    <script src="../../Js/comun.js?v=108"></script>
+    <script src="../../Js/documentosQr.js?v=108"></script>
 </body>
 
 </html>
