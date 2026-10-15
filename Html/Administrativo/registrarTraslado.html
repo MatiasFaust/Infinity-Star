@@ -7,7 +7,7 @@
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Registrar traslado</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    <link rel="stylesheet" href="../../Css/panel.css?v=100">
+    <link rel="stylesheet" href="../../Css/panel.css?v=108">
 </head>
 
 <body>
@@ -61,24 +61,19 @@
             <form action="../../guardar.php?que=traslado" method="POST">
 
                 <label>Recorrido</label>
-                <p class="ayuda">Buscá la dirección o hacé clic en el mapa: primero el punto de salida, después el de llegada.</p>
-
-                <div class="fila buscarLugar">
-                    <input type="text" id="direccion" placeholder="Escribí una dirección, por ejemplo: Av. Italia 2870">
-                    <button type="button" id="buscarDireccion">Buscar</button>
-                </div>
+                <p class="ayuda">Escribí la dirección en Origen y en Destino y apretá Enter, o hacé clic en el mapa: primero el punto de salida, después el de llegada.</p>
 
                 <div id="mapa"></div>
 
                 <p class="estimado" id="estimado" hidden></p>
 
                 <label>Origen</label>
-                <input type="text" name="origen" id="origen" placeholder="Marcalo en el mapa" required>
+                <input type="text" name="origen" id="origen" placeholder="Escribí la dirección de salida o marcala en el mapa" required>
                 <input type="hidden" name="origenLat" id="origenLat">
                 <input type="hidden" name="origenLng" id="origenLng">
 
                 <label>Destino</label>
-                <input type="text" name="destino" id="destino" placeholder="Marcalo en el mapa" required>
+                <input type="text" name="destino" id="destino" placeholder="Escribí la dirección de llegada o marcala en el mapa" required>
                 <input type="hidden" name="destinoLat" id="destinoLat">
                 <input type="hidden" name="destinoLng" id="destinoLng">
                 <input type="hidden" name="minutos" id="minutos">
@@ -119,6 +114,7 @@
                 <p class="ayuda">Las horas de salida y de llegada las marca el chofer desde su pantalla cuando arranca el viaje.</p>
 
                 <div class="botones">
+                    <button type="button" id="editarDatos" class="secundario">Editar datos</button>
                     <button type="button" id="limpiar" class="secundario">Volver a marcar</button>
                     <button type="submit">Registrar traslado</button>
                 </div>
@@ -129,12 +125,12 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=100">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=108">EN</button>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="../../Js/comun.js?v=100"></script>
-    <script src="../../Js/mapa.js?v=100"></script>
-    <script src="../../Js/traslados.js?v=100"></script>
+    <script src="../../Js/comun.js?v=108"></script>
+    <script src="../../Js/mapa.js?v=108"></script>
+    <script src="../../Js/traslados.js?v=108"></script>
 </body>
 
 </html>

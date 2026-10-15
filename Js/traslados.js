@@ -137,30 +137,19 @@ function mostrarEstimado() {
 
 alCambiarIdioma.push(mostrarEstimado);
 
-async function marcarPunto(mapa, lat, lng) {
-    if (marcaOrigen && marcaDestino) {
-        borrarMarcas(mapa);
+async function trazarRuta(mapa) {
+    if (lineaRuta) {
+        mapa.removeLayer(lineaRuta);
+        lineaRuta = null;
     }
 
-    if (!marcaOrigen) {
-        marcaOrigen = L.marker([lat, lng]).addTo(mapa).bindPopup(enIdioma("Salida")).openPopup();
+    const desde = [Number(document.getElementById("origenLat").value),
+                   Number(document.getElementById("origenLng").value)];
 
-        document.getElementById("origenLat").value = lat;
-        document.getElementById("origenLng").value = lng;
-        document.getElementById("origen").value = enIdioma("Buscando la dirección...");
-        document.getElementById("origen").value = await nombreDelPunto(lat, lng);
-        return;
-    }
+    const hasta = [Number(document.getElementById("destinoLat").value),
+                   Number(document.getElementById("destinoLng").value)];
 
-    marcaDestino = L.marker([lat, lng]).addTo(mapa).bindPopup(enIdioma("Llegada")).openPopup();
-
-    document.getElementById("destinoLat").value = lat;
-    document.getElementById("destinoLng").value = lng;
-    document.getElementById("destino").value = enIdioma("Buscando la dirección...");
-    document.getElementById("destino").value = await nombreDelPunto(lat, lng);
-
-    const desde = [Number(document.getElementById("origenLat").value), Number(document.getElementById("origenLng").value)];
-    const info = await dibujarRuta(mapa, desde, [lat, lng]);
+    const info = await dibujarRuta(mapa, desde, hasta);
 
     lineaRuta = info.linea;
 
@@ -180,6 +169,147 @@ async function marcarPunto(mapa, lat, lng) {
     aviso.hidden = false;
 }
 
+async function ponerOrigen(mapa, lat, lng, texto) {
+    if (marcaOrigen) {
+        mapa.removeLayer(marcaOrigen);
+    }
+
+    marcaOrigen = L.marker([lat, lng]).addTo(mapa).bindPopup(enIdioma("Salida")).openPopup();
+
+    document.getElementById("origenLat").value = lat;
+    document.getElementById("origenLng").value = lng;
+
+    if (texto) {
+        document.getElementById("origen").value = texto;
+    } else {
+        document.getElementById("origen").value = enIdioma("Buscando la dirección...");
+        document.getElementById("origen").value = await nombreDelPunto(lat, lng);
+    }
+
+    if (marcaDestino) {
+        await trazarRuta(mapa);
+    }
+
+    guardarLoEscrito();
+}
+
+async function ponerDestino(mapa, lat, lng, texto) {
+    if (marcaDestino) {
+        mapa.removeLayer(marcaDestino);
+    }
+
+    marcaDestino = L.marker([lat, lng]).addTo(mapa).bindPopup(enIdioma("Llegada")).openPopup();
+
+    document.getElementById("destinoLat").value = lat;
+    document.getElementById("destinoLng").value = lng;
+
+    if (texto) {
+        document.getElementById("destino").value = texto;
+    } else {
+        document.getElementById("destino").value = enIdioma("Buscando la dirección...");
+        document.getElementById("destino").value = await nombreDelPunto(lat, lng);
+    }
+
+    if (marcaOrigen) {
+        await trazarRuta(mapa);
+    }
+
+    guardarLoEscrito();
+}
+
+async function marcarPunto(mapa, lat, lng) {
+    if (marcaOrigen && marcaDestino) {
+        borrarMarcas(mapa);
+    }
+
+    if (!marcaOrigen) {
+        await ponerOrigen(mapa, lat, lng, "");
+        return;
+    }
+
+    await ponerDestino(mapa, lat, lng, "");
+}
+
+
+// ---- Lo que quedó escrito sin guardar ----
+// Si la persona llena el formulario y se va a otra pantalla, al volver
+// le dejamos todo como estaba.
+
+const camposDelTraslado = ["origen", "origenLat", "origenLng", "destino", "destinoLat", "destinoLng",
+                           "minutos", "ambulancia", "chofer", "lleva", "paciente",
+                           "tipoElemento", "descripcionElemento",
+                           "copilotoNombre", "copilotoApellido", "copilotoCedula"];
+
+function campoDelTraslado(nombre) {
+    return document.querySelector("[name='" + nombre + "']");
+}
+
+function guardarLoEscrito() {
+    const guardado = {};
+
+    for (let i = 0; i < camposDelTraslado.length; i++) {
+        const campo = campoDelTraslado(camposDelTraslado[i]);
+
+        if (campo) {
+            guardado[camposDelTraslado[i]] = campo.value;
+        }
+    }
+
+    localStorage.setItem("trasladoAMedias", JSON.stringify(guardado));
+}
+
+function olvidarLoEscrito() {
+    localStorage.removeItem("trasladoAMedias");
+}
+
+async function recordarLoEscrito(mapa) {
+    let guardado = null;
+
+    try {
+        guardado = JSON.parse(localStorage.getItem("trasladoAMedias"));
+    } catch (error) {
+        guardado = null;
+    }
+
+    if (!guardado) {
+        return;
+    }
+
+    for (let i = 0; i < camposDelTraslado.length; i++) {
+        const nombre = camposDelTraslado[i];
+        const campo = campoDelTraslado(nombre);
+
+        if (campo && guardado[nombre]) {
+            campo.value = guardado[nombre];
+        }
+    }
+
+    const queLleva = document.getElementById("queLleva");
+    const llevaPaciente = queLleva.value == "paciente";
+
+    document.getElementById("partePaciente").hidden = !llevaPaciente;
+    document.getElementById("parteElemento").hidden = llevaPaciente;
+
+    // Volvemos a poner las marcas en el mapa si ya las había elegido.
+    if (guardado.origenLat && guardado.origenLng) {
+        marcaOrigen = L.marker([Number(guardado.origenLat), Number(guardado.origenLng)])
+                        .addTo(mapa).bindPopup(enIdioma("Salida"));
+    }
+
+    if (guardado.destinoLat && guardado.destinoLng) {
+        marcaDestino = L.marker([Number(guardado.destinoLat), Number(guardado.destinoLng)])
+                         .addTo(mapa).bindPopup(enIdioma("Llegada"));
+    }
+
+    if (marcaOrigen && marcaDestino) {
+        await trazarRuta(mapa);
+        mapa.fitBounds([[Number(guardado.origenLat), Number(guardado.origenLng)],
+                        [Number(guardado.destinoLat), Number(guardado.destinoLng)]], { padding: [40, 40] });
+    } else if (marcaOrigen) {
+        mapa.setView([Number(guardado.origenLat), Number(guardado.origenLng)], 15);
+    }
+}
+
 async function cargarRegistroTraslado() {
     const mapa = crearMapa("mapa");
 
@@ -187,46 +317,71 @@ async function cargarRegistroTraslado() {
         marcarPunto(mapa, evento.latlng.lat, evento.latlng.lng);
     });
 
-    const campoDireccion = document.getElementById("direccion");
-    const botonBuscar = document.getElementById("buscarDireccion");
+    // Cuando escriben una direccion en Origen o en Destino, la buscamos en el
+    // mapa y dejamos el texto tal cual lo escribieron.
+    async function buscarLoQueEscribio(cual) {
+        const campo = document.getElementById(cual);
+        const texto = campo.value.trim();
 
-    async function irADireccion() {
-        if (campoDireccion.value == "") {
+        if (texto == "") {
             return;
         }
 
-        botonBuscar.textContent = enIdioma("Buscando...");
-
-        const lugar = await buscarDireccion(campoDireccion.value);
-
-        botonBuscar.textContent = enIdioma("Buscar");
+        const aviso = document.getElementById("estimado");
+        const lugar = await buscarDireccion(texto);
 
         if (!lugar) {
-            const aviso = document.getElementById("estimado");
             aviso.dataset.km = "";
             aviso.textContent = enIdioma("No encontré esa dirección. Probá escribirla de otra forma o marcala en el mapa.");
             aviso.hidden = false;
             return;
         }
 
-        mapa.setView([lugar.lat, lugar.lng], 16);
+        if (cual == "origen") {
+            await ponerOrigen(mapa, lugar.lat, lugar.lng, texto);
+        } else {
+            await ponerDestino(mapa, lugar.lat, lugar.lng, texto);
+        }
 
-        await marcarPunto(mapa, lugar.lat, lugar.lng);
-
-        campoDireccion.value = "";
+        mapa.setView([lugar.lat, lugar.lng], 15);
     }
 
-    botonBuscar.addEventListener("click", irADireccion);
+    const lugares = ["origen", "destino"];
 
-    campoDireccion.addEventListener("keydown", function (evento) {
-        if (evento.key == "Enter") {
-            evento.preventDefault();
-            irADireccion();
-        }
-    });
+    for (let i = 0; i < lugares.length; i++) {
+        const cual = lugares[i];
+        const campo = document.getElementById(cual);
+
+        campo.addEventListener("keydown", function (evento) {
+            if (evento.key == "Enter") {
+                evento.preventDefault();
+                buscarLoQueEscribio(cual);
+            }
+        });
+
+        campo.addEventListener("blur", function () {
+            buscarLoQueEscribio(cual);
+        });
+    }
 
     document.getElementById("limpiar").addEventListener("click", function () {
         borrarMarcas(mapa);
+        guardarLoEscrito();
+    });
+
+    document.getElementById("editarDatos").addEventListener("click", function () {
+        borrarMarcas(mapa);
+        olvidarLoEscrito();
+
+        const formulario = document.querySelector("form");
+
+        if (formulario) {
+            formulario.reset();
+        }
+
+        document.getElementById("partePaciente").hidden = false;
+        document.getElementById("parteElemento").hidden = true;
+        document.getElementById("origen").focus();
     });
 
     await llenarLista(document.getElementById("ambulanciaRuta"), "../../Api/traslados.php?tipo=ambulancias", "idAmbulancia", textoAmbulancia);
@@ -247,6 +402,22 @@ async function cargarRegistroTraslado() {
     cedula.addEventListener("input", function () {
         cedula.value = cedula.value.replace(/[^0-9]/g, "").substring(0, 8);
     });
+
+    // Primero recuperamos lo que había quedado escrito, y recién después
+    // empezamos a guardar, para no pisar lo viejo con campos vacíos.
+    await recordarLoEscrito(mapa);
+
+    for (let i = 0; i < camposDelTraslado.length; i++) {
+        const campo = campoDelTraslado(camposDelTraslado[i]);
+
+        if (campo) {
+            campo.addEventListener("input", guardarLoEscrito);
+            campo.addEventListener("change", guardarLoEscrito);
+        }
+    }
+
+    // Si lo registra de verdad, ya no hace falta recordar nada.
+    document.querySelector("form").addEventListener("submit", olvidarLoEscrito);
 }
 
 if (document.getElementById("mapa") && document.getElementById("chofer")) {
@@ -280,16 +451,64 @@ function queSeTraslada(t) {
 
 
 
+// Deja solo los traslados que entran en el filtro de fecha y en el de estado.
+function filtrarPorFiltros(lista) {
+    const cuando = document.getElementById("filtroCuando").value;
+    const estado = document.getElementById("filtroEstado").value;
+
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    const desde = new Date(hoy);
+
+    if (cuando == "semana") {
+        desde.setDate(desde.getDate() - 6);
+    }
+
+    const quedan = [];
+
+    for (let i = 0; i < lista.length; i++) {
+        const t = lista[i];
+
+        if (estado != "" && t.estado != estado) {
+            continue;
+        }
+
+        if (cuando != "todos") {
+            if (!t.creado) {
+                continue;
+            }
+
+            const fecha = new Date(t.creado.replace(" ", "T"));
+
+            if (fecha < desde) {
+                continue;
+            }
+        }
+
+        quedan.push(t);
+    }
+
+    return quedan;
+}
+
 function dibujarTraslados(lista, texto) {
     const cuerpo = document.getElementById("cuerpoTraslados");
     cuerpo.innerHTML = "";
 
-    const encontrados = filtrar(lista, texto, ["origen", "destino", "nombrePaciente", "apellidoPaciente",
+    const encontrados = filtrar(filtrarPorFiltros(lista), texto,
+                                              ["origen", "destino", "nombrePaciente", "apellidoPaciente",
                                                "nombreChofer", "apellidoChofer", "copilotoNombre", "copilotoApellido",
                                                "nombreAdmin", "apellidoAdmin", "tipo", "descripcion",
                                                "estado", "movil", "matricula"]);
 
     document.getElementById("vacio").hidden = encontrados.length > 0;
+
+    const cuantos = document.getElementById("cuantos");
+
+    if (cuantos) {
+        cuantos.textContent = encontrados.length + " " + enIdioma("de") + " " + lista.length;
+    }
 
     for (let i = 0; i < encontrados.length; i++) {
         const t = encontrados[i];
@@ -319,9 +538,13 @@ async function cargarTraslados() {
 
     const buscador = document.getElementById("buscarTraslado");
 
-    buscador.addEventListener("input", function () {
+    function volverADibujar() {
         dibujarTraslados(lista, buscador.value);
-    });
+    }
+
+    buscador.addEventListener("input", volverADibujar);
+    document.getElementById("filtroCuando").addEventListener("change", volverADibujar);
+    document.getElementById("filtroEstado").addEventListener("change", volverADibujar);
 }
 
 if (document.getElementById("cuerpoTraslados")) {
