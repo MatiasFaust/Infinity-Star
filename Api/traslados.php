@@ -64,6 +64,14 @@ if ($tipo == "pacientes") {
                                     ORDER BY persona.apellido")));
 }
 
+// El directorio de hospitales y centros, para elegirlos en vez de escribirlos.
+if ($tipo == "centros") {
+    responder(comoLista($db->query("SELECT id_centro AS idCentro, referencia, nombre, tipo,
+                                           departamento, localidad, direccion, lat, lng
+                                    FROM centro
+                                    ORDER BY departamento, nombre")));
+}
+
 // Un traslado solo, para poder editarlo.
 if ($tipo == "uno") {
     $id = $_GET['id'];

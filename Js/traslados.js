@@ -317,13 +317,165 @@ async function cargarRegistroTraslado() {
         marcarPunto(mapa, evento.latlng.lat, evento.latlng.lng);
     });
 
+    // El directorio de hospitales del Ministerio, para no escribir la dirección.
+    const centros = await pedir("../../Api/traslados.php?tipo=centros");
+
+    function llenarCentros(lista) {
+        const donde = [document.getElementById("centroOrigen"),
+                       document.getElementById("centroDestino")];
+
+        for (let i = 0; i < donde.length; i++) {
+            let grupo = null;
+            let departamento = "";
+
+            for (let j = 0; j < lista.length; j++) {
+                const c = lista[j];
+
+                if (c.departamento != departamento) {
+                    departamento = c.departamento;
+                    grupo = document.createElement("optgroup");
+                    grupo.label = departamento;
+                    donde[i].appendChild(grupo);
+                }
+
+                const opcion = document.createElement("option");
+                opcion.value = c.referencia;
+                opcion.textContent = c.referencia + " - " + c.nombre + " (" + c.localidad + ")";
+                grupo.appendChild(opcion);
+            }
+        }
+    }
+
+    llenarCentros(centros);
+
+    // Busca un centro por su número de referencia, sin importar mayúsculas.
+    function centroPorReferencia(texto) {
+        const buscado = texto.trim().toUpperCase();
+
+        for (let i = 0; i < centros.length; i++) {
+            if (centros[i].referencia.toUpperCase() == buscado) {
+                return centros[i];
+            }
+        }
+
+        return null;
+    }
+
+    // Lo que se muestra en el campo: el nombre del centro y su dirección.
+    function direccionDelCentro(c) {
+        return c.nombre + ", " + c.direccion + ", " + c.localidad + ", " + c.departamento;
+    }
+
+    // Lo que le mandamos al buscador del mapa: solo la dirección.
+    // Con el nombre del hospital adelante muchas veces no la encuentra.
+    // Además le desarmamos las abreviaturas, porque con "Bv." no entiende.
+    function dondeQueda(c) {
+        if (c.localidad != c.departamento) {
+            return c.localidad + ", " + c.departamento + ", Uruguay";
+        }
+
+        return c.localidad + ", Uruguay";
+    }
+
+    function loQueSeBusca(c) {
+        let calle = c.direccion;
+
+        // Le sacamos lo que el buscador del mapa no entiende: las abreviaturas
+        // y las referencias de esquina tipo "entre tal y tal" o "casi tal".
+        calle = calle.replace(/\bBv(ar)?\.?\s/gi, "Bulevar ");
+        calle = calle.replace(/\bAv\.\s/gi, "Avenida ");
+        calle = calle.replace(/\s+entre\s.*$/i, "");
+        calle = calle.replace(/\s+casi\s.*$/i, "");
+        calle = calle.replace(/\s+esq\.?\s.*$/i, "");
+        calle = calle.replace(/\bs\/n\b/gi, "");
+        calle = calle.replace(/\s+/g, " ").trim();
+
+        return calle + ", " + dondeQueda(c);
+    }
+
+    // Pone un centro del directorio como origen o como destino.
+    async function ponerCentro(cual, c) {
+        const campo = document.getElementById(cual);
+        const aviso = document.getElementById("estimado");
+
+        campo.value = direccionDelCentro(c);
+
+        // Si ya tenemos guardada la ubicación del centro, la usamos y listo.
+        if (c.lat && c.lng) {
+            if (cual == "origen") {
+                await ponerOrigen(mapa, Number(c.lat), Number(c.lng), campo.value);
+            } else {
+                await ponerDestino(mapa, Number(c.lat), Number(c.lng), campo.value);
+            }
+
+            mapa.setView([Number(c.lat), Number(c.lng)], 15);
+            return;
+        }
+
+        let lugar = await buscarDireccion(loQueSeBusca(c));
+        let aproximado = false;
+
+        // Varias direcciones del directorio no tienen número o son una esquina.
+        // Si no da con la puerta, al menos ubicamos la localidad y después
+        // se puede corregir el punto haciendo clic en el mapa.
+        if (!lugar) {
+            lugar = await buscarDireccion(dondeQueda(c));
+            aproximado = true;
+        }
+
+        if (!lugar) {
+            aviso.dataset.km = "";
+            aviso.textContent = enIdioma("No encontré esa dirección. Probá escribirla de otra forma o marcala en el mapa.");
+            aviso.hidden = false;
+            return;
+        }
+
+        if (cual == "origen") {
+            await ponerOrigen(mapa, lugar.lat, lugar.lng, campo.value);
+        } else {
+            await ponerDestino(mapa, lugar.lat, lugar.lng, campo.value);
+        }
+
+        mapa.setView([lugar.lat, lugar.lng], aproximado ? 13 : 15);
+
+        if (aproximado) {
+            aviso.dataset.km = "";
+            aviso.textContent = enIdioma("De esa dirección solo encontré la localidad. Si querés el punto exacto, marcalo en el mapa.");
+            aviso.hidden = false;
+        }
+    }
+
+    const listas = [["centroOrigen", "origen"], ["centroDestino", "destino"]];
+
+    for (let i = 0; i < listas.length; i++) {
+        const lista = document.getElementById(listas[i][0]);
+        const cual = listas[i][1];
+
+        lista.addEventListener("change", function () {
+            const c = centroPorReferencia(lista.value);
+
+            if (c) {
+                ponerCentro(cual, c);
+            }
+        });
+    }
+
     // Cuando escriben una direccion en Origen o en Destino, la buscamos en el
     // mapa y dejamos el texto tal cual lo escribieron.
+    // Si lo que escribieron es un número de referencia, usamos ese centro.
     async function buscarLoQueEscribio(cual) {
         const campo = document.getElementById(cual);
-        const texto = campo.value.trim();
+        let texto = campo.value.trim();
 
         if (texto == "") {
+            return;
+        }
+
+        // Si escribieron un número de referencia, usamos ese centro.
+        const porReferencia = centroPorReferencia(texto);
+
+        if (porReferencia) {
+            await ponerCentro(cual, porReferencia);
             return;
         }
 

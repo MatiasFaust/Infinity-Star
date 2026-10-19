@@ -7,7 +7,7 @@
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Registrar traslado</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    <link rel="stylesheet" href="../../Css/panel.css?v=114">
+    <link rel="stylesheet" href="../../Css/panel.css?v=120">
 </head>
 
 <body>
@@ -61,19 +61,25 @@
             <form action="../../guardar.php?que=traslado" method="POST">
 
                 <label>Recorrido</label>
-                <p class="ayuda">Escribí la dirección en Origen y en Destino y apretá Enter, o hacé clic en el mapa: primero el punto de salida, después el de llegada.</p>
+                <p class="ayuda">Elegí el hospital de la lista, o escribí su número de referencia, o poné la dirección a mano y apretá Enter. También podés hacer clic en el mapa: primero la salida, después la llegada.</p>
 
                 <div id="mapa"></div>
 
                 <p class="estimado" id="estimado" hidden></p>
 
                 <label>Origen</label>
-                <input type="text" name="origen" id="origen" placeholder="Escribí la dirección de salida o marcala en el mapa" required>
+                <select id="centroOrigen" class="centro">
+                    <option value="">Elegir un hospital o centro de la lista...</option>
+                </select>
+                <input type="text" name="origen" id="origen" placeholder="Dirección de salida, o el número de referencia (por ejemplo MON01)" required>
                 <input type="hidden" name="origenLat" id="origenLat">
                 <input type="hidden" name="origenLng" id="origenLng">
 
                 <label>Destino</label>
-                <input type="text" name="destino" id="destino" placeholder="Escribí la dirección de llegada o marcala en el mapa" required>
+                <select id="centroDestino" class="centro">
+                    <option value="">Elegir un hospital o centro de la lista...</option>
+                </select>
+                <input type="text" name="destino" id="destino" placeholder="Dirección de llegada, o el número de referencia (por ejemplo SAL01)" required>
                 <input type="hidden" name="destinoLat" id="destinoLat">
                 <input type="hidden" name="destinoLng" id="destinoLng">
                 <input type="hidden" name="minutos" id="minutos">
@@ -126,12 +132,12 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=114">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=120">EN</button>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="../../Js/comun.js?v=114"></script>
-    <script src="../../Js/mapa.js?v=114"></script>
-    <script src="../../Js/traslados.js?v=114"></script>
+    <script src="../../Js/comun.js?v=120"></script>
+    <script src="../../Js/mapa.js?v=120"></script>
+    <script src="../../Js/traslados.js?v=120"></script>
 </body>
 
 </html>

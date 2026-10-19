@@ -1,0 +1,58 @@
+-- Directorio de hospitales y centros de atención de Uruguay.
+-- Sale del PDF "directorio_salud_uruguay_por_departamento".
+-- Cada centro tiene un número de referencia para elegirlo rápido.
+
+CREATE TABLE IF NOT EXISTS centro (
+    id_centro INT(11) NOT NULL AUTO_INCREMENT,
+    referencia VARCHAR(10) NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    tipo VARCHAR(100) NOT NULL,
+    departamento VARCHAR(100) NOT NULL,
+    localidad VARCHAR(100) NOT NULL,
+    direccion VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id_centro),
+    UNIQUE KEY referencia (referencia)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO centro (referencia, nombre, tipo, departamento, localidad, direccion) VALUES
+('ART01', 'Hospital de Artigas', 'Hospital público (ASSE)', 'Artigas', 'Artigas', 'Lecueder 482'),
+('ART02', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Artigas', 'Artigas', 'Amaro Ferreira Ramos 289'),
+('CAN01', 'Hospital de Canelones', 'Hospital público (ASSE)', 'Canelones', 'Canelones', 'Dr. Soca s/n'),
+('CAN02', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Canelones', 'Canelones', 'Tolentino González s/n y Batlle y Ordóñez'),
+('CEL01', 'Hospital de Melo', 'Hospital público (ASSE)', 'Cerro Largo', 'Melo', 'Dr. Remigio Castellanos 751'),
+('CEL02', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Cerro Largo', 'Melo', 'Rodó 665 entre Muñiz y Aparicio Saravia'),
+('COL01', 'Hospital de Colonia', 'Hospital público (ASSE)', 'Colonia', 'Colonia del Sacramento', 'Av. Roosevelt s/n'),
+('COL02', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Colonia', 'Colonia del Sacramento', 'Fosalba 576 entre Vicente P. García y Av. Artigas'),
+('DUR01', 'Hospital de Durazno', 'Hospital público (ASSE)', 'Durazno', 'Durazno', 'Dr. Emilio Penza 900'),
+('DUR02', 'Centro Auxiliar Sarandí del Yí', 'Centro auxiliar público (ASSE)', 'Durazno', 'Sarandí del Yí', 'Av. Dr. Héctor Petrini 501'),
+('DUR03', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Durazno', 'Durazno', 'Eusebio Píriz s/n casi 18 de Julio'),
+('FLE01', 'Hospital de Flores / Trinidad', 'Hospital público (ASSE)', 'Flores', 'Trinidad', 'Batlle y Ordóñez 834 esq. M. Sánchez'),
+('FLE02', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Flores', 'Trinidad', 'Santísima Trinidad casi Sarandí'),
+('FLO01', 'Hospital de Florida', 'Hospital público (ASSE)', 'Florida', 'Florida', 'Castillo 510'),
+('FLO02', 'Centro Auxiliar Sarandí Grande', 'Centro auxiliar público (ASSE)', 'Florida', 'Sarandí Grande', 'Luis Pasteur 1052'),
+('FLO03', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Florida', 'Florida', 'Alejandro Gallinal s/n esq. 18 de Julio'),
+('LAV01', 'Hospital de Minas', 'Hospital público (ASSE)', 'Lavalleja', 'Minas', 'Av. Varela 650'),
+('LAV02', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Lavalleja', 'Minas', 'Juan Farina s/n entre Treinta y Tres y Roosevelt'),
+('MAL01', 'Hospital Elbio Rivero', 'Hospital público (ASSE)', 'Maldonado', 'Maldonado', 'Ventura Alegre s/n'),
+('MAL02', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Maldonado', 'Maldonado', 'Rafael Pérez del Puerto y 18 de Julio'),
+('MON01', 'Hospital Pereira Rossell', 'Hospital público (ASSE)', 'Montevideo', 'Montevideo', 'Bv. Artigas 1550'),
+('MON02', 'Hospital Maciel', 'Hospital público (ASSE)', 'Montevideo', 'Montevideo', '25 de Mayo 174'),
+('PAY01', 'Hospital de Paysandú', 'Hospital público (ASSE)', 'Paysandú', 'Paysandú', 'Monte Caseros 520'),
+('PAY02', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Paysandú', 'Paysandú', 'Leandro Gómez 1039'),
+('RIN01', 'Hospital de Fray Bentos', 'Hospital público (ASSE)', 'Río Negro', 'Fray Bentos', '25 de Mayo 3200'),
+('RIN02', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Río Negro', 'Fray Bentos', 'Rivera 1229'),
+('RIV01', 'Hospital de Rivera', 'Hospital público (ASSE)', 'Rivera', 'Rivera', 'Uruguay 712'),
+('RIV02', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Rivera', 'Rivera', 'Rodó 1070'),
+('ROC01', 'Hospital de Rocha', 'Hospital público (ASSE)', 'Rocha', 'Rocha', 'Martínez Rodríguez s/n'),
+('ROC02', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Rocha', 'Rocha', 'Eliseo Marzol esq. Ramírez'),
+('SAL01', 'Hospital de Salto', 'Hospital público (ASSE)', 'Salto', 'Salto', '18 de Julio 446'),
+('SAL02', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Salto', 'Salto', 'Rivera s/n esq. Juan Carlos Gómez'),
+('SJO01', 'Hospital de San José', 'Hospital público (ASSE)', 'San José', 'San José de Mayo', 'Larrañaga 480'),
+('SJO02', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'San José', 'San José de Mayo', 'Bengoa 651 esq. Artigas'),
+('SOR01', 'Hospital de Mercedes', 'Hospital público (ASSE)', 'Soriano', 'Mercedes', 'Sánchez esq. Gomensoro'),
+('SOR02', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Soriano', 'Mercedes', 'Wilson Ferreira Aldunate 660'),
+('TAC01', 'Hospital de Tacuarembó', 'Hospital público (ASSE)', 'Tacuarembó', 'Tacuarembó', 'Treinta y Tres 444'),
+('TAC02', 'Centro Auxiliar Paso de los Toros', 'Centro auxiliar público (ASSE)', 'Tacuarembó', 'Paso de los Toros', 'Adelaida Puyol s/n'),
+('TAC03', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Tacuarembó', 'Tacuarembó', '18 de Julio y Joaquín Suárez'),
+('TYT01', 'Hospital de Treinta y Tres', 'Hospital público (ASSE)', 'Treinta y Tres', 'Treinta y Tres', 'Manuel Lavalleja 1100'),
+('TYT02', 'Centro Auxiliar Sanitario - Sanidad Policial', 'Centro sanitario policial', 'Treinta y Tres', 'Treinta y Tres', 'Manuel Lavalleja s/n entre Manuel Oribe y Simón del Pino');
