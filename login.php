@@ -11,15 +11,16 @@ $cuenta = $db->query("SELECT id_persona, suspendido FROM usuario
                       WHERE usuario = '$usuario'
                       AND contrasena = SHA2('$contrasena', 256)");
 
+// Volvemos al login con el aviso, en vez de dejar una pantalla en blanco.
 if ($cuenta->num_rows == 0) {
-    echo "Usuario o contraseña incorrectos";
+    header("Location: Index.html?error=entrar");
     exit;
 }
 
 $fila = $cuenta->fetch_assoc();
 
 if ($fila['suspendido'] == 1) {
-    echo "Tu usuario está suspendido. Hablá con el administrador del sistema.";
+    header("Location: Index.html?error=suspendido");
     exit;
 }
 

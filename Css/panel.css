@@ -577,6 +577,15 @@ td.acciones .marcar {
     color: var(--grisOscuro);
 }
 
+/* Cuando algo salió mal, el aviso va en rojo para que se note. */
+.aviso.malo {
+    background-color: var(--rojoClaro);
+    border-left: 4px solid var(--rojo);
+
+    color: var(--grisOscuro);
+    font-weight: bold;
+}
+
 
 
 @media (max-width: 768px) {
@@ -1110,6 +1119,11 @@ html.oscuro .editar {
     .tabla td:last-child::before {
         display: none;
     }
+}
+
+/* La lista de hospitales que va arriba del campo de dirección. */
+select.centro {
+    margin-bottom: 6px;
 }
 
 /* Los botones que cambian de parte en el panel del superadmin. */

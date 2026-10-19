@@ -364,7 +364,11 @@ function avisosDeLaDireccion() {
     const direccion = new URLSearchParams(location.search);
     let mensaje = "";
 
-    if (direccion.has("guardado")) {
+    if (direccion.get("error") == "entrar") {
+        mensaje = "Usuario o contraseña incorrectos. Fijate que estén bien escritos.";
+    } else if (direccion.get("error") == "suspendido") {
+        mensaje = "Tu usuario está suspendido. Hablá con el superadministrador.";
+    } else if (direccion.has("guardado")) {
         mensaje = "Guardado correctamente.";
     } else if (direccion.has("borrada")) {
         mensaje = "Eliminado correctamente.";
@@ -412,6 +416,8 @@ function avisosDeLaDireccion() {
         mensaje = "Tu contraseña se cambió. Ya podés entrar.";
     } else if (direccion.get("error") == "claveCorta") {
         mensaje = "La contraseña tiene que tener al menos 8 letras o números.";
+    } else if (direccion.get("error") == "mismaClave") {
+        mensaje = "La contraseña nueva tiene que ser distinta a la actual.";
     } else if (direccion.get("error") == "claveActual") {
         mensaje = "La contraseña actual no es correcta.";
     } else if (direccion.get("error") == "noCoinciden") {
