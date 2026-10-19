@@ -116,6 +116,25 @@ if ($que == "persona") {
     header("Location: Html/Administrativo/ambulancias.html");
 }
 
+// El enlace del formulario de la encuesta de satisfacción.
+if ($que == "encuesta") {
+    $enlace = trim($_POST['enlace']);
+    $vuelve = "Html/Administrativo/documentosQr.html";
+
+    if ($enlace != "" && substr($enlace, 0, 8) != "https://" && substr($enlace, 0, 7) != "http://") {
+        header("Location: $vuelve?error=enlaceMal");
+        exit;
+    }
+
+    $db->query("INSERT INTO ajuste (clave, valor) VALUES ('encuestaEnlace', '" . $db->real_escape_string($enlace) . "')
+                ON DUPLICATE KEY UPDATE valor = VALUES(valor)");
+
+    anotar($yo, "Cambió el enlace de la encuesta");
+
+    header("Location: $vuelve?guardado=si");
+    exit;
+}
+
 if ($que == "traslado") {
 
     $vuelve = "Html/Administrativo/registrarTraslado.html";

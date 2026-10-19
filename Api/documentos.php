@@ -13,6 +13,13 @@ if ($tipo == "contadores") {
 }
 
 
+// El enlace del formulario de la encuesta de satisfacción.
+if ($tipo == "encuesta") {
+    $fila = $db->query("SELECT valor FROM ajuste WHERE clave = 'encuestaEnlace'")->fetch_assoc();
+
+    responder(array("enlace" => $fila ? $fila['valor'] : ""));
+}
+
 if ($tipo == "documentos") {
     $base = direccionPublica();
 

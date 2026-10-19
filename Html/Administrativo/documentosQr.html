@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Documentos QR</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=120">
+    <link rel="stylesheet" href="../../Css/panel.css?v=121">
 </head>
 
 <body>
@@ -100,6 +100,34 @@
 
             </form>
 
+            <div class="tabla">
+
+                <h2>Encuesta de satisfacción</h2>
+
+                <p class="ayuda">Este QR lleva al formulario donde el paciente deja su opinión. Imprimilo y pegalo en la sala de espera o en el mostrador: lo escanea con la cámara del celular y contesta ahí mismo.</p>
+
+                <form action="../../guardar.php?que=encuesta" method="POST">
+
+                    <label>Enlace del formulario</label>
+                    <input type="url" name="enlace" id="enlaceEncuesta" placeholder="https://docs.google.com/forms/...">
+
+                    <div class="botones">
+                        <button type="submit">Guardar enlace</button>
+                    </div>
+
+                </form>
+
+                <div class="centro">
+                    <div id="qrEncuesta" class="qrGrande"></div>
+                    <p class="vacio" id="sinEncuesta" hidden>Todavía no cargaste el enlace del formulario.</p>
+                    <p class="botones" id="botonesEncuesta" hidden>
+                        <a class="editar" id="verEncuesta" href="#" target="_blank">Abrir el formulario</a>
+                        <a class="editar" id="imprimirEncuesta" href="../../imprimirQr.html?encuesta=1" target="_blank">Imprimir el QR</a>
+                    </p>
+                </div>
+
+            </div>
+
             <input type="text" class="buscar" autocomplete="off" data-tabla="cuerpoDocumentos" placeholder="Buscar un documento">
 
             <div class="tabla">
@@ -127,11 +155,11 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=120">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=121">EN</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="../../Js/comun.js?v=120"></script>
-    <script src="../../Js/documentosQr.js?v=120"></script>
+    <script src="../../Js/comun.js?v=121"></script>
+    <script src="../../Js/documentosQr.js?v=121"></script>
 </body>
 
 </html>

@@ -7,6 +7,37 @@ function dibujarQr(donde, texto) {
     });
 }
 
+// El QR de la encuesta: el paciente lo escanea y contesta el formulario.
+async function cargarEncuesta() {
+    const datos = await pedir("../../Api/documentos.php?tipo=encuesta");
+    const enlace = datos.enlace;
+
+    document.getElementById("enlaceEncuesta").value = enlace;
+
+    const caja = document.getElementById("qrEncuesta");
+    caja.innerHTML = "";
+
+    if (enlace == "") {
+        document.getElementById("sinEncuesta").hidden = false;
+        return;
+    }
+
+    document.getElementById("sinEncuesta").hidden = true;
+    document.getElementById("botonesEncuesta").hidden = false;
+    document.getElementById("verEncuesta").href = enlace;
+
+    new QRCode(caja, {
+        text: enlace,
+        width: 220,
+        height: 220,
+        correctLevel: QRCode.CorrectLevel.M
+    });
+}
+
+if (document.getElementById("qrEncuesta")) {
+    cargarEncuesta();
+}
+
 // Cambia el PDF pero deja el mismo documento, asi el QR que ya se imprimio
 // sigue sirviendo y apunta al archivo nuevo.
 function botonSustituir(id) {
