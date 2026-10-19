@@ -68,7 +68,8 @@ if ($accion == "ponerClave") {
         exit;
     }
 
-    $db->query("UPDATE usuario SET contrasena = SHA2('$nueva', 256)
+    // La bandera vuelve a 0: la contraseña se la puso otro, no ella misma.
+    $db->query("UPDATE usuario SET contrasena = SHA2('$nueva', 256), clave_propia = 0
                 WHERE id_persona = $id");
 
     anotar($yo, "Le puso una contraseña nueva a " . $nombre);

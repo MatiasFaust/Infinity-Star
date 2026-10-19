@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
+    <title>Mi contraseña</title>
+    <link rel="stylesheet" href="../../Css/panel.css?v=120">
+</head>
+
+<body>
+
+    <header>
+
+        <h3>Hospital de Clínicas Montevideo</h3>
+
+        <a href="../../salir.php" class="cerrar">
+            Cerrar sesión
+        </a>
+
+    </header>
+
+    <div class="contenedor">
+
+        <nav>
+
+            <p class="tituloMenu">NAVEGACIÓN</p>
+
+            <a href="miClave.html">
+                Mi contraseña
+            </a>
+
+            <hr>
+
+            <a href="../Modulos.html" id="volver">
+                ← Volver a módulos
+            </a>
+
+        </nav>
+
+        <main>
+
+            <h1>Cambiar mi contraseña</h1>
+
+            <p class="aviso malo" id="avisoCambiar" hidden>
+                Todavía estás usando la contraseña que te dieron. Elegí una tuya.
+            </p>
+
+            <p class="aviso" id="aviso" hidden></p>
+
+            <form class="sinRelleno" autocomplete="off" action="../../cambiarClave.php" method="POST">
+
+                <label>Contraseña actual</label>
+                <input type="password" name="actual" required>
+
+                <label>Contraseña nueva</label>
+                <input type="password" name="nueva" minlength="8" maxlength="16"
+                   pattern="(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,16}"
+                   title="De 8 a 16 letras y números con al menos una mayúscula y un número" required>
+
+                <label>Repetí la nueva</label>
+                <input type="password" name="repetir" minlength="8" maxlength="16" required>
+
+                <p class="ayuda">De 8 a 16 letras y números, con al menos una mayúscula y un número. Nadie, ni el hospital, puede ver tu contraseña: por eso conviene que la elijas vos.</p>
+
+                <div class="botones">
+                    <button type="submit">Guardar contraseña</button>
+                </div>
+
+            </form>
+
+        </main>
+
+    </div>
+
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=120">EN</button>
+
+    <script src="../../Js/comun.js?v=120"></script>
+    <script src="../../Js/miClave.js?v=120"></script>
+</body>
+
+</html>
