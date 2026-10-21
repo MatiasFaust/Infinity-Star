@@ -48,6 +48,10 @@ function comoReloj(segundos) {
 }
 
 function comoFecha(texto) {
+    if (!texto) {
+        return null;
+    }
+
     return new Date(texto.replace(" ", "T"));
 }
 
@@ -60,11 +64,21 @@ function actualizarContador() {
 
     const ahora = new Date();
     const salida = comoFecha(viaje.salida);
-    const pasados = Math.floor((ahora - salida) / 1000);
 
-    document.getElementById("contador").textContent = comoReloj(pasados);
+    if (salida) {
+        const pasados = Math.floor((ahora - salida) / 1000);
+        document.getElementById("contador").textContent = comoReloj(pasados);
+    }
 
     const llegada = comoFecha(viaje.llegada);
+
+    // Si no quedó guardada la hora estimada, no mostramos nada en vez de
+    // romper toda la pantalla.
+    if (!llegada) {
+        document.getElementById("restante").textContent = "";
+        return;
+    }
+
     const faltan = Math.floor((llegada - ahora) / 1000 / 60);
 
     if (faltan > 0) {
