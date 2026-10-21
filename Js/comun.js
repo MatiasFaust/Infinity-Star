@@ -846,58 +846,89 @@ function vigilarTablas() {
     }
 }
 
-// Buscador para las listas desplegables largas, como la de choferes o la de
-// pacientes. Al campo se le pone data-lista="idDeLaLista" y deja solo las
-// opciones que coinciden con lo que se escribe.
-function prepararBuscadoresDeLista() {
-    const campos = document.querySelectorAll("[data-lista]");
+// Buscador con resultados para tocar, igual al de documentos del paciente.
+// Al campo se le pone data-elige-de="idDeLaLista" y abajo van los resultados.
+// La lista de siempre queda escondida y es la que guarda lo elegido, así el
+// formulario se manda igual que antes.
+
+function textoDeLoElegido(lista) {
+    for (let i = 0; i < lista.options.length; i++) {
+        if (lista.options[i].value == lista.value && lista.value != "") {
+            return lista.options[i].textContent;
+        }
+    }
+
+    return "";
+}
+
+// Muestra abajo del buscador qué quedó elegido.
+function mostrarLoElegido(lista) {
+    const aviso = document.getElementById("elegido" + lista.id);
+
+    if (!aviso) {
+        return;
+    }
+
+    const texto = textoDeLoElegido(lista);
+
+    aviso.textContent = texto;
+    aviso.hidden = (texto == "");
+}
+
+function prepararBuscadoresConResultados() {
+    const campos = document.querySelectorAll("[data-elige-de]");
 
     for (let i = 0; i < campos.length; i++) {
         const campo = campos[i];
-        const lista = document.getElementById(campo.dataset.lista);
+        const lista = document.getElementById(campo.dataset.eligeDe);
 
         if (!lista) {
             continue;
         }
 
-        let todas = null;
+        const resultados = document.getElementById("resultados" + lista.id);
 
         campo.addEventListener("input", function () {
-            // Las opciones se cargan después, así que las guardamos la primera
-            // vez que alguien escribe, cuando ya están todas.
-            if (!todas) {
-                todas = [];
-
-                for (let j = 0; j < lista.options.length; j++) {
-                    todas.push({ valor: lista.options[j].value,
-                                 texto: lista.options[j].textContent });
-                }
-            }
-
             const texto = sinTildes(campo.value.toLowerCase().trim());
-            const elegido = lista.value;
 
-            lista.innerHTML = "";
+            resultados.innerHTML = "";
 
-            for (let j = 0; j < todas.length; j++) {
-                const o = todas[j];
-                const entra = (texto == "" || o.valor == "" ||
-                               sinTildes(o.texto.toLowerCase()).indexOf(texto) != -1);
-
-                if (entra) {
-                    const opcion = document.createElement("option");
-                    opcion.value = o.valor;
-                    opcion.textContent = o.texto;
-                    lista.appendChild(opcion);
-                }
+            if (texto == "") {
+                return;
             }
 
-            lista.value = elegido;
+            let encontrados = 0;
 
-            // Si lo que estaba elegido ya no entra en la búsqueda y quedó una
-            // sola opción de verdad, la dejamos elegida.
-            if (lista.value == "" && lista.options.length == 2) {
-                lista.selectedIndex = 1;
+            for (let j = 0; j < lista.options.length; j++) {
+                const o = lista.options[j];
+
+                if (o.value == "") {
+                    continue;
+                }
+
+                if (sinTildes(o.textContent.toLowerCase()).indexOf(texto) == -1) {
+                    continue;
+                }
+
+                encontrados = encontrados + 1;
+
+                const boton = document.createElement("button");
+                boton.type = "button";
+                boton.className = "resultado";
+                boton.textContent = o.textContent;
+
+                boton.addEventListener("click", function () {
+                    lista.value = o.value;
+                    mostrarLoElegido(lista);
+                    resultados.innerHTML = "";
+                    campo.value = "";
+                });
+
+                resultados.appendChild(boton);
+            }
+
+            if (encontrados == 0) {
+                resultados.innerHTML = "<p class='ayuda'>" + enIdioma("No se encontró nada con eso.") + "</p>";
             }
         });
     }
@@ -995,7 +1026,7 @@ ponerPie();
 pedirTokenAlBorrar();
 prepararBuscadorDePacientes();
 prepararFiltrosDeTabla();
-prepararBuscadoresDeLista();
+prepararBuscadoresConResultados();
 vigilarTablas();
 recordarFormularios();
 window.addEventListener("load", prepararIdioma);

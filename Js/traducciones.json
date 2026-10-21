@@ -1,5 +1,10 @@
 {
     "Cerrar sesión": "Log out",
+    "No se encontró nada con eso.": "Nothing was found with that.",
+    "Elegí la ambulancia del traslado.": "Choose the ambulance for the transfer.",
+    "Elegí el chofer que lleva el traslado.": "Choose the driver for the transfer.",
+    "Buscar por matrícula o móvil": "Search by plate number or unit",
+    "Buscar por nombre, apellido o cédula": "Search by first name, surname or ID",
     "Corregir": "Fix",
     "Editar traslado": "Edit transfer",
     "Guardar cambios": "Save changes",

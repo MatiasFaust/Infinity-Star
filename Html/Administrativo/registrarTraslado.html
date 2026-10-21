@@ -7,7 +7,7 @@
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Registrar traslado</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    <link rel="stylesheet" href="../../Css/panel.css?v=124">
+    <link rel="stylesheet" href="../../Css/panel.css?v=126">
 </head>
 
 <body>
@@ -85,13 +85,16 @@
                 <input type="hidden" name="minutos" id="minutos">
 
                 <label>Ambulancia</label>
-                <select name="ambulancia" id="ambulanciaRuta" required></select>
+                <input type="text" autocomplete="off" data-elige-de="ambulanciaRuta" placeholder="Buscar por matrícula o móvil">
+                <div class="resultados" id="resultadosambulanciaRuta"></div>
+                <p class="elegido" id="elegidoambulanciaRuta" hidden></p>
+                <select name="ambulancia" id="ambulanciaRuta" class="escondida"></select>
 
                 <label>Conductor responsable</label>
-                <div class="buscarEnLista">
-                    <input type="text" class="buscar" autocomplete="off" data-lista="chofer" placeholder="Buscar por nombre, apellido o cédula">
-                    <select name="chofer" id="chofer" required></select>
-                </div>
+                <input type="text" autocomplete="off" data-elige-de="chofer" placeholder="Buscar por nombre, apellido o cédula">
+                <div class="resultados" id="resultadoschofer"></div>
+                <p class="elegido" id="elegidochofer" hidden></p>
+                <select name="chofer" id="chofer" class="escondida"></select>
 
                 <label>¿Qué se traslada?</label>
                 <select name="lleva" id="queLleva">
@@ -101,10 +104,10 @@
 
                 <div id="partePaciente">
                     <label>Paciente</label>
-                    <div class="buscarEnLista">
-                        <input type="text" class="buscar" autocomplete="off" data-lista="paciente" placeholder="Buscar por nombre, apellido o cédula">
-                        <select name="paciente" id="paciente"></select>
-                    </div>
+                    <input type="text" autocomplete="off" data-elige-de="paciente" placeholder="Buscar por nombre, apellido o cédula">
+                    <div class="resultados" id="resultadospaciente"></div>
+                    <p class="elegido" id="elegidopaciente" hidden></p>
+                    <select name="paciente" id="paciente" class="escondida"></select>
                 </div>
 
                 <div id="parteElemento" hidden>
@@ -138,12 +141,12 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=124">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=126">EN</button>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="../../Js/comun.js?v=124"></script>
-    <script src="../../Js/mapa.js?v=124"></script>
-    <script src="../../Js/traslados.js?v=124"></script>
+    <script src="../../Js/comun.js?v=126"></script>
+    <script src="../../Js/mapa.js?v=126"></script>
+    <script src="../../Js/traslados.js?v=126"></script>
 </body>
 
 </html>

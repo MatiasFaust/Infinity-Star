@@ -1168,28 +1168,10 @@ html.oscuro .editar {
     }
 }
 
-/* El buscador y su lista van pegados, como si fueran un solo control,
-   para que no parezcan dos datos distintos. */
-.buscarEnLista {
-    margin-bottom: 15px;
-}
-
-.buscarEnLista input {
-    margin: 0;
-
-    padding: 9px 12px;
-
-    background-color: var(--grisClaro);
-
-    border-bottom: none;
-    border-radius: 7px 7px 0 0;
-
-    font-size: 13px;
-}
-
-.buscarEnLista select {
-    margin: 0;
-    border-radius: 0 0 7px 7px;
+/* La lista de siempre queda escondida: sigue guardando lo que se elige
+   y es la que se manda al guardar, pero en pantalla se usa el buscador. */
+select.escondida {
+    display: none;
 }
 
 /* La lista de hospitales que va arriba del campo de dirección. */

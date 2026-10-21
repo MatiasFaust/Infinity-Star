@@ -541,6 +541,31 @@ async function cargarRegistroTraslado() {
         cedula.value = cedula.value.replace(/[^0-9]/g, "").substring(0, 8);
     });
 
+    // Como la ambulancia y el chofer ahora se eligen con el buscador, el
+    // navegador ya no los controla solo: lo revisamos nosotros al guardar.
+    document.querySelector("form").addEventListener("submit", function (evento) {
+        const aviso = document.getElementById("aviso");
+        let falta = "";
+
+        if (document.getElementById("ambulanciaRuta").value == "") {
+            falta = "Elegí la ambulancia del traslado.";
+        } else if (document.getElementById("chofer").value == "") {
+            falta = "Elegí el chofer que lleva el traslado.";
+        } else if (document.getElementById("queLleva").value == "paciente" &&
+                   document.getElementById("paciente").value == "") {
+            falta = "Elegí el paciente que se traslada.";
+        }
+
+        if (falta != "") {
+            evento.preventDefault();
+
+            aviso.textContent = enIdioma(falta);
+            aviso.className = "aviso malo";
+            aviso.hidden = false;
+            aviso.scrollIntoView({ block: "center" });
+        }
+    });
+
     const queEditar = new URLSearchParams(location.search).get("id");
 
     if (queEditar) {
@@ -592,11 +617,15 @@ async function abrirParaEditar(mapa, id) {
     document.getElementById("ambulanciaRuta").value = t.idAmbulancia;
     document.getElementById("chofer").value = t.idChofer;
 
+    mostrarLoElegido(document.getElementById("ambulanciaRuta"));
+    mostrarLoElegido(document.getElementById("chofer"));
+
     const queLleva = document.getElementById("queLleva");
 
     if (t.idPaciente) {
         queLleva.value = "paciente";
         document.getElementById("paciente").value = t.idPaciente;
+        mostrarLoElegido(document.getElementById("paciente"));
     } else {
         queLleva.value = "elemento";
         document.getElementById("tipoElemento").value = t.tipo || "";
