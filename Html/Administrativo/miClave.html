@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Mi contraseña</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=121">
+    <link rel="stylesheet" href="../../Css/panel.css?v=123">
 </head>
 
 <body>
@@ -27,11 +27,17 @@
 
             <p class="tituloMenu">NAVEGACIÓN</p>
 
+            <!-- El menú se arma según quién entró: el chofer ve el botón de
+                 sus traslados y el funcionario el de volver a módulos. -->
+            <a href="Chofer.html" id="misTraslados" hidden>
+                Mis traslados
+            </a>
+
             <a href="miClave.html">
                 Mi contraseña
             </a>
 
-            <hr>
+            <hr id="rayaMenu">
 
             <a href="../Modulos.html" id="volver">
                 ← Volver a módulos
@@ -74,10 +80,10 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=121">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=123">EN</button>
 
-    <script src="../../Js/comun.js?v=121"></script>
-    <script src="../../Js/miClave.js?v=121"></script>
+    <script src="../../Js/comun.js?v=123"></script>
+    <script src="../../Js/miClave.js?v=123"></script>
 </body>
 
 </html>
