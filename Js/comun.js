@@ -311,14 +311,24 @@ function ponerBotonTema() {
     boton.type = "button";
     boton.className = "tema";
 
+    // Dibujamos la luna y el sol a mano, con un icono. Los emojis se ven
+    // distintos en cada computadora y quedaban feos.
+    const luna = "<svg viewBox='0 0 24 24' width='20' height='20' aria-hidden='true'>" +
+                 "<path fill='currentColor' d='M21 13.2A9 9 0 1 1 10.8 3a7.2 7.2 0 0 0 10.2 10.2z'/></svg>";
+
+    const sol = "<svg viewBox='0 0 24 24' width='20' height='20' aria-hidden='true'>" +
+                "<circle cx='12' cy='12' r='4.6' fill='currentColor'/>" +
+                "<g stroke='currentColor' stroke-width='2' stroke-linecap='round'>" +
+                "<path d='M12 2v2.6M12 19.4V22M2 12h2.6M19.4 12H22'/>" +
+                "<path d='M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9'/>" +
+                "</g></svg>";
+
     function pintarBoton() {
-        if (document.documentElement.classList.contains("oscuro")) {
-            boton.textContent = "☀";
-            boton.title = enIdioma("Pasar a modo claro");
-        } else {
-            boton.textContent = "🌙";
-            boton.title = enIdioma("Pasar a modo oscuro");
-        }
+        const estaOscuro = document.documentElement.classList.contains("oscuro");
+
+        boton.innerHTML = estaOscuro ? sol : luna;
+        boton.title = enIdioma(estaOscuro ? "Pasar a modo claro" : "Pasar a modo oscuro");
+        boton.setAttribute("aria-label", boton.title);
     }
 
     boton.addEventListener("click", function () {
@@ -836,6 +846,63 @@ function vigilarTablas() {
     }
 }
 
+// Buscador para las listas desplegables largas, como la de choferes o la de
+// pacientes. Al campo se le pone data-lista="idDeLaLista" y deja solo las
+// opciones que coinciden con lo que se escribe.
+function prepararBuscadoresDeLista() {
+    const campos = document.querySelectorAll("[data-lista]");
+
+    for (let i = 0; i < campos.length; i++) {
+        const campo = campos[i];
+        const lista = document.getElementById(campo.dataset.lista);
+
+        if (!lista) {
+            continue;
+        }
+
+        let todas = null;
+
+        campo.addEventListener("input", function () {
+            // Las opciones se cargan después, así que las guardamos la primera
+            // vez que alguien escribe, cuando ya están todas.
+            if (!todas) {
+                todas = [];
+
+                for (let j = 0; j < lista.options.length; j++) {
+                    todas.push({ valor: lista.options[j].value,
+                                 texto: lista.options[j].textContent });
+                }
+            }
+
+            const texto = sinTildes(campo.value.toLowerCase().trim());
+            const elegido = lista.value;
+
+            lista.innerHTML = "";
+
+            for (let j = 0; j < todas.length; j++) {
+                const o = todas[j];
+                const entra = (texto == "" || o.valor == "" ||
+                               sinTildes(o.texto.toLowerCase()).indexOf(texto) != -1);
+
+                if (entra) {
+                    const opcion = document.createElement("option");
+                    opcion.value = o.valor;
+                    opcion.textContent = o.texto;
+                    lista.appendChild(opcion);
+                }
+            }
+
+            lista.value = elegido;
+
+            // Si lo que estaba elegido ya no entra en la búsqueda y quedó una
+            // sola opción de verdad, la dejamos elegida.
+            if (lista.value == "" && lista.options.length == 2) {
+                lista.selectedIndex = 1;
+            }
+        });
+    }
+}
+
 // Filtro simple para cualquier tabla: al buscador se le pone
 // data-tabla="idDelCuerpoDeLaTabla" y esconde las filas que no coinciden.
 function prepararFiltrosDeTabla() {
@@ -928,6 +995,7 @@ ponerPie();
 pedirTokenAlBorrar();
 prepararBuscadorDePacientes();
 prepararFiltrosDeTabla();
+prepararBuscadoresDeLista();
 vigilarTablas();
 recordarFormularios();
 window.addEventListener("load", prepararIdioma);

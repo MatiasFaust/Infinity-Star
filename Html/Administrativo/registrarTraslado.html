@@ -7,7 +7,7 @@
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Registrar traslado</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    <link rel="stylesheet" href="../../Css/panel.css?v=121">
+    <link rel="stylesheet" href="../../Css/panel.css?v=123">
 </head>
 
 <body>
@@ -88,6 +88,7 @@
                 <select name="ambulancia" id="ambulanciaRuta" required></select>
 
                 <label>Conductor responsable</label>
+                <input type="text" class="buscar" autocomplete="off" data-lista="chofer" placeholder="Escribí el nombre, apellido o cédula del chofer">
                 <select name="chofer" id="chofer" required></select>
 
                 <label>¿Qué se traslada?</label>
@@ -98,6 +99,7 @@
 
                 <div id="partePaciente">
                     <label>Paciente</label>
+                    <input type="text" class="buscar" autocomplete="off" data-lista="paciente" placeholder="Escribí el nombre, apellido o cédula del paciente">
                     <select name="paciente" id="paciente"></select>
                 </div>
 
@@ -132,12 +134,12 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=121">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=123">EN</button>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="../../Js/comun.js?v=121"></script>
-    <script src="../../Js/mapa.js?v=121"></script>
-    <script src="../../Js/traslados.js?v=121"></script>
+    <script src="../../Js/comun.js?v=123"></script>
+    <script src="../../Js/mapa.js?v=123"></script>
+    <script src="../../Js/traslados.js?v=123"></script>
 </body>
 
 </html>
