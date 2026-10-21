@@ -908,8 +908,6 @@ td.acciones .marcar {
     cursor: pointer;
 
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-
-    transition: background-color .2s, color .2s, border-color .2s;
 }
 
 .tema:hover {
@@ -971,16 +969,6 @@ html.oscuro header {
     border-bottom: 1px solid var(--grisBorde);
 }
 
-/* Que el cambio de claro a oscuro no sea un salto brusco. */
-body,
-header,
-nav,
-.tabla,
-.caja,
-.seccion,
-.tarjeta {
-    transition: background-color .25s ease, color .25s ease, border-color .25s ease;
-}
 
 html.oscuro header {
     background-color: #0d4f0d;
@@ -1178,6 +1166,30 @@ html.oscuro .editar {
     .tabla td:last-child::before {
         display: none;
     }
+}
+
+/* El buscador y su lista van pegados, como si fueran un solo control,
+   para que no parezcan dos datos distintos. */
+.buscarEnLista {
+    margin-bottom: 15px;
+}
+
+.buscarEnLista input {
+    margin: 0;
+
+    padding: 9px 12px;
+
+    background-color: var(--grisClaro);
+
+    border-bottom: none;
+    border-radius: 7px 7px 0 0;
+
+    font-size: 13px;
+}
+
+.buscarEnLista select {
+    margin: 0;
+    border-radius: 0 0 7px 7px;
 }
 
 /* La lista de hospitales que va arriba del campo de dirección. */
