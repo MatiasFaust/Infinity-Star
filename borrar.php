@@ -45,7 +45,7 @@ if ($que == "documento") {
     $vuelveSiFalla = "documentosQr.html";
 }
 
-if ($que == "encuesta") {
+if ($que == "enlaceQr") {
     $queToken = "eliminarDocumento";
     $vuelveSiFalla = "documentosQr.html";
 }
@@ -156,9 +156,9 @@ if ($que == "persona") {
 
     $vuelve = "documentosPaciente.html?borrada=si";
 
-// Saca el enlace de la encuesta, asi el QR deja de aparecer.
-} else if ($que == "encuesta") {
-    $db->query("DELETE FROM ajuste WHERE clave = 'encuestaEnlace'");
+// Saca uno de los QR con enlace.
+} else if ($que == "enlaceQr") {
+    $db->query("DELETE FROM enlace_qr WHERE id_enlace = " . (int) $id);
 
     $vuelve = "documentosQr.html?borrada=si";
 

@@ -7,35 +7,99 @@ function dibujarQr(donde, texto) {
     });
 }
 
-// El QR de la encuesta: el paciente lo escanea y contesta el formulario.
-async function cargarEncuesta() {
-    const datos = await pedir("../../Api/documentos.php?tipo=encuesta");
-    const enlace = datos.enlace;
+// Los QR con enlaces: cada uno va en su propia tarjeta, una al lado de la
+// otra, así nunca quedan encimados por más que haya muchos.
 
-    document.getElementById("enlaceEncuesta").value = enlace;
+// Al tocar "Cambiar" en una tarjeta, el formulario de arriba se llena con
+// sus datos y al guardar se cambia ese QR en vez de agregar uno nuevo.
+function editarEnlace(e) {
+    document.getElementById("idEnlace").value = e.idEnlace;
+    document.getElementById("nombreEnlace").value = e.nombre;
+    document.getElementById("enlaceQr").value = e.enlace;
+    document.getElementById("guardarQr").textContent = enIdioma("Guardar cambios");
+    document.getElementById("cancelarQr").hidden = false;
 
-    const caja = document.getElementById("qrEncuesta");
-    caja.innerHTML = "";
-
-    if (enlace == "") {
-        document.getElementById("sinEncuesta").hidden = false;
-        return;
-    }
-
-    document.getElementById("sinEncuesta").hidden = true;
-    document.getElementById("botonesEncuesta").hidden = false;
-    document.getElementById("verEncuesta").href = enlace;
-
-    new QRCode(caja, {
-        text: enlace,
-        width: 220,
-        height: 220,
-        correctLevel: QRCode.CorrectLevel.M
-    });
+    document.getElementById("formularioQr").scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById("nombreEnlace").focus();
 }
 
-if (document.getElementById("qrEncuesta")) {
-    cargarEncuesta();
+function dejarDeEditar() {
+    document.getElementById("formularioQr").reset();
+    document.getElementById("idEnlace").value = "0";
+    document.getElementById("guardarQr").textContent = enIdioma("Agregar QR");
+    document.getElementById("cancelarQr").hidden = true;
+}
+
+function tarjetaDelEnlace(e) {
+    const tarjeta = document.createElement("div");
+    tarjeta.className = "tarjetaQr";
+
+    const titulo = document.createElement("h3");
+    titulo.textContent = e.nombre;
+
+    const caja = document.createElement("div");
+    caja.className = "cajaQr";
+
+    new QRCode(caja, {
+        text: e.enlace,
+        width: 170,
+        height: 170,
+        correctLevel: QRCode.CorrectLevel.M
+    });
+
+    const direccion = document.createElement("p");
+    direccion.className = "ayuda direccionQr";
+    direccion.textContent = e.enlace;
+
+    const botones = document.createElement("div");
+    botones.className = "botonesQr";
+
+    const abrir = document.createElement("a");
+    abrir.className = "editar";
+    abrir.href = e.enlace;
+    abrir.target = "_blank";
+    abrir.textContent = enIdioma("Abrir");
+
+    const imprimir = document.createElement("a");
+    imprimir.className = "editar";
+    imprimir.href = "../../imprimirQr.html?enlace=" + e.idEnlace;
+    imprimir.target = "_blank";
+    imprimir.textContent = enIdioma("Imprimir");
+
+    const cambiar = document.createElement("button");
+    cambiar.type = "button";
+    cambiar.className = "editar";
+    cambiar.textContent = enIdioma("Cambiar");
+    cambiar.addEventListener("click", function () {
+        editarEnlace(e);
+    });
+
+    botones.append(abrir, imprimir, cambiar);
+    botones.insertAdjacentHTML("beforeend", botonAccion("borrar.php?que=enlaceQr", e.idEnlace, "Quitar", "eliminar"));
+
+    tarjeta.append(titulo, caja, direccion, botones);
+
+    return tarjeta;
+}
+
+async function cargarEnlaces() {
+    const lista = await pedir("../../Api/documentos.php?tipo=enlaces");
+    const grilla = document.getElementById("grillaQr");
+
+    grilla.innerHTML = "";
+
+    document.getElementById("sinEnlaces").hidden = lista.length > 0;
+    document.getElementById("botonesTodos").hidden = lista.length < 2;
+
+    for (let i = 0; i < lista.length; i++) {
+        grilla.appendChild(tarjetaDelEnlace(lista[i]));
+    }
+}
+
+if (document.getElementById("grillaQr")) {
+    document.getElementById("cancelarQr").addEventListener("click", dejarDeEditar);
+
+    cargarEnlaces();
 }
 
 // Cambia el PDF pero deja el mismo documento, asi el QR que ya se imprimio

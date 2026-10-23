@@ -234,7 +234,14 @@ const segundosParaRecargar = 15;
 function avisarQueSeActualiza() {
     const aviso = document.createElement("p");
     aviso.className = "ayuda avisoRecarga";
-    aviso.textContent = "Esta pantalla se actualiza sola cada " + segundosParaRecargar + " segundos.";
+    // Va en partes separadas para que cada una se pueda traducir sola.
+    const antes = document.createElement("span");
+    antes.textContent = enIdioma("Esta pantalla se actualiza sola cada");
+
+    const despues = document.createElement("span");
+    despues.textContent = enIdioma("segundos.");
+
+    aviso.append(antes, " " + segundosParaRecargar + " ", despues);
 
     const titulo = document.querySelector("main h1");
 

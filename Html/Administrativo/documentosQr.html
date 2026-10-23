@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Documentos QR</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=131">
+    <link rel="stylesheet" href="../../Css/panel.css?v=132">
 </head>
 
 <body>
@@ -67,20 +67,20 @@
                 <label>Documento</label>
                 <select name="titulo" id="tituloDocumento" required>
                     <option value="">Elegir...</option>
-                    <option>Indicaciones de interrupción voluntaria del embarazo</option>
-                    <option>Prostatectomía radical (indicaciones e información para el paciente)</option>
-                    <option>Preparación para estudios imagenológicos</option>
-                    <option>Estudios diagnósticos con pertecneciato</option>
-                    <option>Centellograma de perfusión miocárdica</option>
-                    <option>Indicaciones ecocardiograma con dobutamina</option>
-                    <option>Indicaciones para pacientes en tratamiento con warfarina</option>
-                    <option>Indicaciones ecocardiograma transesofágico</option>
-                    <option>Indicaciones para ingreso a centro de nefrología y trasplante</option>
-                    <option>Plan de alta enfermería, Nefrología</option>
-                    <option>Indicaciones de enfermería para usuarios trasplantados</option>
-                    <option>Prevención de infecciones</option>
-                    <option>Encuesta de satisfacción del usuario trasplantado</option>
-                    <option>Pauta para pacientes ostomizados</option>
+                    <option value="Indicaciones de interrupción voluntaria del embarazo">Indicaciones de interrupción voluntaria del embarazo</option>
+                    <option value="Prostatectomía radical (indicaciones e información para el paciente)">Prostatectomía radical (indicaciones e información para el paciente)</option>
+                    <option value="Preparación para estudios imagenológicos">Preparación para estudios imagenológicos</option>
+                    <option value="Estudios diagnósticos con pertecneciato">Estudios diagnósticos con pertecneciato</option>
+                    <option value="Centellograma de perfusión miocárdica">Centellograma de perfusión miocárdica</option>
+                    <option value="Indicaciones ecocardiograma con dobutamina">Indicaciones ecocardiograma con dobutamina</option>
+                    <option value="Indicaciones para pacientes en tratamiento con warfarina">Indicaciones para pacientes en tratamiento con warfarina</option>
+                    <option value="Indicaciones ecocardiograma transesofágico">Indicaciones ecocardiograma transesofágico</option>
+                    <option value="Indicaciones para ingreso a centro de nefrología y trasplante">Indicaciones para ingreso a centro de nefrología y trasplante</option>
+                    <option value="Plan de alta enfermería, Nefrología">Plan de alta enfermería, Nefrología</option>
+                    <option value="Indicaciones de enfermería para usuarios trasplantados">Indicaciones de enfermería para usuarios trasplantados</option>
+                    <option value="Prevención de infecciones">Prevención de infecciones</option>
+                    <option value="Encuesta de satisfacción del usuario trasplantado">Encuesta de satisfacción del usuario trasplantado</option>
+                    <option value="Pauta para pacientes ostomizados">Pauta para pacientes ostomizados</option>
                     <option value="otro">Otro (lo escribo yo)</option>
                 </select>
 
@@ -102,33 +102,33 @@
 
             <div class="tabla">
 
-                <h2>Encuesta de satisfacción</h2>
+                <h2>QR con enlaces</h2>
 
-                <p class="ayuda">Este QR lleva al formulario donde el paciente deja su opinión. Imprimilo y pegalo en la sala de espera o en el mostrador: lo escanea con la cámara del celular y contesta ahí mismo.</p>
+                <p class="ayuda">Cada QR lleva a un enlace: la encuesta de satisfacción, un formulario o cualquier página. Imprimilos y pegalos en la sala de espera o en el mostrador: se escanean con la cámara del celular.</p>
 
-                <form action="../../guardar.php?que=encuesta" method="POST">
+                <form action="../../guardar.php?que=enlaceQr" method="POST" id="formularioQr">
 
-                    <label>Enlace del formulario</label>
-                    <input type="url" name="enlace" id="enlaceEncuesta" placeholder="https://docs.google.com/forms/...">
-                    <p class="ayuda">Si ya hay uno cargado y pegás otro, se reemplaza y el QR se vuelve a dibujar solo.</p>
+                    <input type="hidden" name="id" id="idEnlace" value="0">
+
+                    <label>Nombre del QR</label>
+                    <input type="text" name="nombre" id="nombreEnlace" maxlength="150" required placeholder="Por ejemplo: Encuesta de satisfacción">
+
+                    <label>Enlace</label>
+                    <input type="url" name="enlace" id="enlaceQr" required placeholder="https://docs.google.com/forms/...">
 
                     <div class="botones">
-                        <button type="submit">Guardar enlace</button>
+                        <button type="submit" id="guardarQr">Agregar QR</button>
+                        <button type="button" id="cancelarQr" class="secundario" hidden>Cancelar</button>
                     </div>
 
                 </form>
 
-                <div class="centro">
-                    <div id="qrEncuesta" class="qrGrande"></div>
-                    <p class="vacio" id="sinEncuesta" hidden>Todavía no cargaste el enlace del formulario.</p>
-                    <div class="botones" id="botonesEncuesta" hidden>
-                        <a class="editar" id="verEncuesta" href="#" target="_blank">Abrir el formulario</a>
-                        <a class="editar" id="imprimirEncuesta" href="../../imprimirQr.html?encuesta=1" target="_blank">Imprimir el QR</a>
-                        <form class="enLinea" id="quitarEncuesta" action="../../borrar.php?que=encuesta" method="POST">
-                            <input type="hidden" name="id" value="0">
-                            <button type="submit" class="eliminar">Quitar el QR</button>
-                        </form>
-                    </div>
+                <p class="vacio" id="sinEnlaces" hidden>Todavía no hay QR con enlaces.</p>
+
+                <div class="grillaQr" id="grillaQr"></div>
+
+                <div class="botones" id="botonesTodos" hidden>
+                    <a class="editar" href="../../imprimirQr.html?enlaces=todos" target="_blank">Imprimir todos los QR</a>
                 </div>
 
             </div>
@@ -160,11 +160,11 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=131">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=132">EN</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="../../Js/comun.js?v=131"></script>
-    <script src="../../Js/documentosQr.js?v=131"></script>
+    <script src="../../Js/comun.js?v=132"></script>
+    <script src="../../Js/documentosQr.js?v=132"></script>
 </body>
 
 </html>

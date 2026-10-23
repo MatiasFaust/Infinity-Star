@@ -116,20 +116,33 @@ if ($que == "persona") {
     header("Location: Html/Administrativo/ambulancias.html");
 }
 
-// El enlace del formulario de la encuesta de satisfacción.
-if ($que == "encuesta") {
+// Un QR con enlace nuevo, o el cambio de uno que ya estaba (si viene el id).
+if ($que == "enlaceQr") {
+    $nombre = trim($_POST['nombre']);
     $enlace = trim($_POST['enlace']);
+    $id     = (int) $_POST['id'];
     $vuelve = "Html/Administrativo/documentosQr.html";
 
-    if ($enlace != "" && substr($enlace, 0, 8) != "https://" && substr($enlace, 0, 7) != "http://") {
+    if ($nombre == "") {
+        header("Location: $vuelve?error=sinNombreQr");
+        exit;
+    }
+
+    if (substr($enlace, 0, 8) != "https://" && substr($enlace, 0, 7) != "http://") {
         header("Location: $vuelve?error=enlaceMal");
         exit;
     }
 
-    $db->query("INSERT INTO ajuste (clave, valor) VALUES ('encuestaEnlace', '" . $db->real_escape_string($enlace) . "')
-                ON DUPLICATE KEY UPDATE valor = VALUES(valor)");
+    $nombreLimpio = $db->real_escape_string($nombre);
+    $enlaceLimpio = $db->real_escape_string($enlace);
 
-    anotar($yo, "Cambió el enlace de la encuesta");
+    if ($id > 0) {
+        $db->query("UPDATE enlace_qr SET nombre = '$nombreLimpio', enlace = '$enlaceLimpio' WHERE id_enlace = $id");
+        anotar($yo, "Cambió el QR " . $nombre);
+    } else {
+        $db->query("INSERT INTO enlace_qr (nombre, enlace) VALUES ('$nombreLimpio', '$enlaceLimpio')");
+        anotar($yo, "Agregó el QR " . $nombre);
+    }
 
     header("Location: $vuelve?guardado=si");
     exit;

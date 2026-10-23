@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Imprimir QR</title>
-    <link rel="stylesheet" href="Css/panel.css?v=131">
+    <link rel="stylesheet" href="Css/panel.css?v=132">
 </head>
 
 <body class="publico">
@@ -19,7 +19,9 @@
 
         <div id="qr" class="qrGrande"></div>
 
-        <p class="ayuda">Escaneá este código con la cámara del celular para ver el documento.</p>
+        <div id="todos" class="grillaQr"></div>
+
+        <p class="ayuda" id="explicacion">Escaneá este código con la cámara del celular para ver el documento.</p>
 
         <p class="ayuda sinImprimir" id="enlace"></p>
 
@@ -30,8 +32,8 @@
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="Js/comun.js?v=131"></script>
-    <script src="Js/imprimirQr.js?v=131"></script>
+    <script src="Js/comun.js?v=132"></script>
+    <script src="Js/imprimirQr.js?v=132"></script>
 </body>
 
 </html>

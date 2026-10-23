@@ -769,10 +769,84 @@ td.acciones .marcar {
     margin: 20px 0;
 }
 
-/* Que el boton de quitar el QR quede del mismo tamaño que los de al lado. */
-#botonesEncuesta .eliminar {
-    padding: 10px 20px;
-    font-size: 14px;
+/* Los QR con enlaces van en tarjetas una al lado de la otra. Cuando no
+   entran en la fila bajan a la siguiente, así nunca quedan encimados. */
+.grillaQr {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.grillaQr:empty {
+    display: none;
+}
+
+.tarjetaQr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+
+    padding: 16px;
+
+    border: 1px solid var(--grisBorde);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.tarjetaQr h3 {
+    margin: 0 0 12px;
+    font-size: 16px;
+    overflow-wrap: anywhere;
+}
+
+/* El QR siempre sobre blanco, para que el celular lo lea también en modo oscuro. */
+.cajaQr {
+    padding: 10px;
+    background-color: white;
+    border-radius: 6px;
+    line-height: 0;
+}
+
+.cajaQr img,
+.cajaQr canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.direccionQr {
+    width: 100%;
+    margin: 10px 0;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.botonesQr {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-top: auto;
+}
+
+.botonesQr .editar,
+.botonesQr .eliminar {
+    margin-right: 0;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.paraImprimir .grillaQr {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+@media print {
+    .tarjetaQr {
+        break-inside: avoid;
+    }
 }
 
 .paraImprimir {
