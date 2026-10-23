@@ -151,6 +151,12 @@ if ($que == "persona") {
 
     $vuelve = "documentosPaciente.html?borrada=si";
 
+// Saca el enlace de la encuesta, asi el QR deja de aparecer.
+} else if ($que == "encuesta") {
+    $db->query("DELETE FROM ajuste WHERE clave = 'encuestaEnlace'");
+
+    $vuelve = "documentosQr.html?borrada=si";
+
 } else {
     $vuelve = "usuarios.html";
 }

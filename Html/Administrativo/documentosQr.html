@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Documentos QR</title>
-    <link rel="stylesheet" href="../../Css/panel.css?v=127">
+    <link rel="stylesheet" href="../../Css/panel.css?v=129">
 </head>
 
 <body>
@@ -110,6 +110,7 @@
 
                     <label>Enlace del formulario</label>
                     <input type="url" name="enlace" id="enlaceEncuesta" placeholder="https://docs.google.com/forms/...">
+                    <p class="ayuda">Si ya hay uno cargado y pegás otro, se reemplaza y el QR se vuelve a dibujar solo.</p>
 
                     <div class="botones">
                         <button type="submit">Guardar enlace</button>
@@ -120,10 +121,14 @@
                 <div class="centro">
                     <div id="qrEncuesta" class="qrGrande"></div>
                     <p class="vacio" id="sinEncuesta" hidden>Todavía no cargaste el enlace del formulario.</p>
-                    <p class="botones" id="botonesEncuesta" hidden>
+                    <div class="botones" id="botonesEncuesta" hidden>
                         <a class="editar" id="verEncuesta" href="#" target="_blank">Abrir el formulario</a>
                         <a class="editar" id="imprimirEncuesta" href="../../imprimirQr.html?encuesta=1" target="_blank">Imprimir el QR</a>
-                    </p>
+                        <form class="enLinea" id="quitarEncuesta" action="../../borrar.php?que=encuesta" method="POST">
+                            <input type="hidden" name="id" value="0">
+                            <button type="submit" class="eliminar">Quitar el QR</button>
+                        </form>
+                    </div>
                 </div>
 
             </div>
@@ -155,11 +160,11 @@
 
     </div>
 
-    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=127">EN</button>
+    <button class="idioma" data-traducciones="../../Js/traducciones.json?v=129">EN</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="../../Js/comun.js?v=127"></script>
-    <script src="../../Js/documentosQr.js?v=127"></script>
+    <script src="../../Js/comun.js?v=129"></script>
+    <script src="../../Js/documentosQr.js?v=129"></script>
 </body>
 
 </html>

@@ -441,5 +441,8 @@
     "no tiene cuenta": "no account",
     "Ver contraseña": "Show password",
     "Ocultar contraseña": "Hide password",
-    "Necesitás la clave de acceso que te entrega el hospital.": "You need the access key the hospital gives you."
+    "Necesitás la clave de acceso que te entrega el hospital.": "You need the access key the hospital gives you.",
+    "Quitar el QR": "Remove the QR",
+    "Si ya hay uno cargado y pegás otro, se reemplaza y el QR se vuelve a dibujar solo.": "If one is already loaded and you paste another one, it replaces it and the QR is drawn again by itself.",
+    "¿Seguro que querés sacar el QR de la encuesta?": "Are you sure you want to remove the survey QR?"
 }

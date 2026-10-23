@@ -769,6 +769,12 @@ td.acciones .marcar {
     margin: 20px 0;
 }
 
+/* Que el boton de quitar el QR quede del mismo tamaño que los de al lado. */
+#botonesEncuesta .eliminar {
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
 .paraImprimir {
     text-align: center;
 }
