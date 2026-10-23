@@ -1,11 +1,5 @@
 {
     "Cerrar sesión": "Log out",
-    "Uups... algo anda mal": "Oops... something went wrong",
-    "La conexión con el servidor falló.": "The connection to the server failed.",
-    "Fijate que el servidor esté prendido y volvé a intentar. Si recién lo encendiste, esperá unos segundos.": "Check that the server is running and try again. If you just started it, wait a few seconds.",
-    "Reintentar": "Try again",
-    "Ir al inicio": "Go to the start",
-    "No se pudo conectar": "Could not connect",
     "No se encontró nada con eso.": "Nothing was found with that.",
     "Elegí la ambulancia del traslado.": "Choose the ambulance for the transfer.",
     "Elegí el chofer que lleva el traslado.": "Choose the driver for the transfer.",
