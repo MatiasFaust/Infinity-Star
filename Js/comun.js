@@ -23,10 +23,57 @@ if (window.location.pathname.includes("/Html/")) {
     window.addEventListener("pageshow", revisarSesion);
 }
 
+// Muestra el cartel de "se cayó el servidor" tapando toda la pantalla.
+// Lo armamos acá para no tener que repetirlo en cada página.
+function mostrarErrorDeConexion() {
+    if (document.getElementById("pantallaError")) {
+        return;
+    }
+
+    const pantalla = document.createElement("div");
+    pantalla.className = "pantallaError";
+    pantalla.id = "pantallaError";
+
+    pantalla.innerHTML =
+        "<div class='cartelError'>" +
+        "<svg class='dibujo' viewBox='0 0 24 24' fill='none' aria-hidden='true'>" +
+        "<path d='M3 3l18 18' stroke='currentColor' stroke-width='2' stroke-linecap='round'/>" +
+        "<path d='M5.6 11.3A6 6 0 0 1 9 9.2M12 6a9 9 0 0 1 6.4 2.7M2.4 8.7A12 12 0 0 1 6 6.2M18.4 11.3a6 6 0 0 0-1.6-1.3' " +
+        "stroke='currentColor' stroke-width='2' stroke-linecap='round'/>" +
+        "<circle cx='12' cy='17.5' r='1.6' fill='currentColor'/>" +
+        "</svg>" +
+        "<h1>" + enIdioma("Uups... algo anda mal") + "</h1>" +
+        "<p>" + enIdioma("La conexión con el servidor falló.") + "</p>" +
+        "<p class='chiquito'>" + enIdioma("Fijate que el servidor esté prendido y volvé a intentar. Si recién lo encendiste, esperá unos segundos.") + "</p>" +
+        "<div class='botones'>" +
+        "<button type='button' id='reintentar'>" + enIdioma("Reintentar") + "</button>" +
+        "</div>" +
+        "</div>";
+
+    document.body.appendChild(pantalla);
+
+    document.getElementById("reintentar").addEventListener("click", function () {
+        location.reload();
+    });
+}
+
 async function pedir(url) {
-    const respuesta = await fetch(url);
-    const datos = await respuesta.json();
-    return datos;
+    try {
+        const respuesta = await fetch(url);
+
+        // El servidor contestó, pero con un error suyo.
+        if (!respuesta.ok) {
+            throw new Error("El servidor contestó " + respuesta.status);
+        }
+
+        return await respuesta.json();
+
+    } catch (error) {
+        // Acá caemos cuando el servidor está apagado, cuando no hay red,
+        // o cuando contesta algo que no es la información esperada.
+        mostrarErrorDeConexion();
+        throw error;
+    }
 }
 
 function botonAccion(accion, id, texto, clase, extra) {

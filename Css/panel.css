@@ -1168,6 +1168,75 @@ html.oscuro .editar {
     }
 }
 
+/* ---- Pantalla de "se cayó el servidor" ----
+   Aparece tapando todo cuando la página le pide datos al servidor y no
+   contesta. Se usa igual en error.html y en el cartel que sale solo. */
+
+.pantallaError {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background-color: var(--grisClaro);
+}
+
+.cartelError {
+    width: 100%;
+    max-width: 440px;
+
+    padding: 35px 30px;
+
+    background-color: var(--blanco);
+    border: 1px solid var(--grisBorde);
+    border-top: 6px solid var(--rojo);
+    border-radius: 12px;
+
+    text-align: center;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.cartelError .dibujo {
+    width: 76px;
+    height: 76px;
+    margin-bottom: 15px;
+
+    color: var(--rojo);
+}
+
+.cartelError h1 {
+    margin: 0 0 10px;
+
+    color: var(--grisOscuro);
+    font-size: 30px;
+}
+
+.cartelError p {
+    margin: 0 0 8px;
+
+    color: var(--grisTexto);
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.cartelError .chiquito {
+    margin-top: 18px;
+
+    color: var(--grisSuave);
+    font-size: 13px;
+}
+
+.cartelError .botones {
+    justify-content: center;
+    margin-top: 22px;
+}
+
 /* La lista de siempre queda escondida: sigue guardando lo que se elige
    y es la que se manda al guardar, pero en pantalla se usa el buscador. */
 select.escondida {
