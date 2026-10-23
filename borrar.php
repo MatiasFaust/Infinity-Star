@@ -45,6 +45,11 @@ if ($que == "documento") {
     $vuelveSiFalla = "documentosQr.html";
 }
 
+if ($que == "encuesta") {
+    $queToken = "eliminarDocumento";
+    $vuelveSiFalla = "documentosQr.html";
+}
+
 if ($que == "ambulancia") {
     $queToken = "eliminarAmbulancia";
     $vuelveSiFalla = "ambulancias.html";

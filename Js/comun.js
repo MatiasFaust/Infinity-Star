@@ -297,6 +297,7 @@ function pedirTokenAlBorrar() {
         const pideToken = accion.indexOf("que=persona") != -1 ||
                           accion.indexOf("que=docPaciente") != -1 ||
                           accion.indexOf("que=documento") != -1 ||
+                          accion.indexOf("que=encuesta") != -1 ||
                           accion.indexOf("que=ambulancia") != -1;
 
         if (!pideToken) {

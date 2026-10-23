@@ -36,12 +36,6 @@ async function cargarEncuesta() {
 
 if (document.getElementById("qrEncuesta")) {
     cargarEncuesta();
-
-    document.getElementById("quitarEncuesta").addEventListener("submit", function (evento) {
-        if (!confirm(enIdioma("¿Seguro que querés sacar el QR de la encuesta?"))) {
-            evento.preventDefault();
-        }
-    });
 }
 
 // Cambia el PDF pero deja el mismo documento, asi el QR que ya se imprimio
