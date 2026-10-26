@@ -939,11 +939,15 @@ html.oscuro {
     --verde: #93bd9d;
     --verdeOscuro: #7ca888;
     --verdeClaro: #2b322c;
-    --blanco: #262220;
+    --blanco: #2c2825;
     --negro: #ddd5cc;
     --gris: #8e837a;
-    --grisClaro: #1c1917;
-    --grisBorde: #39332e;
+    --grisClaro: #262220;
+    --grisBorde: #413a34;
+
+    /* El fondo de los campos para escribir. Va un poco mas oscuro que las
+       tarjetas, asi se nota donde se escribe sin cortar el gris parejo. */
+    --campo: #201c1a;
     --grisTexto: #bdb3a8;
     --grisSuave: #918678;
     --grisOscuro: #ddd5cc;
@@ -996,7 +1000,7 @@ html.oscuro .volver:hover {
 html.oscuro input,
 html.oscuro select,
 html.oscuro textarea {
-    background-color: var(--grisClaro);
+    background-color: var(--campo);
     border-color: var(--grisBorde);
     color: var(--grisOscuro);
 }
