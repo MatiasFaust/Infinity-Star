@@ -924,33 +924,33 @@ td.acciones .marcar {
 
 html.oscuro .tema {
     background-color: var(--blanco);
-    color: #ffd166;
+    color: #c7a86b;
     border-color: var(--grisBorde);
 }
 
 html.oscuro .tema:hover {
-    border-color: #ffd166;
+    border-color: #c7a86b;
 }
 
 
 /* El modo oscuro va en marrones cálidos en vez de gris o azul: cansa menos
    la vista de noche y deja que el verde del hospital se siga viendo. */
 html.oscuro {
-    --verde: #6fcf8d;
-    --verdeOscuro: #55b172;
-    --verdeClaro: #25301f;
-    --blanco: #221b16;
-    --negro: #f4ece3;
-    --gris: #a2907d;
-    --grisClaro: #171210;
-    --grisBorde: #3c3128;
-    --grisTexto: #d3c6b8;
-    --grisSuave: #a2927f;
-    --grisOscuro: #f4ece3;
-    --rojo: #ff8b74;
-    --rojoClaro: #3a221a;
-    --naranja: #e9a44c;
-    --celeste: #86b8e6;
+    --verde: #93bd9d;
+    --verdeOscuro: #7ca888;
+    --verdeClaro: #2b322c;
+    --blanco: #262220;
+    --negro: #ddd5cc;
+    --gris: #8e837a;
+    --grisClaro: #1c1917;
+    --grisBorde: #39332e;
+    --grisTexto: #bdb3a8;
+    --grisSuave: #918678;
+    --grisOscuro: #ddd5cc;
+    --rojo: #cf8e81;
+    --rojoClaro: #33241f;
+    --naranja: #c79a62;
+    --celeste: #8aa6bd;
 
     color: var(--grisOscuro);
 
@@ -959,27 +959,24 @@ html.oscuro {
     color-scheme: dark;
 }
 
-/* El fondo lleva dos luces suaves, una tirando a ámbar y otra a verde,
-   para que no quede un bloque de color plano. */
+/* Sin degradados ni manchas: un fondo parejo y tranquilo. */
 html.oscuro body {
-    background-image: radial-gradient(900px 500px at 15% -10%, #2b2017 0%, transparent 60%),
-                      radial-gradient(800px 500px at 100% 0%, #1e2a1d 0%, transparent 55%);
-    background-attachment: fixed;
+    background-image: none;
 }
 
-/* Las tarjetas y tablas se despegan del fondo con un borde apenas marcado. */
+/* Las tarjetas y tablas se despegan del fondo con una sombra muy suave. */
 html.oscuro .tabla,
 html.oscuro .caja,
 html.oscuro .seccion,
 html.oscuro .tarjeta,
 html.oscuro .resumen .dato {
-    box-shadow: 0 1px 0 rgba(255, 240, 220, 0.05) inset,
-                0 6px 18px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
 }
 
-/* La barra de arriba queda en un verde apagado, no en verde fuerte. */
+/* La barra de arriba no es verde: es del mismo marron que las tarjetas,
+   apenas separada del fondo por el borde. */
 html.oscuro header {
-    background-color: #1f3323;
+    background-color: var(--blanco);
     border-bottom: 1px solid var(--grisBorde);
     color: var(--grisOscuro);
 }

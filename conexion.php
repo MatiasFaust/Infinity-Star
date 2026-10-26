@@ -4,6 +4,11 @@ require_once 'config.php';
 
 $db = new mysqli(BDhost, BDuser, BDpass, BDnombre, BDpuerto);
 
+// Le decimos en que codificacion hablamos, asi los acentos y las enies
+// llegan bien. En mi XAMPP ya viene asi, pero en otro servidor puede
+// venir distinto y los nombres se verian rotos.
+$db->set_charset('utf8mb4');
+
 function comoLista($resultado) {
     $datos = array();
 
