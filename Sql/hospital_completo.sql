@@ -1,23 +1,26 @@
 -- ============================================================
 --  BASE DE DATOS DEL HOSPITAL DE CLINICAS MONTEVIDEO
---  Para cargar en el servidor del liceo.
 -- ============================================================
 --
 --  COMO SE USA
 --
---  1) En el phpMyAdmin del servidor, crear una base vacia
---     (por ejemplo que se llame hospital).
+--  1) En phpMyAdmin, crear una base vacia llamada hospital.
 --  2) Entrar a esa base, ir a la pestania "Importar"
 --     y subir este archivo.
---  3) Listo, quedan creadas las 21 tablas con los tokens
---     y el usuario superadmin para poder entrar.
+--  3) Listo. Con este archivo solo alcanza: quedan las 17
+--     tablas, los tokens, los 42 centros de salud y el
+--     usuario para poder entrar la primera vez.
+--
+--  ENTRAR LA PRIMERA VEZ
+--     usuario: Admin1
+--     clave:   CambiarEstaClave
+--     Cambiala apenas entres.
 --
 --  OJO: este archivo trae solo la estructura, sin pacientes
 --  ni funcionarios cargados. Los datos de prueba de mi
 --  computadora no se suben porque son datos personales.
 --
 -- ============================================================
-
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -30,7 +33,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-DROP TABLE IF EXISTS `actividad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `actividad` (
@@ -39,9 +41,16 @@ CREATE TABLE `actividad` (
   `accion` varchar(255) NOT NULL,
   `momento` datetime NOT NULL,
   PRIMARY KEY (`id_actividad`)
-) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=305 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `ambulancia`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ajuste` (
+  `clave` varchar(50) NOT NULL,
+  `valor` text NOT NULL,
+  PRIMARY KEY (`clave`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ambulancia` (
@@ -52,7 +61,22 @@ CREATE TABLE `ambulancia` (
   UNIQUE KEY `matricula` (`matricula`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `clave_acceso`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `centro` (
+  `id_centro` int(11) NOT NULL AUTO_INCREMENT,
+  `referencia` varchar(10) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `tipo` varchar(100) NOT NULL,
+  `departamento` varchar(100) NOT NULL,
+  `localidad` varchar(100) NOT NULL,
+  `direccion` varchar(255) NOT NULL,
+  `lat` decimal(10,7) DEFAULT NULL,
+  `lng` decimal(10,7) DEFAULT NULL,
+  PRIMARY KEY (`id_centro`),
+  UNIQUE KEY `referencia` (`referencia`)
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `clave_acceso` (
@@ -63,7 +87,6 @@ CREATE TABLE `clave_acceso` (
   UNIQUE KEY `codigo` (`codigo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `documento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `documento` (
@@ -80,35 +103,8 @@ CREATE TABLE `documento` (
   KEY `fk_documento_paciente` (`id_paciente`),
   CONSTRAINT `documento_ibfk_1` FOREIGN KEY (`id_funcionario`) REFERENCES `funcionario` (`id_funcionario`),
   CONSTRAINT `fk_documento_paciente` FOREIGN KEY (`id_paciente`) REFERENCES `paciente` (`id_paciente`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `encuesta`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `encuesta` (
-  `id_encuesta` int(11) NOT NULL AUTO_INCREMENT,
-  `id_documento` int(11) DEFAULT NULL,
-  `fecha` datetime DEFAULT current_timestamp(),
-  `codigo` varchar(40) DEFAULT NULL,
-  `activa` tinyint(1) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`id_encuesta`),
-  KEY `id_documento` (`id_documento`),
-  CONSTRAINT `encuesta_ibfk_1` FOREIGN KEY (`id_documento`) REFERENCES `documento` (`id_documento`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `encuesta_paciente_entra`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `encuesta_paciente_entra` (
-  `id_encuesta` int(11) NOT NULL,
-  `id_paciente` int(11) NOT NULL,
-  PRIMARY KEY (`id_encuesta`,`id_paciente`),
-  KEY `id_paciente` (`id_paciente`),
-  CONSTRAINT `encuesta_paciente_entra_ibfk_1` FOREIGN KEY (`id_encuesta`) REFERENCES `encuesta` (`id_encuesta`),
-  CONSTRAINT `encuesta_paciente_entra_ibfk_2` FOREIGN KEY (`id_paciente`) REFERENCES `paciente` (`id_paciente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `funcionario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `funcionario` (
@@ -118,9 +114,8 @@ CREATE TABLE `funcionario` (
   PRIMARY KEY (`id_funcionario`),
   UNIQUE KEY `persona_funcion` (`id_persona`,`tipo_funcion`),
   CONSTRAINT `funcionario_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`)
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `funcionario_paciente_lleva`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `funcionario_paciente_lleva` (
@@ -132,7 +127,6 @@ CREATE TABLE `funcionario_paciente_lleva` (
   CONSTRAINT `funcionario_paciente_lleva_ibfk_2` FOREIGN KEY (`id_paciente`) REFERENCES `paciente` (`id_paciente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `funcionario_traslado_administra`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `funcionario_traslado_administra` (
@@ -144,7 +138,6 @@ CREATE TABLE `funcionario_traslado_administra` (
   CONSTRAINT `funcionario_traslado_administra_ibfk_2` FOREIGN KEY (`id_traslado`) REFERENCES `traslado` (`id_traslado`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `funcionario_traslado_maneja`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `funcionario_traslado_maneja` (
@@ -156,7 +149,6 @@ CREATE TABLE `funcionario_traslado_maneja` (
   CONSTRAINT `funcionario_traslado_maneja_ibfk_2` FOREIGN KEY (`id_traslado`) REFERENCES `traslado` (`id_traslado`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `paciente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `paciente` (
@@ -167,19 +159,6 @@ CREATE TABLE `paciente` (
   CONSTRAINT `paciente_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`)
 ) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `paciente_traslado_acompania`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `paciente_traslado_acompania` (
-  `id_paciente` int(11) NOT NULL,
-  `id_traslado` int(11) NOT NULL,
-  PRIMARY KEY (`id_paciente`,`id_traslado`),
-  KEY `id_traslado` (`id_traslado`),
-  CONSTRAINT `paciente_traslado_acompania_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `paciente` (`id_paciente`),
-  CONSTRAINT `paciente_traslado_acompania_ibfk_2` FOREIGN KEY (`id_traslado`) REFERENCES `traslado` (`id_traslado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `persona`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `persona` (
@@ -193,35 +172,8 @@ CREATE TABLE `persona` (
   PRIMARY KEY (`id_persona`),
   UNIQUE KEY `cedula` (`cedula`),
   UNIQUE KEY `correo` (`correo`)
-) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `posicion`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `posicion` (
-  `id_posicion` int(11) NOT NULL AUTO_INCREMENT,
-  `id_traslado` int(11) NOT NULL,
-  `latitud` decimal(10,7) NOT NULL,
-  `longitud` decimal(10,7) NOT NULL,
-  `momento` datetime NOT NULL,
-  PRIMARY KEY (`id_posicion`),
-  KEY `id_traslado` (`id_traslado`),
-  CONSTRAINT `posicion_ibfk_1` FOREIGN KEY (`id_traslado`) REFERENCES `traslado` (`id_traslado`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `pregunta`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pregunta` (
-  `id_pregunta` int(11) NOT NULL AUTO_INCREMENT,
-  `id_encuesta` int(11) NOT NULL,
-  `texto` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id_pregunta`),
-  KEY `id_encuesta` (`id_encuesta`),
-  CONSTRAINT `pregunta_ibfk_1` FOREIGN KEY (`id_encuesta`) REFERENCES `encuesta` (`id_encuesta`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `qr`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `qr` (
@@ -231,24 +183,8 @@ CREATE TABLE `qr` (
   PRIMARY KEY (`id_qr`),
   KEY `id_documento` (`id_documento`),
   CONSTRAINT `qr_ibfk_1` FOREIGN KEY (`id_documento`) REFERENCES `documento` (`id_documento`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `respuesta`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `respuesta` (
-  `id_respuesta` int(11) NOT NULL AUTO_INCREMENT,
-  `id_pregunta` int(11) NOT NULL,
-  `id_paciente` int(11) NOT NULL,
-  `respuesta` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id_respuesta`),
-  KEY `id_pregunta` (`id_pregunta`),
-  KEY `id_paciente` (`id_paciente`),
-  CONSTRAINT `respuesta_ibfk_1` FOREIGN KEY (`id_pregunta`) REFERENCES `pregunta` (`id_pregunta`),
-  CONSTRAINT `respuesta_ibfk_2` FOREIGN KEY (`id_paciente`) REFERENCES `paciente` (`id_paciente`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `ruta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ruta` (
@@ -264,9 +200,8 @@ CREATE TABLE `ruta` (
   UNIQUE KEY `origen` (`origen`,`destino`,`id_ambulancia`),
   KEY `id_ambulancia` (`id_ambulancia`),
   CONSTRAINT `ruta_ibfk_1` FOREIGN KEY (`id_ambulancia`) REFERENCES `ambulancia` (`id_ambulancia`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `token`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `token` (
@@ -277,7 +212,6 @@ CREATE TABLE `token` (
   UNIQUE KEY `accion` (`accion`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `traslado`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `traslado` (
@@ -297,6 +231,7 @@ CREATE TABLE `traslado` (
   `id_ruta` int(11) DEFAULT NULL,
   `llegada_real` datetime DEFAULT NULL,
   `minutos_estimados` int(11) DEFAULT NULL,
+  `creado` datetime DEFAULT NULL,
   PRIMARY KEY (`id_traslado`),
   KEY `id_paciente` (`id_paciente`),
   KEY `id_ambulancia` (`id_ambulancia`),
@@ -304,9 +239,8 @@ CREATE TABLE `traslado` (
   CONSTRAINT `traslado_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `paciente` (`id_paciente`),
   CONSTRAINT `traslado_ibfk_2` FOREIGN KEY (`id_ambulancia`) REFERENCES `ambulancia` (`id_ambulancia`),
   CONSTRAINT `traslado_ibfk_3` FOREIGN KEY (`id_ruta`) REFERENCES `ruta` (`id_ruta`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuario` (
@@ -315,11 +249,12 @@ CREATE TABLE `usuario` (
   `usuario` varchar(50) NOT NULL,
   `contrasena` varchar(255) NOT NULL,
   `suspendido` tinyint(1) NOT NULL DEFAULT 0,
+  `clave_propia` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `usuario` (`usuario`),
   UNIQUE KEY `id_persona` (`id_persona`),
   CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -331,6 +266,15 @@ CREATE TABLE `usuario` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+
+
+-- ============================================================
+--  CENTROS DE SALUD
+-- ============================================================
+--  Directorio de hospitales y centros de Uruguay.
+--  Sirve para elegir el origen y el destino del traslado.
+
+INSERT INTO `centro` (`id_centro`, `referencia`, `nombre`, `tipo`, `departamento`, `localidad`, `direccion`, `lat`, `lng`) VALUES (1,'ART01','Hospital de Artigas','Hospital p├║blico (ASSE)','Artigas','Artigas','Lecueder 482',NULL,NULL),(2,'ART02','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Artigas','Artigas','Amaro Ferreira Ramos 289',NULL,NULL),(3,'CAN01','Hospital de Canelones','Hospital p├║blico (ASSE)','Canelones','Canelones','Dr. Soca s/n',NULL,NULL),(4,'CAN02','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Canelones','Canelones','Tolentino González s/n y Batlle y Ordóñez',NULL,NULL),(5,'CEL01','Hospital de Melo','Hospital p├║blico (ASSE)','Cerro Largo','Melo','Dr. Remigio Castellanos 751',NULL,NULL),(6,'CEL02','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Cerro Largo','Melo','Rodó 665 entre Muñiz y Aparicio Saravia',NULL,NULL),(7,'COL01','Hospital de Colonia','Hospital p├║blico (ASSE)','Colonia','Colonia del Sacramento','Av. Roosevelt s/n',NULL,NULL),(8,'COL02','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Colonia','Colonia del Sacramento','Fosalba 576 entre Vicente P. García y Av. Artigas',NULL,NULL),(9,'DUR01','Hospital de Durazno','Hospital p├║blico (ASSE)','Durazno','Durazno','Dr. Emilio Penza 900',NULL,NULL),(10,'DUR02','Centro Auxiliar Sarandí del Yí','Centro auxiliar p├║blico (ASSE)','Durazno','Sarandí del Yí','Av. Dr. Héctor Petrini 501',NULL,NULL),(11,'DUR03','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Durazno','Durazno','Eusebio Píriz s/n casi 18 de Julio',NULL,NULL),(12,'FLE01','Hospital de Flores / Trinidad','Hospital p├║blico (ASSE)','Flores','Trinidad','Batlle y Ordóñez 834 esq. M. Sánchez',NULL,NULL),(13,'FLE02','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Flores','Trinidad','Santísima Trinidad casi Sarandí',NULL,NULL),(14,'FLO01','Hospital de Florida','Hospital p├║blico (ASSE)','Florida','Florida','Castillo 510',NULL,NULL),(15,'FLO02','Centro Auxiliar Sarandí Grande','Centro auxiliar p├║blico (ASSE)','Florida','Sarandí Grande','Luis Pasteur 1052',NULL,NULL),(16,'FLO03','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Florida','Florida','Alejandro Gallinal s/n esq. 18 de Julio',NULL,NULL),(17,'LAV01','Hospital de Minas','Hospital p├║blico (ASSE)','Lavalleja','Minas','Av. Varela 650',NULL,NULL),(18,'LAV02','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Lavalleja','Minas','Juan Farina s/n entre Treinta y Tres y Roosevelt',NULL,NULL),(19,'MAL01','Hospital Elbio Rivero','Hospital p├║blico (ASSE)','Maldonado','Maldonado','Ventura Alegre s/n',NULL,NULL),(20,'MAL02','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Maldonado','Maldonado','Rafael Pérez del Puerto y 18 de Julio',NULL,NULL),(21,'MON01','Hospital Pereira Rossell','Hospital p├║blico (ASSE)','Montevideo','Montevideo','Bv. Artigas 1550',NULL,NULL),(22,'MON02','Hospital Maciel','Hospital p├║blico (ASSE)','Montevideo','Montevideo','25 de Mayo 174',NULL,NULL),(23,'PAY01','Hospital de Paysandú','Hospital p├║blico (ASSE)','Paysand├║','Paysandú','Monte Caseros 520',NULL,NULL),(24,'PAY02','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Paysand├║','Paysandú','Leandro Gómez 1039',NULL,NULL),(25,'RIN01','Hospital de Fray Bentos','Hospital p├║blico (ASSE)','R├¡o Negro','Fray Bentos','25 de Mayo 3200',NULL,NULL),(26,'RIN02','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','R├¡o Negro','Fray Bentos','Rivera 1229',NULL,NULL),(27,'RIV01','Hospital de Rivera','Hospital p├║blico (ASSE)','Rivera','Rivera','Uruguay 712',NULL,NULL),(28,'RIV02','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Rivera','Rivera','Rodó 1070',NULL,NULL),(29,'ROC01','Hospital de Rocha','Hospital p├║blico (ASSE)','Rocha','Rocha','Martínez Rodríguez s/n',NULL,NULL),(30,'ROC02','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Rocha','Rocha','Eliseo Marzol esq. Ramírez',NULL,NULL),(31,'SAL01','Hospital de Salto','Hospital p├║blico (ASSE)','Salto','Salto','18 de Julio 446',NULL,NULL),(32,'SAL02','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Salto','Salto','Rivera s/n esq. Juan Carlos Gómez',NULL,NULL),(33,'SJO01','Hospital de San José','Hospital p├║blico (ASSE)','San Jos├®','San José de Mayo','Larrañaga 480',NULL,NULL),(34,'SJO02','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','San Jos├®','San José de Mayo','Bengoa 651 esq. Artigas',NULL,NULL),(35,'SOR01','Hospital de Mercedes','Hospital p├║blico (ASSE)','Soriano','Mercedes','Sánchez esq. Gomensoro',NULL,NULL),(36,'SOR02','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Soriano','Mercedes','Wilson Ferreira Aldunate 660',NULL,NULL),(37,'TAC01','Hospital de Tacuarembó','Hospital p├║blico (ASSE)','Tacuaremb├│','Tacuarembó','Treinta y Tres 444',NULL,NULL),(38,'TAC02','Centro Auxiliar Paso de los Toros','Centro auxiliar p├║blico (ASSE)','Tacuaremb├│','Paso de los Toros','Adelaida Puyol s/n',NULL,NULL),(39,'TAC03','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Tacuaremb├│','Tacuarembó','18 de Julio y Joaquín Suárez',NULL,NULL),(40,'TYT01','Hospital de Treinta y Tres','Hospital p├║blico (ASSE)','Treinta y Tres','Treinta y Tres','Manuel Lavalleja 1100',NULL,NULL),(41,'TYT02','Centro Auxiliar Sanitario - Sanidad Policial','Centro sanitario policial','Treinta y Tres','Treinta y Tres','Manuel Lavalleja s/n entre Manuel Oribe y Simón del Pino',NULL,NULL),(42,'MON03','Hospital de Clínicas Dr. Manuel Quintela','Hospital universitario p├║blico (Udelar)','Montevideo','Montevideo','Av. Italia 2870',NULL,NULL);
 
 -- ============================================================
 --  TOKENS DE ACCESO
