@@ -221,15 +221,6 @@ main p {
     margin-top: 25px;
 }
 
-.linkRegistrar {
-    display: inline-block;
-
-    margin-top: 10px;
-
-    color: var(--verde);
-    font-weight: bold;
-}
-
 .tarjetas {
     display: flex;
     flex-wrap: wrap;
@@ -441,8 +432,7 @@ button:hover,
 }
 
 .editar,
-.eliminar,
-.marcar {
+.eliminar {
     display: inline-block;
 
     padding: 6px 12px;
@@ -464,14 +454,8 @@ button:hover,
     color: var(--rojo);
 }
 
-.marcar {
-    background-color: var(--grisClaro);
-    color: var(--grisOscuro);
-}
-
 .editar:hover,
-.eliminar:hover,
-.marcar:hover {
+.eliminar:hover {
     opacity: 0.75;
 }
 
@@ -530,8 +514,7 @@ td.acciones {
 }
 
 td.acciones .eliminar,
-td.acciones .editar,
-td.acciones .marcar {
+td.acciones .editar {
     margin-right: 0;
     margin-left: 5px;
 }
@@ -736,10 +719,6 @@ td.acciones .marcar {
     margin-bottom: 0;
 }
 
-.buscarLugar {
-    margin-bottom: 12px;
-}
-
 .botonesCentro {
     text-align: center;
     margin: 0 0 5px;
@@ -808,19 +787,16 @@ td.acciones .marcar {
 }
 
 @media (max-width: 768px) {
-    .fila,
-    .buscarLugar {
+    .fila {
         display: block;
     }
 
-    .fila input,
-    .buscarLugar input {
+    .fila input {
         width: 100%;
         margin-bottom: 10px;
     }
 
-    .fila .eliminar,
-    .buscarLugar button {
+    .fila .eliminar {
         width: 100%;
     }
 

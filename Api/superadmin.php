@@ -19,12 +19,6 @@ if ($tipo == "tokens") {
                                     FROM token ORDER BY id_token")));
 }
 
-if ($tipo == "tokensViejos") {
-    responder(comoLista($db->query("SELECT id_clave AS idClave, codigo, tipo
-                                    FROM clave_acceso
-                                    ORDER BY tipo, id_clave")));
-}
-
 if ($tipo == "funcionarios") {
     responder(comoLista($db->query("SELECT persona.id_persona   AS idPersona,
                                            persona.nombre, persona.apellido, persona.cedula,
