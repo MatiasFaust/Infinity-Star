@@ -17,11 +17,21 @@ if ($tipo == "contadores") {
 }
 
 
-// El enlace del formulario de la encuesta de satisfacción.
-if ($tipo == "encuesta") {
-    $fila = $db->query("SELECT valor FROM ajuste WHERE clave = 'encuestaEnlace'")->fetch_assoc();
+// Los QR con enlaces: encuestas, formularios o cualquier página.
+if ($tipo == "enlaces") {
+    responder(comoLista($db->query("SELECT id_enlace AS idEnlace, nombre, enlace, creado
+                                    FROM enlace_qr
+                                    ORDER BY id_enlace")));
+}
 
-    responder(array("enlace" => $fila ? $fila['valor'] : ""));
+if ($tipo == "enlace") {
+    $id = (int) $_GET['id'];
+
+    $fila = $db->query("SELECT id_enlace AS idEnlace, nombre, enlace
+                        FROM enlace_qr
+                        WHERE id_enlace = $id")->fetch_assoc();
+
+    responder($fila ? $fila : array());
 }
 
 if ($tipo == "documentos") {

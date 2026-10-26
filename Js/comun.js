@@ -292,7 +292,7 @@ function pedirTokenAlBorrar() {
         const pideToken = accion.indexOf("que=persona") != -1 ||
                           accion.indexOf("que=docPaciente") != -1 ||
                           accion.indexOf("que=documento") != -1 ||
-                          accion.indexOf("que=encuesta") != -1 ||
+                          accion.indexOf("que=enlaceQr") != -1 ||
                           accion.indexOf("que=ambulancia") != -1;
 
         if (!pideToken) {
@@ -497,6 +497,10 @@ function avisosDeLaDireccion() {
         mensaje = "Elegí el paciente que se traslada.";
     } else if (direccion.get("error") == "sinElemento") {
         mensaje = "Escribí qué elemento se traslada.";
+    } else if (direccion.get("error") == "enlaceMal") {
+        mensaje = "El enlace tiene que empezar con https:// o http://";
+    } else if (direccion.get("error") == "sinNombreQr") {
+        mensaje = "Escribí un nombre para el QR.";
     }
 
     if (mensaje != "") {
@@ -557,12 +561,59 @@ function enIdioma(texto) {
     return texto;
 }
 
+// Cuando un texto pasa al inglés le guardamos al lado cómo estaba en español.
+// Así al volver queda igual que antes, aunque dos textos distintos tengan la
+// misma traducción (por ejemplo "Pendiente" y "Pendientes" son los dos "Pending").
+const textoEnEspanol = new WeakMap();
+
 function traducirTexto(nodo, tabla) {
     const original = nodo.nodeValue.trim();
     const limpio = original.replace(/\s+/g, " ");
 
+    // Solo lo devolvemos si nadie lo cambió mientras estaba en inglés.
+    const antes = textoEnEspanol.get(nodo);
+
+    if (tabla == tablaAlEspanol && antes && antes.en == original) {
+        nodo.nodeValue = nodo.nodeValue.replace(original, antes.es);
+        textoEnEspanol.delete(nodo);
+        return;
+    }
+
     if (tabla[limpio]) {
+        if (tabla != tablaAlEspanol) {
+            textoEnEspanol.set(nodo, { es: original, en: tabla[limpio] });
+        }
+
         nodo.nodeValue = nodo.nodeValue.replace(original, tabla[limpio]);
+    }
+}
+
+function traducirAtributo(elemento, atributo, tabla) {
+    const valor = elemento.getAttribute(atributo);
+
+    if (!valor) {
+        return;
+    }
+
+    if (!textoEnEspanol.has(elemento)) {
+        textoEnEspanol.set(elemento, {});
+    }
+
+    const guardados = textoEnEspanol.get(elemento);
+    const antes = guardados[atributo];
+
+    if (tabla == tablaAlEspanol && antes && antes.en == valor) {
+        elemento.setAttribute(atributo, antes.es);
+        delete guardados[atributo];
+        return;
+    }
+
+    if (tabla[valor]) {
+        if (tabla != tablaAlEspanol) {
+            guardados[atributo] = { es: valor, en: tabla[valor] };
+        }
+
+        elemento.setAttribute(atributo, tabla[valor]);
     }
 }
 
@@ -575,13 +626,9 @@ function traducirElemento(elemento, tabla) {
         }
     }
 
-    if (elemento.placeholder && tabla[elemento.placeholder]) {
-        elemento.placeholder = tabla[elemento.placeholder];
-    }
-
-    if (elemento.title && tabla[elemento.title]) {
-        elemento.title = tabla[elemento.title];
-    }
+    traducirAtributo(elemento, "placeholder", tabla);
+    traducirAtributo(elemento, "title", tabla);
+    traducirAtributo(elemento, "aria-label", tabla);
 }
 
 function traducir(raiz, tabla) {
@@ -597,8 +644,15 @@ function traducir(raiz, tabla) {
 function armarVuelta(diccionario) {
     const vuelta = {};
 
+    // Si dos textos tienen la misma traducción ("Pendiente" y "Pendientes" son
+    // los dos "Pending"), nos quedamos con el más corto: los que arma la página
+    // sola son los de una palabra, como el estado de un traslado.
     for (const palabra in diccionario) {
-        vuelta[diccionario[palabra]] = palabra;
+        const ingles = diccionario[palabra];
+
+        if (!vuelta[ingles] || palabra.length < vuelta[ingles].length) {
+            vuelta[ingles] = palabra;
+        }
     }
 
     return vuelta;
@@ -634,7 +688,18 @@ function traducirApenasCarga() {
 async function prepararIdioma() {
     const boton = document.querySelector(".idioma");
 
+    // Las páginas sin botón (como la de imprimir el QR) usan la última lista
+    // guardada, pero la actualizamos igual por si se agregaron traducciones.
     if (!boton) {
+        if (localStorage.getItem("idioma") == "en") {
+            const nuevo = await pedir(raizDelSitio() + "/Js/traducciones.json?v=132");
+
+            localStorage.setItem("diccionario", JSON.stringify(nuevo));
+            tablaIdioma = nuevo;
+            tablaAlEspanol = armarVuelta(nuevo);
+            traducir(document.body, nuevo);
+        }
+
         return;
     }
 
