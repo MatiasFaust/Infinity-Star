@@ -933,29 +933,37 @@ html.oscuro .tema:hover {
 }
 
 
-/* El modo oscuro no es gris plano: va en un azul bien oscuro, que cansa
-   menos la vista y hace que el verde del hospital se siga viendo. */
+/* El modo oscuro va en marrones cálidos en vez de gris o azul: cansa menos
+   la vista de noche y deja que el verde del hospital se siga viendo. */
 html.oscuro {
-    --verde: #5dd47f;
-    --verdeOscuro: #44b765;
-    --verdeClaro: #16302a;
-    --blanco: #1b2230;
-    --negro: #e8eef7;
-    --grisClaro: #11161f;
-    --grisBorde: #2c3647;
-    --grisTexto: #b9c4d4;
-    --grisSuave: #8c99ab;
-    --grisOscuro: #e8eef7;
-    --rojo: #ff6b81;
-    --rojoClaro: #3a1f28;
+    --verde: #6fcf8d;
+    --verdeOscuro: #55b172;
+    --verdeClaro: #25301f;
+    --blanco: #221b16;
+    --negro: #f4ece3;
+    --gris: #a2907d;
+    --grisClaro: #171210;
+    --grisBorde: #3c3128;
+    --grisTexto: #d3c6b8;
+    --grisSuave: #a2927f;
+    --grisOscuro: #f4ece3;
+    --rojo: #ff8b74;
+    --rojoClaro: #3a221a;
+    --naranja: #e9a44c;
+    --celeste: #86b8e6;
 
-    color: #e8eef7;
+    color: var(--grisOscuro);
+
+    /* Le avisa al navegador que estamos en oscuro, asi las listas que
+       despliega el sistema y las barras de scroll tambien salen oscuras. */
+    color-scheme: dark;
 }
 
-/* El fondo lleva un degradado suave, para que no sea un bloque de color. */
+/* El fondo lleva dos luces suaves, una tirando a ámbar y otra a verde,
+   para que no quede un bloque de color plano. */
 html.oscuro body {
-    background-image: radial-gradient(900px 500px at 15% -10%, #1b2535 0%, transparent 60%),
-                      radial-gradient(800px 500px at 100% 0%, #162a24 0%, transparent 55%);
+    background-image: radial-gradient(900px 500px at 15% -10%, #2b2017 0%, transparent 60%),
+                      radial-gradient(800px 500px at 100% 0%, #1e2a1d 0%, transparent 55%);
     background-attachment: fixed;
 }
 
@@ -965,49 +973,52 @@ html.oscuro .caja,
 html.oscuro .seccion,
 html.oscuro .tarjeta,
 html.oscuro .resumen .dato {
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset,
-                0 6px 18px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 1px 0 rgba(255, 240, 220, 0.05) inset,
+                0 6px 18px rgba(0, 0, 0, 0.4);
 }
 
-/* La barra de arriba queda sobria en vez de verde fuerte. */
+/* La barra de arriba queda en un verde apagado, no en verde fuerte. */
 html.oscuro header {
-    background-color: #15241d;
+    background-color: #1f3323;
     border-bottom: 1px solid var(--grisBorde);
+    color: var(--grisOscuro);
 }
-
-
-html.oscuro header {
-    background-color: #0d4f0d;
-    color: white;
-}
-
 
 html.oscuro .cerrar,
 html.oscuro .volver {
-    background-color: white;
-    color: #0a6b0a;
+    background-color: rgba(244, 236, 227, 0.1);
+    border: 1px solid rgba(244, 236, 227, 0.22);
+    color: var(--grisOscuro);
+}
+
+html.oscuro .cerrar:hover,
+html.oscuro .volver:hover {
+    background-color: rgba(244, 236, 227, 0.18);
 }
 
 html.oscuro input,
-html.oscuro select {
-    background-color: #1c1c1c;
-    color: #ededed;
+html.oscuro select,
+html.oscuro textarea {
+    background-color: var(--grisClaro);
+    border-color: var(--grisBorde);
+    color: var(--grisOscuro);
 }
 
 html.oscuro .agregar,
 html.oscuro button {
-    color: white;
+    color: #15210f;
 }
 
 html.oscuro .botones a,
 html.oscuro .secundario {
-    background-color: #2f2f2f;
-    color: #ededed;
+    background-color: var(--blanco);
+    border-color: var(--grisBorde);
+    color: var(--grisTexto);
 }
 
 html.oscuro .editar {
-    background-color: #16331c;
-    color: #7fd48a;
+    background-color: var(--verdeClaro);
+    color: var(--verde);
 }
 
 .resultados {
@@ -1318,7 +1329,7 @@ select.centro {
 }
 
 html.oscuro .pie img {
-    background-color: white;
+    background-color: #f4ece3;
     padding: 10px;
     border-radius: 6px;
 }
