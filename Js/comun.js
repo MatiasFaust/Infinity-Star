@@ -9,6 +9,38 @@ function raizDelSitio() {
     return location.pathname.substring(0, location.pathname.lastIndexOf("/"));
 }
 
+// Cada pantalla es de un rol. Si alguien escribe la direccion a mano
+// para entrar donde no le toca, lo devolvemos a la suya.
+function rolDeLaPantalla() {
+    const archivo = location.pathname.split("/").pop();
+
+    if (archivo == "Chofer.html") {
+        return "chofer";
+    }
+
+    if (archivo == "superadmin.html" || archivo == "registrarFuncionario.html") {
+        return "superadmin";
+    }
+
+    if (archivo == "miClave.html") {
+        return "cualquiera";
+    }
+
+    return "administrativo";
+}
+
+function inicioDe(rol) {
+    if (rol == "chofer") {
+        return "/Html/Administrativo/Chofer.html";
+    }
+
+    if (rol == "superadmin") {
+        return "/Html/Administrativo/superadmin.html";
+    }
+
+    return "/Html/Modulos.html";
+}
+
 async function revisarSesion() {
     const raiz = raizDelSitio();
     const respuesta = await fetch(raiz + "/Api/sesion.php", { cache: "no-store" });
@@ -16,6 +48,16 @@ async function revisarSesion() {
 
     if (hay != "1") {
         window.location.replace(raiz + "/Index.html");
+        return;
+    }
+
+    const quien = await fetch(raiz + "/Api/sesion.php?tipo=clave", { cache: "no-store" });
+    const datos = await quien.json();
+    const pide = rolDeLaPantalla();
+
+    // El superadmin entra a todo; los demas solo a lo suyo.
+    if (pide != "cualquiera" && datos.rol != "superadmin" && datos.rol != pide) {
+        window.location.replace(raiz + inicioDe(datos.rol));
     }
 }
 
@@ -425,8 +467,12 @@ function avisosDeLaDireccion() {
         mensaje = "Guardado. Anotá el usuario y la contraseña que escribiste y pasáselos, porque después no se pueden ver.";
     } else if (direccion.get("clave") == "cambiada") {
         mensaje = "Tu contraseña se cambió. Ya podés entrar.";
+    } else if (direccion.has("actualizado")) {
+        mensaje = "Esa cédula ya estaba cargada, así que actualizamos sus datos.";
     } else if (direccion.get("error") == "claveCorta") {
-        mensaje = "La contraseña tiene que tener al menos 8 letras o números.";
+        mensaje = "La contraseña tiene que tener entre 8 y 16 letras o números.";
+    } else if (direccion.get("error") == "claveFloja") {
+        mensaje = "A la contraseña le falta una mayúscula o un número.";
     } else if (direccion.get("error") == "mismaClave") {
         mensaje = "La contraseña nueva tiene que ser distinta a la actual.";
     } else if (direccion.get("error") == "claveActual") {

@@ -63,8 +63,14 @@ if ($quien) {
 if ($accion == "ponerClave") {
     $nueva = $_POST['nueva'];
 
-    if (strlen($nueva) < 8) {
+    // La misma regla que en "Mi contraseña", asi no hay dos reglas distintas.
+    if (strlen($nueva) < 8 || strlen($nueva) > 16) {
         header("Location: $vuelve?error=claveCorta");
+        exit;
+    }
+
+    if (!preg_match('/[A-Z]/', $nueva) || !preg_match('/[0-9]/', $nueva)) {
+        header("Location: $vuelve?error=claveFloja");
         exit;
     }
 

@@ -8,7 +8,11 @@ if (!esSuperadmin()) {
     responder(array('permiso' => 0));
 }
 
-$tipo = $_GET['tipo'];
+$tipo = "";
+
+if (isset($_GET['tipo'])) {
+    $tipo = $_GET['tipo'];
+}
 
 if ($tipo == "tokens") {
     responder(comoLista($db->query("SELECT id_token AS idToken, accion, codigo

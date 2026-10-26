@@ -103,6 +103,18 @@ function esSuperadmin() {
     return contar("funcionario", "id_persona = $quien AND tipo_funcion = 'superadmin'") > 0;
 }
 
+// Los administrativos y el superadmin pueden usar las pantallas de gestion.
+// El chofer no: el solo ve sus traslados y cambia su contrasena.
+function esAdministrativo() {
+    if (!isset($_SESSION['id_persona'])) {
+        return false;
+    }
+
+    $quien = $_SESSION['id_persona'];
+
+    return contar("funcionario", "id_persona = $quien AND tipo_funcion IN ('administrativo', 'superadmin')") > 0;
+}
+
 function tokenCorrecto($accion, $codigo) {
     global $db;
 

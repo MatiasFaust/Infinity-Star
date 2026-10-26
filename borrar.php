@@ -15,7 +15,17 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     exit;
 }
 
-$que = $_GET['que'];
+// Solo los administrativos y el superadmin pueden borrar.
+if (!esAdministrativo()) {
+    header("Location: Index.html");
+    exit;
+}
+
+$que = "";
+
+if (isset($_GET['que'])) {
+    $que = $_GET['que'];
+}
 $id  = $_POST['id'];
 
 $tokenBorrado = "";

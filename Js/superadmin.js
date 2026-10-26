@@ -33,8 +33,9 @@ function nombreDeLaAccion(accion) {
 async function cargarTokens() {
     const lista = await pedir("../../Api/superadmin.php?tipo=tokens");
 
+    // Si no es superadmin no cargamos nada. De mandarlo a su pantalla
+    // se encarga el control de roles que esta en comun.js.
     if (lista.permiso == 0) {
-        location.replace("../../Index.html");
         return 0;
     }
 
@@ -66,7 +67,7 @@ function formularioDeClave(idPersona) {
     let html = "<form class='enLinea' method='POST' action='../../super.php'>";
     html = html + "<input type='hidden' name='accion' value='ponerClave'>";
     html = html + "<input type='hidden' name='id' value='" + idPersona + "'>";
-    html = html + "<input type='password' name='nueva' placeholder='" + enIdioma("Clave nueva") + "' minlength='8' required>";
+    html = html + "<input type='password' name='nueva' placeholder='" + enIdioma("Clave nueva") + "' minlength='8' maxlength='16' pattern='(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,16}' title='" + enIdioma("De 8 a 16 letras y números con al menos una mayúscula y un número") + "' required>";
     html = html + "<button type='submit' class='editar'>" + enIdioma("Poner clave") + "</button>";
     html = html + "</form>";
 

@@ -10,7 +10,17 @@ if (isset($_SESSION['id_persona'])) {
     $yo = $_SESSION['id_persona'];
 }
 
-$que = $_GET['que'];
+// Solo los administrativos y el superadmin pueden dar de alta cosas.
+if (!esAdministrativo()) {
+    header("Location: Index.html");
+    exit;
+}
+
+$que = "";
+
+if (isset($_GET['que'])) {
+    $que = $_GET['que'];
+}
 
 if ($que == "persona") {
     $rol = $_POST['rol'];
@@ -93,6 +103,12 @@ if ($que == "persona") {
             // El usuario y la contraseña se los pasa a mano quien lo registra.
             $vuelve = $vuelve . "?credenciales=anotalas";
         }
+    }
+
+    // Si esa cedula ya estaba, no se crea nada nuevo: se actualizan los datos.
+    // Sin este aviso la pantalla volvia sin decir nada y parecia que fallaba.
+    if ($ya && strpos($vuelve, "?") === false) {
+        $vuelve = $vuelve . "?actualizado=si";
     }
 
     anotar($yo, "Registró o editó a " . $nombre . " " . $apellido . " (" . $rol . ")");

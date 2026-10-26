@@ -4,7 +4,7 @@
     "Elegí la ambulancia del traslado.": "Choose the ambulance for the transfer.",
     "Elegí el chofer que lleva el traslado.": "Choose the driver for the transfer.",
     "Buscar por matrícula o móvil": "Search by plate number or unit",
-    "Buscar por nombre, apellido o cédula": "Search by first name, surname or ID",
+    "Buscar por nombre, apellido o cédula": "Search by name, surname or ID",
     "Corregir": "Fix",
     "Editar traslado": "Edit transfer",
     "Guardar cambios": "Save changes",
@@ -20,7 +20,6 @@
     "Buscar un token": "Search for a token",
     "Buscar en los movimientos": "Search the activity",
     "Buscar en mis traslados": "Search my transfers",
-    "Buscar por matrícula o móvil": "Search by plate number or unit",
     "Escribí la dirección de salida o marcala en el mapa": "Type the pick-up address or mark it on the map",
     "Escribí la dirección de llegada o marcala en el mapa": "Type the drop-off address or mark it on the map",
     "Escribí la dirección en Origen y en Destino y apretá Enter, o hacé clic en el mapa: primero el punto de salida, después el de llegada.": "Type the address in Origin and Destination and press Enter, or click the map: first the pick-up point, then the drop-off point.",
@@ -39,7 +38,6 @@
     "← Salir": "← Exit",
     "← Volver a módulos": "← Back to modules",
     "NAVEGACIÓN": "MENU",
-
     "Inicio": "Home",
     "Inicio DOC": "DOC home",
     "Inicio Documentos": "Documents home",
@@ -76,7 +74,6 @@
     "Preguntas de la encuesta": "Survey questions",
     "Escribí una pregunta nueva": "Type a new question",
     "Mandar la encuesta a un paciente": "Send the survey to a patient",
-    "Buscar por nombre, apellido o cédula": "Search by name, surname or ID",
     "Buscalo por nombre, apellido o cédula. Si no elegís a nadie, se le manda a todos los pacientes con correo.": "Search by name, surname or ID. If you do not pick anyone, it is sent to every patient with an email.",
     "Enviar la encuesta": "Send the survey",
     "Quiénes ya respondieron": "Who already answered",
@@ -303,7 +300,6 @@
     "Llegada": "Drop-off",
     "Mis traslados": "My transfers",
     "Panel de traslados": "Transfers panel",
-
     "Iniciar sesión": "Log in",
     "Elegí un módulo": "Choose a module",
     "Registrar, ver y modificar traslados de pacientes.": "Add, view and edit patient transfers.",
@@ -316,14 +312,12 @@
     "Editar documento": "Edit document",
     "Importar documento": "Upload document",
     "Editar documentos": "Edit documents",
-
     "Pacientes": "Patients",
     "Choferes": "Drivers",
     "Funcionarios administrativos": "Administrative staff",
     "Pacientes registrados": "Registered patients",
     "Sus documentos": "Their documents",
     "Ambulancias disponibles": "Available ambulances",
-
     "Se registra como": "Registering as",
     "¿A quién registrás?": "Who are you registering?",
     "Datos personales": "Personal details",
@@ -335,7 +329,6 @@
     "Chofer y ambulancia": "Driver and ambulance",
     "Chofer que lo lleva": "Driver in charge",
     "¿Qué categoría?": "Which category?",
-
     "CI": "ID",
     "Gmail": "Email address",
     "Dirección": "Address",
@@ -358,7 +351,6 @@
     "Fecha y hora de llegada": "Arrival date and time",
     "Tipo": "Type",
     "Paciente o elemento": "Patient or item",
-
     "Nombre:": "First name:",
     "Cédula:": "ID number:",
     "Correo:": "Email:",
@@ -366,7 +358,6 @@
     "Rol:": "Role:",
     "Usuario:": "Username:",
     "Documentos que ya tiene:": "Documents already on file:",
-
     "Paciente biológico": "Biological sample",
     "Equipamiento médico": "Medical equipment",
     "Insumos": "Supplies",
@@ -378,16 +369,12 @@
     "Plan de alta": "Discharge plan",
     "Consentimiento": "Consent form",
     "Otro": "Other",
-
     "Iniciar recorrido": "Start trip",
     "Repetir": "Repeat",
-
     "Entrar": "Sign in",
     "Cerrar": "Close",
     "Editar": "Edit",
     "Eliminar": "Delete",
-    "Sustituir": "Replace",
-    "Guardar cambios": "Save changes",
     "Guardar documento": "Save document",
     "Guardar traslado": "Save transfer",
     "Guardar ambulancia": "Save ambulance",
@@ -395,13 +382,11 @@
     "+ Registrar": "+ Register",
     "+ Importar documento": "+ Upload document",
     "+ Registrar traslado": "+ Add transfer",
-
     "No hay resultados.": "No results.",
     "No hay pacientes que coincidan.": "No matching patients.",
     "Todavía no hay ambulancias cargadas.": "No ambulances added yet.",
     "Todavía no te asignaron ningún traslado.": "You have no transfers assigned yet.",
     "Este paciente todavía no tiene documentos.": "This patient has no documents yet.",
-
     "Guardado correctamente.": "Saved successfully.",
     "Eliminado correctamente.": "Deleted successfully.",
     "El token de acceso no es correcto.": "The access token is not correct.",
@@ -413,7 +398,6 @@
     "¿Olvidaste tu contraseña?": "Forgot your password?",
     "No se puede eliminar: hay traslados que usan esa ambulancia.": "Cannot delete: there are transfers using that ambulance.",
     "Si el correo existe, te llega un enlace para cambiar la contraseña.": "If the email exists, you will receive a link to change the password.",
-
     "Buscar paciente por nombre o cédula": "Search patient by name or ID",
     "Buscar por nombre, cédula o correo": "Search by name, ID or email",
     "Escribí el nombre o la cédula": "Type the name or ID number",
@@ -425,7 +409,6 @@
     "Hospital Central": "Central Hospital",
     "Av. Italia 2870": "123 Main Street",
     "nombre@gmail.com": "name@gmail.com",
-
     "Ese correo ya está registrado con otra cédula.": "That email is already registered with another ID number.",
     "Ese nombre de usuario ya está en uso.": "That username is already taken.",
     "Esa cédula ya está registrada en otra persona.": "That ID number is already registered to another person.",
@@ -437,5 +420,8 @@
     "Ocultar contraseña": "Hide password",
     "Necesitás la clave de acceso que te entrega el hospital.": "You need the access key the hospital gives you.",
     "Quitar el QR": "Remove the QR",
-    "Si ya hay uno cargado y pegás otro, se reemplaza y el QR se vuelve a dibujar solo.": "If one is already loaded and you paste another one, it replaces it and the QR is drawn again by itself."
+    "Si ya hay uno cargado y pegás otro, se reemplaza y el QR se vuelve a dibujar solo.": "If one is already loaded and you paste another one, it replaces it and the QR is drawn again by itself.",
+    "La contraseña tiene que tener entre 8 y 16 letras o números.": "The password must be between 8 and 16 letters or numbers.",
+    "A la contraseña le falta una mayúscula o un número.": "The password is missing an uppercase letter or a number.",
+    "Esa cédula ya estaba cargada, así que actualizamos sus datos.": "That ID was already loaded, so we updated their details."
 }

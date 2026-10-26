@@ -18,6 +18,13 @@ async function prepararMiClave() {
         document.getElementById("volver").hidden = true;
         document.getElementById("rayaMenu").hidden = true;
     }
+
+    // El superadmin no tiene modulos: lo mandamos de vuelta a su panel.
+    if (datos.rol == "superadmin") {
+        const volver = document.getElementById("volver");
+        volver.href = "superadmin.html";
+        volver.textContent = "← Volver al panel";
+    }
 }
 
 if (document.getElementById("avisoCambiar")) {

@@ -2,7 +2,11 @@
 
 require_once '../conexion.php';
 
-$tipo = $_GET['tipo'];
+$tipo = "";
+
+if (isset($_GET['tipo'])) {
+    $tipo = $_GET['tipo'];
+}
 
 $columnas = "persona.id_persona AS idPersona, persona.nombre, persona.apellido,
              persona.cedula, persona.correo, persona.direccion, persona.telefono,

@@ -21,8 +21,15 @@ $actual  = $_POST['actual'];
 $nueva   = $_POST['nueva'];
 $repetir = $_POST['repetir'];
 
-if (strlen($nueva) < 8) {
+if (strlen($nueva) < 8 || strlen($nueva) > 16) {
     header("Location: $vuelve?error=claveCorta");
+    exit;
+}
+
+// La pantalla ya pide una mayuscula y un numero, pero lo revisamos de nuevo
+// aca: si alguien saltea el formulario, igual no entra una clave floja.
+if (!preg_match('/[A-Z]/', $nueva) || !preg_match('/[0-9]/', $nueva)) {
+    header("Location: $vuelve?error=claveFloja");
     exit;
 }
 

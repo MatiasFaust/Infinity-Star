@@ -19,6 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     exit;
 }
 
+// Solo los administrativos y el superadmin pueden subir documentos.
+if (!esAdministrativo()) {
+    header("Location: Index.html");
+    exit;
+}
+
 
 // ---- Sustituir el PDF de un documento que ya existe ----
 // Cambiamos solo el archivo. El documento sigue siendo el mismo, asi que

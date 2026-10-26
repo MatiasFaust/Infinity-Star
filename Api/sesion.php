@@ -26,7 +26,9 @@ if ($tipo == "clave") {
 
     $rol = "administrativo";
 
-    if (contar("funcionario", "id_persona = $yo AND tipo_funcion = 'chofer'") > 0) {
+    if (contar("funcionario", "id_persona = $yo AND tipo_funcion = 'superadmin'") > 0) {
+        $rol = "superadmin";
+    } else if (contar("funcionario", "id_persona = $yo AND tipo_funcion = 'chofer'") > 0) {
         $rol = "chofer";
     }
 

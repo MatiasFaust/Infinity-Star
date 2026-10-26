@@ -2,7 +2,11 @@
 
 require_once '../conexion.php';
 
-$tipo = $_GET['tipo'];
+$tipo = "";
+
+if (isset($_GET['tipo'])) {
+    $tipo = $_GET['tipo'];
+}
 
 if ($tipo == "contadores") {
     responder(array(

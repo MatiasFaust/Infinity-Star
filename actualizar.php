@@ -2,12 +2,24 @@
 
 require_once 'conexion.php';
 
+session_start();
+
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     header("Location: Index.html");
     exit;
 }
 
-$que = $_GET['que'];
+// Solo los administrativos y el superadmin pueden modificar datos.
+if (!esAdministrativo()) {
+    header("Location: Index.html");
+    exit;
+}
+
+$que = "";
+
+if (isset($_GET['que'])) {
+    $que = $_GET['que'];
+}
 $id  = $_POST['id'];
 
 if ($que == "persona") {
