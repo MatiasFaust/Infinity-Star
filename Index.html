@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>if (localStorage.getItem("tema") == "oscuro") { document.documentElement.className = "oscuro"; }</script>
     <title>Iniciar sesión</title>
-    <link rel="stylesheet" href="Css/panel.css?v=135">
+    <link rel="stylesheet" href="Css/panel.css?v=136">
 </head>
 
 <body>
@@ -24,13 +24,16 @@
 
         <div class="caja">
 
-            <form action="login.php" method="POST">
+            <!-- sinRelleno: deja los campos vacios hasta que la persona los toca,
+                 asi Chrome no mete la cuenta que tiene guardada y pisa lo que
+                 se escribe. Es el mismo truco que usamos en los buscadores. -->
+            <form action="login.php" method="POST" class="sinRelleno" autocomplete="off">
 
                 <label>Usuario</label>
-                <input type="text" name="usuario" required>
+                <input type="text" name="usuario" autocomplete="off" required>
 
                 <label>Contraseña</label>
-                <input type="password" name="contrasena" required>
+                <input type="password" name="contrasena" autocomplete="new-password" required>
 
                 <button type="submit">Entrar</button>
 
@@ -42,9 +45,9 @@
 
     </main>
 
-    <button class="idioma" data-traducciones="Js/traducciones.json?v=135">EN</button>
+    <button class="idioma" data-traducciones="Js/traducciones.json?v=136">EN</button>
 
-    <script src="Js/comun.js?v=135"></script>
+    <script src="Js/comun.js?v=136"></script>
 </body>
 
 </html>
