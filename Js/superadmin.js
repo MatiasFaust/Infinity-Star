@@ -100,8 +100,7 @@ function dibujarFuncionarios(lista, texto) {
             estado = "<span class='estadoActivo'>" + enIdioma("Activo") + "</span>";
             acciones = "<span class='ayuda'>" + enIdioma("Es tu cuenta") + "</span>";
         } else {
-            acciones = "<a class='editar verActividad' href='#' data-id='" + f.idPersona + "' data-nombre='" + f.nombre + " " + f.apellido + "'>" + enIdioma("Ver actividad") + "</a>" +
-                       botonEstado +
+            acciones = botonEstado +
                        formularioDeClave(f.idPersona) +
                        botonSuper("eliminar", f.idPersona, "Eliminar", "eliminar");
         }
@@ -122,14 +121,6 @@ function dibujarFuncionarios(lista, texto) {
         cuerpo.appendChild(fila);
     }
 
-    const enlaces = document.querySelectorAll(".verActividad");
-
-    for (let i = 0; i < enlaces.length; i++) {
-        enlaces[i].addEventListener("click", function (evento) {
-            evento.preventDefault();
-            cargarActividad(this.dataset.id, this.dataset.nombre);
-        });
-    }
 }
 
 async function cargarFuncionarios() {

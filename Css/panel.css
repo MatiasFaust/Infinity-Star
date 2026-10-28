@@ -1072,6 +1072,25 @@ html.oscuro .editar {
     color: var(--verde);
 }
 
+/* La regla de arriba oscurece el texto de todos los botones, porque casi
+   todos tienen fondo verde claro. Estos tienen fondo oscuro, así que les
+   devolvemos su color para que se lean. */
+html.oscuro .pestana {
+    color: var(--verde);
+}
+
+html.oscuro .pestana.elegida {
+    color: #15210f;
+}
+
+html.oscuro .eliminar {
+    color: var(--rojo);
+}
+
+html.oscuro .resultado {
+    color: var(--grisOscuro);
+}
+
 .resultados {
     margin-bottom: 10px;
 }
