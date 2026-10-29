@@ -137,6 +137,63 @@ async function cargarFuncionarios() {
     return lista;
 }
 
+// ---- El historial en inglés ----
+// Cada movimiento se guarda en español y con nombres adentro ("Suspendió a
+// Juan Pérez"), así que no se puede buscar entero en traducciones.json.
+// Acá se traduce la parte fija y se deja igual el nombre.
+
+const rolEnIngles = { paciente: "patient", administrativo: "administrative staff", chofer: "driver" };
+const registroEnIngles = { persona: "person", docPaciente: "patient document", documento: "document", enlaceQr: "QR link", ambulancia: "ambulance" };
+
+const accionesEnIngles = [
+    [/^Inició sesión$/, function () { return "Logged in"; }],
+    [/^Cambió su contraseña$/, function () { return "Changed their password"; }],
+    [/^Pidió recuperar su usuario y se le generó una contraseña nueva$/, function () { return "Asked to recover their account and got a new password"; }],
+    [/^Le puso una contraseña nueva a (.*)$/, function (m) { return "Set a new password for " + m[1]; }],
+    [/^Suspendió a (.*)$/, function (m) { return "Suspended " + m[1]; }],
+    [/^Reactivó a (.*)$/, function (m) { return "Reactivated " + m[1]; }],
+    [/^Eliminó a (.*)$/, function (m) { return "Deleted " + m[1]; }],
+    [/^Eliminó un registro \((.*)\)$/, function (m) { return "Deleted a record (" + (registroEnIngles[m[1]] || m[1]) + ")"; }],
+    [/^Registró o editó a (.*) \((.*)\)$/, function (m) { return "Registered or edited " + m[1] + " (" + (rolEnIngles[m[2]] || m[2]) + ")"; }],
+    [/^Registró un traslado de (.*) a (.*)$/, function (m) { return "Registered a transfer from " + m[1] + " to " + m[2]; }],
+    [/^Modificó el traslado (.*)$/, function (m) { return "Edited transfer " + m[1]; }],
+    [/^Confirmó el traslado (.*)$/, function (m) { return "Confirmed transfer " + m[1]; }],
+    [/^Salió con el traslado (.*)$/, function (m) { return "Left with transfer " + m[1]; }],
+    [/^Llegó al destino del traslado (.*)$/, function (m) { return "Reached the destination of transfer " + m[1]; }],
+    [/^Volvió al hospital con el traslado (.*)$/, function (m) { return "Returned to the hospital with transfer " + m[1]; }],
+    [/^Agregó la ambulancia (.*)$/, function (m) { return "Added ambulance " + m[1]; }],
+    [/^Agregó el QR (.*)$/, function (m) { return "Added QR " + m[1]; }],
+    [/^Cambió el QR (.*)$/, function (m) { return "Changed QR " + m[1]; }],
+    [/^Cambió el token de (.*)$/, function (m) { return "Changed the token for " + enIdioma(nombreDeLaAccion(m[1])); }],
+    [/^Subió el documento (.*)$/, function (m) { return "Uploaded document " + m[1]; }],
+    [/^Sustituyó el archivo del documento (.*)$/, function (m) { return "Replaced the file of document " + m[1]; }]
+];
+
+function accionEnIdioma(accion) {
+    if (localStorage.getItem("idioma") != "en") {
+        return accion;
+    }
+
+    for (let i = 0; i < accionesEnIngles.length; i++) {
+        const encontrado = accion.match(accionesEnIngles[i][0]);
+
+        if (encontrado) {
+            return accionesEnIngles[i][1](encontrado);
+        }
+    }
+
+    return accion;
+}
+
+// Al apretar el botón de idioma se vuelven a escribir los movimientos.
+alCambiarIdioma.push(function () {
+    const celdas = document.querySelectorAll("td[data-accion]");
+
+    for (let i = 0; i < celdas.length; i++) {
+        celdas[i].textContent = accionEnIdioma(celdas[i].dataset.accion);
+    }
+});
+
 async function cargarActividad(id, nombre) {
     let url = "../../Api/superadmin.php?tipo=actividad";
 
@@ -168,7 +225,11 @@ async function cargarActividad(id, nombre) {
         fila.innerHTML =
             "<td>" + fechaCorta(a.momento) + "</td>" +
             "<td>" + quien + "</td>" +
-            "<td>" + a.accion + "</td>";
+            "<td></td>";
+
+        // Se guarda en español para poder volver a traducirlo.
+        fila.lastChild.dataset.accion = a.accion;
+        fila.lastChild.textContent = accionEnIdioma(a.accion);
 
         cuerpo.appendChild(fila);
     }
@@ -252,7 +313,11 @@ function llenarResumen(funcionarios, tokens, actividad) {
         fila.innerHTML =
             "<td>" + fechaCorta(a.momento) + "</td>" +
             "<td>" + quien + "</td>" +
-            "<td>" + a.accion + "</td>";
+            "<td></td>";
+
+        // Se guarda en español para poder volver a traducirlo.
+        fila.lastChild.dataset.accion = a.accion;
+        fila.lastChild.textContent = accionEnIdioma(a.accion);
 
         cuerpo.appendChild(fila);
     }
